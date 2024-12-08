@@ -1,0 +1,12 @@
+﻿  main.cpp
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,53): warning C4244:         with
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,53): warning C4244:         [
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,53): warning C4244:             T=unsigned int
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,53): warning C4244:         ]
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,34): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,34): warning C4244:         with
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,34): warning C4244:         [
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,34): warning C4244:             T=unsigned int
+C:\Users\Sebastian\Documents\VS_Projekte\Tutorial\Tutorial\main.cpp(35,34): warning C4244:         ]
+  CollisionEngine.vcxproj -> C:\Users\Sebastian\Documents\VS_Projekte\CollisionEngine\x64\Debug\CollisionEngine.exe

@@ -5,7 +5,7 @@
 ////TODO: Welche Funktionen davon sind wirklich nötig? Gescheite constructors, bessere Struktur 
 ////TODO: Simulation als Singleton
 ////TODO: Paar Kommentare, Header Files umstrukturieren
-//TODO: git commit
+////TODO: git commit
 //TODO: Collision Partners vernünftig aufbauen, mehrere einführen
 //TODO: Gescheite Clock/dT
 //TODO: Steuerung für die Drehung
@@ -73,12 +73,15 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	collisionPartners.push_back(new RigidBody(sf::Vector2f(100.0f, 100.0f)));
-	sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
+	collisionPartners.push_back(new Polygon());
+	//sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
 	playerTexture = new sf::Texture;
 	playerTexture->loadFromFile("texture.png");
-	collisionPartners[0]->setTexture(playerTexture);
-	collisionPartners[0]->setOrigin(50.0f, 50.0f);
+	//collisionPartners[0]->setTexture(playerTexture);
+	collisionPartners[0]->setOutlineColor(sf::Color::Red);
+	collisionPartners[0]->setFillColor(sf::Color::Blue);
+	collisionPartners[0]->setOrigin(0.0f, 0.0f);
+	collisionPartners[0]->setOutlineThickness(5.0f);
 }
 
 //handle user input etc.

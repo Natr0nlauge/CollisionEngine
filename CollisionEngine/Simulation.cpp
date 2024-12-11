@@ -7,16 +7,16 @@
 ////TODO: Paar Kommentare, Header Files umstrukturieren
 ////TODO: git commit
 ////TODO: Collision Partners vernünftig aufbauen, mehrere einführen, polygon vernünftig ausgestalten
-//TODO: Gescheite Clock/dT
+////TODO: Gescheite Clock/dT
 //TODO: Steuerung für die Drehung
 //TODO: Coding Standards anschauen
 
 
-
+#define VELOCITY 500.0f //pixels per second
 
 Simulation* Simulation::instance = nullptr; //pointer to Singleton instance
 
-float Simulation::dT = 0.0f;
+float Simulation::dT = 0.1f;
 
 Simulation::Simulation()
 {
@@ -52,6 +52,8 @@ void Simulation::run()
 		handleEvents();
 		update();
 
+		dT = clock.restart().asSeconds();
+
 	}
 }
 
@@ -59,7 +61,8 @@ void Simulation::update()
 {
 	window.setView(view); //update view
 	window.clear(); //remove old Objects
-	window.draw(*collisionPartners[0]); //display updated Objects in next frame
+	for (int i=0; i<collisionPartners.size() ;i++)
+		window.draw(*collisionPartners[i]);
 	window.display(); //render the frame
 }
 
@@ -75,6 +78,8 @@ void Simulation::initWindow()
 void Simulation::initBodies() {
 	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
 	collisionPartners.push_back(new Polygon(exampleVertices));
+	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-75.0f, 50.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
+	collisionPartners.push_back(new Polygon(exampleVertices2));
 	//sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
 	playerTexture = new sf::Texture;
 	playerTexture->loadFromFile("texture.png");
@@ -84,6 +89,11 @@ void Simulation::initBodies() {
 	collisionPartners[0]->setFillColor(sf::Color::Blue);
 	collisionPartners[0]->setOrigin(0.0f, 0.0f);
 	collisionPartners[0]->setOutlineThickness(5.0f);
+	collisionPartners[1]->setOutlineColor(sf::Color::Red);
+	collisionPartners[1]->setFillColor(sf::Color::Blue);
+	collisionPartners[1]->setOrigin(0.0f, 0.0f);
+	collisionPartners[1]->setOutlineThickness(5.0f);
+	collisionPartners[1]->setPosition(200.0f, 200.0f);
 }
 
 //handle user input etc.
@@ -114,17 +124,18 @@ void Simulation::handleEvents()
 	}
 
 	//keyboard control
+	float movIncr = dT*VELOCITY;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-		collisionPartners[0]->move(-0.1f, 0.0f);
+		collisionPartners[0]->move(-movIncr, 0.0f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-		collisionPartners[0]->move(0.1f, 0.0f);
+		collisionPartners[0]->move(movIncr, 0.0f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-		collisionPartners[0]->move(0.0f, 0.1f);
+		collisionPartners[0]->move(0.0f, movIncr);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-		collisionPartners[0]->move(0.0f, -0.1f);
+		collisionPartners[0]->move(0.0f, -movIncr);
 
 	}
 

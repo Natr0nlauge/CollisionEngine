@@ -28,18 +28,29 @@ std::size_t Polygon::getPointCount() const {
 	return m_points.size();
 }
 
+std::vector<sf::Vector2f> Polygon::getPoints() {
+    return m_points;
+}
+
+
+Polygon::Polygon()
+{
+}
+
+Polygon::Polygon(std::vector<sf::Vector2f> vertices) : m_points(vertices) 
+{
+}
+
+Polygon::~Polygon()
+{
+}
+
+
+
 Ball::Ball() {
 
 }
 
 Ball::~Ball() {
 
-}
-
-Polygon::Polygon()
-{
-}
-
-Polygon::~Polygon()
-{
 }

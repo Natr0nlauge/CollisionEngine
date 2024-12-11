@@ -6,7 +6,7 @@
 ////TODO: Simulation als Singleton
 ////TODO: Paar Kommentare, Header Files umstrukturieren
 ////TODO: git commit
-//TODO: Collision Partners vernünftig aufbauen, mehrere einführen
+////TODO: Collision Partners vernünftig aufbauen, mehrere einführen, polygon vernünftig ausgestalten
 //TODO: Gescheite Clock/dT
 //TODO: Steuerung für die Drehung
 //TODO: Coding Standards anschauen
@@ -73,10 +73,12 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	collisionPartners.push_back(new Polygon());
+	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
+	collisionPartners.push_back(new Polygon(exampleVertices));
 	//sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
 	playerTexture = new sf::Texture;
 	playerTexture->loadFromFile("texture.png");
+	//texture doesn't work with polygon
 	//collisionPartners[0]->setTexture(playerTexture);
 	collisionPartners[0]->setOutlineColor(sf::Color::Red);
 	collisionPartners[0]->setFillColor(sf::Color::Blue);

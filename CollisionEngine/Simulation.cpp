@@ -1,4 +1,5 @@
 #include "Simulation.hpp"
+#include "Polygon.hpp"
 #include "iostream"
 #include "stdlib.h"
 
@@ -8,15 +9,17 @@
 ////TODO: git commit
 ////TODO: Collision Partners vernünftig aufbauen, mehrere einführen, polygon vernünftig ausgestalten
 ////TODO: Gescheite Clock/dT
-//TODO: Steuerung für die Drehung
-//TODO: Coding Standards anschauen
+////TODO: Steuerung für die Drehung
+////TODO: Coding Standards anschauen
+//TODO: Tests überlegen
 
 
-#define VELOCITY 500.0f //pixels per second
+const float PLAYER_VELOCITY = 500.0f; //pixels per second
+const float PLAYER_ANGULAR_VELOCITY = 360.0f; //degrees per second
 
-Simulation* Simulation::instance = nullptr; //pointer to Singleton instance
+Simulation* Simulation::s_instance = nullptr; //pointer to Singleton instance
 
-float Simulation::dT = 0.1f;
+//float Simulation::s_dT = 0.1f;
 
 Simulation::Simulation()
 {
@@ -28,13 +31,13 @@ Simulation::Simulation()
 
 Simulation* Simulation::getInstance()
 {
-	if (instance == nullptr) {
+	if (s_instance == nullptr) {
 		//std::lock_guard<std::mutex> lock(mtx);
-		if (instance == nullptr) {
-			instance = new Simulation();
+		if (s_instance == nullptr) {
+			s_instance = new Simulation();
 		}
 	}
-	return instance;
+	return s_instance;
 }
 
 Simulation::~Simulation()
@@ -47,30 +50,30 @@ void Simulation::run()
 
 	clock.restart();
 
-	while(window.isOpen()){
+	while(m_window.isOpen()){
 		
 		handleEvents();
 		update();
 
-		dT = clock.restart().asSeconds();
+		m_dT = clock.restart().asSeconds();
 
 	}
 }
 
 void Simulation::update()
 {
-	window.setView(view); //update view
-	window.clear(); //remove old Objects
+	m_window.setView(m_view); //update view
+	m_window.clear(); //remove old Objects
 	for (int i=0; i<collisionPartners.size() ;i++)
-		window.draw(*collisionPartners[i]);
-	window.display(); //render the frame
+		m_window.draw(*collisionPartners[i]);
+	m_window.display(); //render the frame
 }
 
 //prepare window and view
 void Simulation::initWindow()
 {
-	window.create(sf::VideoMode(512, 512), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
-	view = sf::View(sf::Vector2f(VIEW_HEIGHT / 2, VIEW_HEIGHT / 2), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
+	m_window.create(sf::VideoMode(512, 512), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
+	m_view = sf::View(sf::Vector2f(VIEW_HEIGHT / 2, VIEW_HEIGHT / 2), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
 	
 }
 
@@ -100,18 +103,18 @@ void Simulation::initBodies() {
 void Simulation::handleEvents()
 {
 	sf::Event event;
-	while (window.pollEvent(event)) {
+	while (m_window.pollEvent(event)) {
 		sf::Vector2u newSize;
 
 		switch (event.type) {
 		case sf::Event::Closed: 
-			window.close();	//close window
+			m_window.close();	//close window
 			break;
 		case sf::Event::Resized: //change window size and adapt view
 			std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
 			//newSize = window.getSize(); //can't be used in view.setSize because it has to be vector2f
-			view.setSize(window.getSize().x, window.getSize().y); //adapt view size
-			view.setCenter(window.getSize().x/2, window.getSize().y/2); //adapt view center
+			m_view.setSize(m_window.getSize().x, m_window.getSize().y); //adapt view size
+			m_view.setCenter(m_window.getSize().x/2, m_window.getSize().y/2); //adapt view center
 			break;
 
 		case sf::Event::TextEntered: //log pressed key (pretty much useless)
@@ -124,7 +127,8 @@ void Simulation::handleEvents()
 	}
 
 	//keyboard control
-	float movIncr = dT*VELOCITY;
+	float movIncr = m_dT*PLAYER_VELOCITY;
+	float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
 		collisionPartners[0]->move(-movIncr, 0.0f);
 	}
@@ -136,12 +140,17 @@ void Simulation::handleEvents()
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 		collisionPartners[0]->move(0.0f, -movIncr);
-
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
+		collisionPartners[0]->rotate(angIncr);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+		collisionPartners[0]->rotate(-angIncr);
 	}
 
 	//mouse control
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+		sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
 		collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
 	}

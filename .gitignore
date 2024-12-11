@@ -401,3 +401,6 @@ FodyWeavers.xsd
 
 # PowerShell Scripts
 *.ps1
+
+# Additional files
+CollisionEngine/CollisionEngine.vcxproj.user

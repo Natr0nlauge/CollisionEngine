@@ -15,9 +15,9 @@ public:
 	void run();
 
 	//static Simulation* instance;
-	static float dT;
+	float m_dT = 0;
 
-	sf::RenderWindow window;
+	sf::RenderWindow m_window;
 
 	
 	
@@ -26,12 +26,12 @@ private:
 	sf::Clock clock;
 	std::vector<RigidBody*>collisionPartners;
 	Simulation();
-	static Simulation* instance;
+	static Simulation* s_instance;
 
 	sf::Texture *playerTexture = nullptr;//TODO remove
 	
 
-	sf::View view;
+	sf::View m_view;
 
 	void update();
 	void initWindow();

@@ -18,12 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  
+  
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+	  <ClCompile Include="main.cpp" />
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Polygon.cpp" />
+
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.hpp" />
+    <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="RigidBody.hpp" />
     <ClInclude Include="Simulation.hpp" />
   </ItemGroup>

@@ -6,10 +6,11 @@ class RigidBody : public sf::Shape
 {
 public:
 	RigidBody();
-	//RigidBody(const sf::Vector2f vec);
 	~RigidBody();
 	
-	
+protected:
+	sf::Vector2f transformPointToGlobal(sf::Vector2f i_localPoint);
+	sf::Vector2f transformVectorToGlobal(sf::Vector2f i_localVector);
 
 };
 

@@ -1,5 +1,5 @@
 #include "Simulation.hpp"
-#include "Polygon.hpp"
+#include "CollisionDetector.hpp"
 #include "iostream"
 #include "stdlib.h"
 
@@ -18,6 +18,7 @@ const float PLAYER_VELOCITY = 500.0f; //pixels per second
 const float PLAYER_ANGULAR_VELOCITY = 360.0f; //degrees per second
 
 Simulation* Simulation::s_instance = nullptr; //pointer to Singleton instance
+//CollisionDetector* s_cd = CollisionDetector::getInstance();
 
 //float Simulation::s_dT = 0.1f;
 
@@ -50,8 +51,8 @@ void Simulation::run()
 
 	clock.restart();
 
-	while(m_window.isOpen()){
-		
+	while (m_window.isOpen()) {
+
 		handleEvents();
 		update();
 
@@ -64,7 +65,7 @@ void Simulation::update()
 {
 	m_window.setView(m_view); //update view
 	m_window.clear(); //remove old Objects
-	for (int i=0; i<collisionPartners.size() ;i++)
+	for (int i = 0; i < collisionPartners.size(); i++)
 		m_window.draw(*collisionPartners[i]);
 	m_window.display(); //render the frame
 }
@@ -74,7 +75,7 @@ void Simulation::initWindow()
 {
 	m_window.create(sf::VideoMode(512, 512), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
 	m_view = sf::View(sf::Vector2f(VIEW_HEIGHT / 2, VIEW_HEIGHT / 2), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
-	
+
 }
 
 //prepare Bodies
@@ -83,9 +84,11 @@ void Simulation::initBodies() {
 	collisionPartners.push_back(new Polygon(exampleVertices));
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-75.0f, 50.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
 	collisionPartners.push_back(new Polygon(exampleVertices2));
+	std::vector<sf::Vector2f> exampleVertices3 = { sf::Vector2f(10.0f, 10.0f), sf::Vector2f(-10.0f, 10.0f), sf::Vector2f(-10.0f, -10.0f), sf::Vector2f(10.0f, -10.0f) };
+	collisionPartners.push_back(new Polygon(exampleVertices3));
 	//sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
-	playerTexture = new sf::Texture;
-	playerTexture->loadFromFile("texture.png");
+	//playerTexture = new sf::Texture;
+	//playerTexture->loadFromFile("texture.png")
 	//texture doesn't work with polygon
 	//collisionPartners[0]->setTexture(playerTexture);
 	collisionPartners[0]->setOutlineColor(sf::Color::Red);
@@ -97,6 +100,10 @@ void Simulation::initBodies() {
 	collisionPartners[1]->setOrigin(0.0f, 0.0f);
 	collisionPartners[1]->setOutlineThickness(5.0f);
 	collisionPartners[1]->setPosition(200.0f, 200.0f);
+	collisionPartners[2]->setOutlineColor(sf::Color::Red);
+	collisionPartners[2]->setFillColor(sf::Color::Blue);
+	collisionPartners[2]->setOrigin(0.0f, 0.0f);
+	collisionPartners[2]->setOutlineThickness(5.0f);
 }
 
 //handle user input etc.
@@ -107,14 +114,14 @@ void Simulation::handleEvents()
 		sf::Vector2u newSize;
 
 		switch (event.type) {
-		case sf::Event::Closed: 
+		case sf::Event::Closed:
 			m_window.close();	//close window
 			break;
 		case sf::Event::Resized: //change window size and adapt view
 			std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
 			//newSize = window.getSize(); //can't be used in view.setSize because it has to be vector2f
 			m_view.setSize(m_window.getSize().x, m_window.getSize().y); //adapt view size
-			m_view.setCenter(m_window.getSize().x/2, m_window.getSize().y/2); //adapt view center
+			m_view.setCenter(m_window.getSize().x / 2, m_window.getSize().y / 2); //adapt view center
 			break;
 
 		case sf::Event::TextEntered: //log pressed key (pretty much useless)
@@ -127,7 +134,7 @@ void Simulation::handleEvents()
 	}
 
 	//keyboard control
-	float movIncr = m_dT*PLAYER_VELOCITY;
+	float movIncr = m_dT * PLAYER_VELOCITY;
 	float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
 		collisionPartners[0]->move(-movIncr, 0.0f);
@@ -135,18 +142,27 @@ void Simulation::handleEvents()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
 		collisionPartners[0]->move(movIncr, 0.0f);
 	}
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
 		collisionPartners[0]->move(0.0f, movIncr);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 		collisionPartners[0]->move(0.0f, -movIncr);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
 		collisionPartners[0]->rotate(angIncr);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
 		collisionPartners[0]->rotate(-angIncr);
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+		//std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).y << "\n";
+		for (int i = 0; i < collisionPartners[0]->getPointCount(); i++){
+			std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).y << "\n";
+			//std::cout << (static_cast<Polygon*>(collisionPartners[0])->getGlobalNormal(0)).x;
+		}
+	}
+	collisionPartners[2]->setPosition((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]);
 
 	//mouse control
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -156,5 +172,5 @@ void Simulation::handleEvents()
 	}
 
 
-	
+
 }

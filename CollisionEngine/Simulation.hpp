@@ -1,6 +1,7 @@
 #pragma once
 #include "sfml/Graphics.hpp"
 #include "RigidBody.hpp"
+#include "CollisionDetector.hpp"
 #include "vector"
 
 #define VIEW_HEIGHT 512.0f
@@ -27,6 +28,7 @@ private:
 	std::vector<RigidBody*>collisionPartners;
 	Simulation();
 	static Simulation* s_instance;
+	CollisionDetector * s_cd = CollisionDetector::getInstance();
 
 	sf::Texture *playerTexture = nullptr;//TODO remove
 	
@@ -37,6 +39,8 @@ private:
 	void initWindow();
 	void initBodies();
 	void handleEvents();
+
+	
 
 
 

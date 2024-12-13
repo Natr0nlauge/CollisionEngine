@@ -53,12 +53,9 @@ std::vector<sf::Vector2f> Polygon::getPoints() {
 	return m_points;
 }
 
-std::vector<sf::Vector2f> Polygon::getGlobalPoints()
+sf::Vector2f Polygon::getGlobalPoint(int i_index)
 {
-	std::vector<sf::Vector2f> m_globalPoints;
-	for (int i = 0; i < m_points.size(); i++) {
-		sf::Vector2f transformedPoint = transformPointToGlobal(m_points[i]);
-		m_globalPoints.push_back(transformedPoint);
-	}
-	return m_globalPoints;
+		sf::Vector2f transformedPoint = transformPointToGlobal(m_points[i_index]);
+	
+	return transformedPoint;
 }

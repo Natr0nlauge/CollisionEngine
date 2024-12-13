@@ -13,15 +13,16 @@ class CollisionDetector
 {
 public:
 	static CollisionDetector* getInstance();
-	bool detectCollision(Polygon& Body1, Polygon& Body2); 
 	//TODO: Give this function a way to write collision Events (for example into a vector)
 	//TODO: overloads for detectCollision
 	~CollisionDetector();
+	bool detectCollision(Polygon& i_body1, Polygon& i_body2);
 
 
 
 private:
 	static CollisionDetector* s_instance;
 	CollisionDetector();
+	float findMinSeparation(Polygon& i_body1, Polygon& i_body2);
 };
 

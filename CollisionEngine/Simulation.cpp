@@ -84,26 +84,20 @@ void Simulation::initBodies() {
 	collisionPartners.push_back(new Polygon(exampleVertices));
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-75.0f, 50.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
 	collisionPartners.push_back(new Polygon(exampleVertices2));
-	std::vector<sf::Vector2f> exampleVertices3 = { sf::Vector2f(10.0f, 10.0f), sf::Vector2f(-10.0f, 10.0f), sf::Vector2f(-10.0f, -10.0f), sf::Vector2f(10.0f, -10.0f) };
-	collisionPartners.push_back(new Polygon(exampleVertices3));
 	//sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
 	//playerTexture = new sf::Texture;
 	//playerTexture->loadFromFile("texture.png")
 	//texture doesn't work with polygon
 	//collisionPartners[0]->setTexture(playerTexture);
 	collisionPartners[0]->setOutlineColor(sf::Color::Red);
-	collisionPartners[0]->setFillColor(sf::Color::Blue);
+	collisionPartners[0]->setFillColor(sf::Color::Black);
 	collisionPartners[0]->setOrigin(0.0f, 0.0f);
-	collisionPartners[0]->setOutlineThickness(5.0f);
-	collisionPartners[1]->setOutlineColor(sf::Color::Red);
-	collisionPartners[1]->setFillColor(sf::Color::Blue);
+	collisionPartners[0]->setOutlineThickness(2.0f);
+	collisionPartners[0]->setOutlineColor(sf::Color::Red);
+	collisionPartners[1]->setFillColor(sf::Color::Black);
 	collisionPartners[1]->setOrigin(0.0f, 0.0f);
-	collisionPartners[1]->setOutlineThickness(5.0f);
+	collisionPartners[1]->setOutlineThickness(2.0f);
 	collisionPartners[1]->setPosition(200.0f, 200.0f);
-	collisionPartners[2]->setOutlineColor(sf::Color::Red);
-	collisionPartners[2]->setFillColor(sf::Color::Blue);
-	collisionPartners[2]->setOrigin(0.0f, 0.0f);
-	collisionPartners[2]->setOutlineThickness(5.0f);
 }
 
 //handle user input etc.
@@ -162,15 +156,26 @@ void Simulation::handleEvents()
 			//std::cout << (static_cast<Polygon*>(collisionPartners[0])->getGlobalNormal(0)).x;
 		}
 	}
-	collisionPartners[2]->setPosition((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]);
 
 	//mouse control
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
 		collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-
 	}
 
+	//collision detection
+	Polygon* lvalue1 = static_cast<Polygon*>(collisionPartners[0]);
+	Polygon* lvalue2 = static_cast<Polygon*>(collisionPartners[1]);
+	if (s_cd->detectCollision(*lvalue1, *lvalue2)) {
+		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
+		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
+	}
+	else {
+		collisionPartners[0]->setOutlineColor(sf::Color::Red);
+		collisionPartners[1]->setOutlineColor(sf::Color::Red);
+	}
+
+	
 
 
 }

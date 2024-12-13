@@ -21,7 +21,7 @@ public:
 	sf::Vector2f getPoint(std::size_t index) const;
 	std::size_t getPointCount() const;
 	std::vector<sf::Vector2f> getPoints();
-	std::vector<sf::Vector2f> getGlobalPoints();
+	sf::Vector2f getGlobalPoint(int i_index);
 	sf::Vector2f getNormal(int i_index); //TODO make this private
 	sf::Vector2f getGlobalNormal(int i_index);
 };

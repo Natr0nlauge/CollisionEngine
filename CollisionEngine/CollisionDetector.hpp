@@ -16,13 +16,13 @@ public:
 	//TODO: Give this function a way to write collision Events (for example into a vector)
 	//TODO: overloads for detectCollision
 	~CollisionDetector();
-	bool detectCollision(Polygon& i_body1, Polygon& i_body2);
+	bool detectCollision(Polygon& i_body1, Polygon& i_body2, sf::Vector2f& o_collLoc, sf::Vector2f& o_collLoc2);
 
 
 
 private:
 	static CollisionDetector* s_instance;
 	CollisionDetector();
-	float findMinSeparation(Polygon& i_body1, Polygon& i_body2);
+	float findMinSeparation(Polygon& i_body1, Polygon& i_body2, sf::Vector2f& o_collLoc);
 };
 

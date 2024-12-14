@@ -15,7 +15,7 @@
 
 
 const float PLAYER_VELOCITY = 500.0f; //pixels per second
-const float PLAYER_ANGULAR_VELOCITY = 360.0f; //degrees per second
+const float PLAYER_ANGULAR_VELOCITY = 22.5f; //degrees per second
 
 Simulation* Simulation::s_instance = nullptr; //pointer to Singleton instance
 //CollisionDetector* s_cd = CollisionDetector::getInstance();
@@ -80,14 +80,14 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
+	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -50.0f), sf::Vector2f(25.0f, -50.0f) };
 	collisionPartners.push_back(new Polygon(exampleVertices));
-	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-75.0f, 50.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
+	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
 	collisionPartners.push_back(new Polygon(exampleVertices2));
 	std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, 5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(5.0f, -5.0f) };
 	collisionPartners.push_back(new Polygon(marker1));
-	std::vector<sf::Vector2f> marker2 = { sf::Vector2f(5.0f, 5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(5.0f, -5.0f) };
-	collisionPartners.push_back(new Polygon(marker2));
+	//std::vector<sf::Vector2f> marker2 = { sf::Vector2f(5.0f, 5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(5.0f, -5.0f) };
+	//collisionPartners.push_back(new Polygon(marker2));
 	//sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
 	//playerTexture = new sf::Texture;
 	//playerTexture->loadFromFile("texture.png")
@@ -170,18 +170,18 @@ void Simulation::handleEvents()
 	//collision detection
 	Polygon* lvalue1 = static_cast<Polygon*>(collisionPartners[0]);
 	Polygon* lvalue2 = static_cast<Polygon*>(collisionPartners[1]);
-	sf::Vector2f colLoc1, colLoc2;
-	if (s_cd->detectCollision(*lvalue1, *lvalue2, colLoc1, colLoc2)) {
+	sf::Vector2f colLoc;
+	if (s_cd->detectCollision(*lvalue1, *lvalue2, colLoc)) {
 		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
 		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
-		collisionPartners[2]->setPosition(colLoc1);
-		collisionPartners[3]->setPosition(colLoc2);
+		collisionPartners[2]->setPosition(colLoc);
+		//collisionPartners[3]->setPosition(colLoc);
 	}
 	else {
 		collisionPartners[0]->setOutlineColor(sf::Color::Red);
 		collisionPartners[1]->setOutlineColor(sf::Color::Red);
 		collisionPartners[2]->setPosition(sf::Vector2f(0.0f, 0.0f));
-		collisionPartners[3]->setPosition(sf::Vector2f(0.0f, 0.0f));
+		//collisionPartners[3]->setPosition(sf::Vector2f(0.0f, 0.0f));
 	}
 
 	

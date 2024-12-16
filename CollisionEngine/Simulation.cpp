@@ -3,16 +3,6 @@
 #include "iostream"
 #include "stdlib.h"
 
-////TODO: Welche Funktionen davon sind wirklich nötig? Gescheite constructors, bessere Struktur 
-////TODO: Simulation als Singleton
-////TODO: Paar Kommentare, Header Files umstrukturieren
-////TODO: git commit
-////TODO: Collision Partners vernünftig aufbauen, mehrere einführen, polygon vernünftig ausgestalten
-////TODO: Gescheite Clock/dT
-////TODO: Steuerung für die Drehung
-////TODO: Coding Standards anschauen
-//TODO: Tests überlegen
-
 
 const float PLAYER_VELOCITY = 500.0f; //pixels per second
 const float PLAYER_ANGULAR_VELOCITY = 22.5f; //degrees per second

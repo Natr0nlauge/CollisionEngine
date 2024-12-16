@@ -14,7 +14,7 @@ sf::Vector2f Polygon::getNormal(int i_index)
 		edge = sf::Vector2f(m_points[i_index].x - m_points[i_index + 1].x, m_points[i_index].y - m_points[i_index + 1].y);
 	}
 	float vectorLength = sqrt(pow(edge.x, 2) + pow(edge.y, 2));
-	sf::Vector2f normal = sf::Vector2f(-edge.y / vectorLength, edge.x / vectorLength);
+	sf::Vector2f normal = sf::Vector2f(edge.y / vectorLength, -edge.x / vectorLength);
 	//normals.push_back(normal);
 
 	return normal;

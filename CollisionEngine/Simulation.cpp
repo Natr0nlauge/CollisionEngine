@@ -70,19 +70,22 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -50.0f), sf::Vector2f(25.0f, -50.0f) };
+	/*std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -50.0f), sf::Vector2f(25.0f, -50.0f) };
 	collisionPartners.push_back(new Polygon(exampleVertices));
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
 	collisionPartners.push_back(new Polygon(exampleVertices2));
 	std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, 5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(5.0f, -5.0f) };
+	collisionPartners.push_back(new Polygon(marker1));*/
+	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
+	collisionPartners.push_back(new Polygon(exampleVertices));
+	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
+	collisionPartners.push_back(new Polygon(exampleVertices2));
+	std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(5.0f, 5.0f)   };
 	collisionPartners.push_back(new Polygon(marker1));
-	//std::vector<sf::Vector2f> marker2 = { sf::Vector2f(5.0f, 5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(5.0f, -5.0f) };
-	//collisionPartners.push_back(new Polygon(marker2));
-	//sf::RectangleShape player = sf::RectangleShape(sf::Vector2f(100.0f, 100.0f));
-	//playerTexture = new sf::Texture;
-	//playerTexture->loadFromFile("texture.png")
-	//texture doesn't work with polygon
-	//collisionPartners[0]->setTexture(playerTexture);
+	
+
+
+
 	for (RigidBody * colPar : collisionPartners) {
 		colPar->setOutlineColor(sf::Color::Red);
 		colPar->setFillColor(sf::Color::Black);
@@ -107,74 +110,61 @@ void Simulation::handleEvents()
 			break;
 		case sf::Event::Resized: //change window size and adapt view
 			std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
-			//newSize = window.getSize(); //can't be used in view.setSize because it has to be vector2f
 			m_view.setSize(m_window.getSize().x, m_window.getSize().y); //adapt view size
 			m_view.setCenter(m_window.getSize().x / 2, m_window.getSize().y / 2); //adapt view center
 			break;
 
-		case sf::Event::TextEntered: //log pressed key (pretty much useless)
+		}
 
-			if (event.text.unicode < 128) {
-				printf("%c", event.text.unicode);
+		//keyboard control
+		float movIncr = m_dT * PLAYER_VELOCITY;
+		float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+			collisionPartners[0]->move(-movIncr, 0.0f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+			collisionPartners[0]->move(movIncr, 0.0f);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+			collisionPartners[0]->move(0.0f, movIncr);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+			collisionPartners[0]->move(0.0f, -movIncr);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+			collisionPartners[0]->rotate(angIncr);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
+			collisionPartners[0]->rotate(-angIncr);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+			//std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).y << "\n";
+			for (int i = 0; i < collisionPartners[0]->getPointCount(); i++) {
+				std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).y << "\n";
 			}
 		}
 
-	}
-
-	//keyboard control
-	float movIncr = m_dT * PLAYER_VELOCITY;
-	float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-		collisionPartners[0]->move(-movIncr, 0.0f);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-		collisionPartners[0]->move(movIncr, 0.0f);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-		collisionPartners[0]->move(0.0f, movIncr);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-		collisionPartners[0]->move(0.0f, -movIncr);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-		collisionPartners[0]->rotate(angIncr);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
-		collisionPartners[0]->rotate(-angIncr);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-		//std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).y << "\n";
-		for (int i = 0; i < collisionPartners[0]->getPointCount(); i++){
-			std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).y << "\n";
-			//std::cout << (static_cast<Polygon*>(collisionPartners[0])->getGlobalNormal(0)).x;
+		//mouse control
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+			collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 		}
+
+		//collision detection
+		Polygon* lvalue1 = static_cast<Polygon*>(collisionPartners[0]);
+		Polygon* lvalue2 = static_cast<Polygon*>(collisionPartners[1]);
+		sf::Vector2f colLoc;
+		if (s_cd->detectCollision(*lvalue1, *lvalue2, colLoc)) {
+			collisionPartners[0]->setOutlineColor(sf::Color::Blue);
+			collisionPartners[1]->setOutlineColor(sf::Color::Blue);
+			collisionPartners[2]->setPosition(colLoc);
+		}
+		else {
+			collisionPartners[0]->setOutlineColor(sf::Color::Red);
+			collisionPartners[1]->setOutlineColor(sf::Color::Red);
+			collisionPartners[2]->setPosition(sf::Vector2f(0.0f, 0.0f));
+		}
+
 	}
-
-	//mouse control
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-		collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-	}
-
-	//collision detection
-	Polygon* lvalue1 = static_cast<Polygon*>(collisionPartners[0]);
-	Polygon* lvalue2 = static_cast<Polygon*>(collisionPartners[1]);
-	sf::Vector2f colLoc;
-	if (s_cd->detectCollision(*lvalue1, *lvalue2, colLoc)) {
-		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
-		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
-		collisionPartners[2]->setPosition(colLoc);
-		//collisionPartners[3]->setPosition(colLoc);
-	}
-	else {
-		collisionPartners[0]->setOutlineColor(sf::Color::Red);
-		collisionPartners[1]->setOutlineColor(sf::Color::Red);
-		collisionPartners[2]->setPosition(sf::Vector2f(0.0f, 0.0f));
-		//collisionPartners[3]->setPosition(sf::Vector2f(0.0f, 0.0f));
-	}
-
-	
-
-
 }

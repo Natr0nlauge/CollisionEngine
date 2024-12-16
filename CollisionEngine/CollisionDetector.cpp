@@ -7,6 +7,8 @@
 
 const float minSepEpsilon = 0.5;
 
+
+
 CollisionDetector* CollisionDetector::s_instance = nullptr;
 
 CollisionDetector* CollisionDetector::getInstance() {
@@ -19,64 +21,63 @@ CollisionDetector* CollisionDetector::getInstance() {
 	return s_instance;
 }
 
-CollisionDetector::CollisionDetector(){}
+CollisionDetector::CollisionDetector() {}
 
 CollisionDetector::~CollisionDetector()
 {
 }
 
-
-//TODO: struct in RigidBody for local collision parameters; write into this struct using this function
+//TODO: use a struct to transfer data to the collision handler
 bool CollisionDetector::detectCollision(Polygon& i_body1, Polygon& i_body2, sf::Vector2f& o_collLoc) {
-	//use vectors to store indices of the colliding corners
-	std::vector<int> collIndexVec1,collIndexVec2;
-	float minSep1 = findMinSeparation(i_body1, i_body2, collIndexVec2);
-	float minSep2 = findMinSeparation(i_body2, i_body1, collIndexVec1);
 
-	std::cout << minSep1 << ", " << minSep2 << "\n";
-	
+	basicCollisionData collData2 = findMinSeparation(i_body1, i_body2/*, collIndexVec2*/);
+	basicCollisionData collData1 = findMinSeparation(i_body2, i_body1/*, collIndexVec1*/);
+
+	std::cout << collData1.separation << ", " << collData2.separation << "\n";
+
 	// If both minimum seperations are smaller than 0, it indicates a collision
-	if (minSep1<=0 && minSep2<=0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
+	if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
 		// Two values in each vector indicate an edge-to-edge collision
-		 if (collIndexVec2.size()>1 && collIndexVec1.size() > 1) {
+		if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
 			// Get global coordinates of the colliding edges' vertices
-			std::array<float, 4>xValues = {i_body2.getGlobalPoint(collIndexVec2[0]).x,
-					i_body2.getGlobalPoint(collIndexVec2[1]).x,
-					i_body1.getGlobalPoint(collIndexVec1[0]).x,
-					i_body1.getGlobalPoint(collIndexVec1[1]).x};
-			std::array<float, 4>yValues = { i_body2.getGlobalPoint(collIndexVec2[0]).y,
-					i_body2.getGlobalPoint(collIndexVec2[1]).y,
-					i_body1.getGlobalPoint(collIndexVec1[0]).y,
-					i_body1.getGlobalPoint(collIndexVec1[1]).y};
+			std::array<float, 4>xValues = { i_body2.getGlobalPoint(collData2.indexVec[0]).x,
+					i_body2.getGlobalPoint(collData2.indexVec[1]).x,
+					i_body1.getGlobalPoint(collData1.indexVec[0]).x,
+					i_body1.getGlobalPoint(collData1.indexVec[1]).x };
+			std::array<float, 4>yValues = { i_body2.getGlobalPoint(collData2.indexVec[0]).y,
+					i_body2.getGlobalPoint(collData2.indexVec[1]).y,
+					i_body1.getGlobalPoint(collData1.indexVec[0]).y,
+					i_body1.getGlobalPoint(collData1.indexVec[1]).y };
 			// Output center point of contact area
 			o_collLoc = findCenterOfContact(xValues, yValues);
-		}else if (minSep1 < minSep2) {
+		}
+		else if (collData2.separation < collData1.separation) {
 			// Vertex of body 1 hits edge of body 2
-			o_collLoc = i_body1.getGlobalPoint(collIndexVec1[0]);
+			o_collLoc = i_body1.getGlobalPoint(collData1.indexVec[0]);
 		}
 		else/*if (minSep1 > minSep2)*/ {
 			// Vertex of body 2 hits edge of body 1
-			o_collLoc = i_body2.getGlobalPoint(collIndexVec2[0]);
-			
+			o_collLoc = i_body2.getGlobalPoint(collData2.indexVec[0]);
+
 		}
 		return true;
 	}
 	else {
 		return false;
 	}
-	
-	
+
+
 }
 
-//TODO: struct for global collision parameters
-//TODO: fix variable names
-//TODO: Give out a struct or something, don't use output parameter
+
 //TODO: Output collision normal
-float CollisionDetector::findMinSeparation(Polygon& i_body1, Polygon& i_body2, std::vector<int>& o_collIndexVec) {
-	float separation = std::numeric_limits<float>::lowest();
+basicCollisionData CollisionDetector::findMinSeparation(Polygon& i_body1, Polygon& i_body2/*, std::vector<int>& o_collIndexVec*/) {
+
 	// minSepValues are really useful for debugging!
 	//std::vector<std::pair<float, int>> minSepValues;
 	//std::vector<std::pair<float, int>> minSepValues2;
+	basicCollisionData collData;
+	collData.separation = std::numeric_limits<float>::lowest();
 	std::vector<int> preliminaryCollIndexVec;
 	std::vector<int> preliminaryCollIndexVec2;
 
@@ -90,38 +91,38 @@ float CollisionDetector::findMinSeparation(Polygon& i_body1, Polygon& i_body2, s
 			sf::Vector2f pointConnector = sf::Vector2f(i_body2.getGlobalPoint(j).x - i_body1.getGlobalPoint(i).x, i_body2.getGlobalPoint(j).y - i_body1.getGlobalPoint(i).y);
 			float dotProd = normal.x * pointConnector.x + normal.y * pointConnector.y;
 			// Find minimum value of all possible dot products (for each normal vector)
-			if (dotProd < minSep-minSepEpsilon) {
-				//minSep = std::min(minSep, dotProd);
-				minSep = dotProd;
+			if (dotProd < minSep - minSepEpsilon) {
+				minSep = std::min(minSep, dotProd);
+				//minSep = dotProd;
 				//minSepValues.clear();
 				//minSepValues.emplace_back(dotProd, j);
 				preliminaryCollIndexVec.clear(); //previous indices are irrelevant
 				preliminaryCollIndexVec.push_back(j); //save index
 			}
 			// If a minSep value is sufficiently close to a previous one, save another index (edge-to-edge-collision possible)
-			else if (fabs(minSep-dotProd) <= minSepEpsilon) {
+			else if (fabs(minSep - dotProd) <= minSepEpsilon) {
 				//minSepValues.emplace_back(dotProd, j);
 				preliminaryCollIndexVec.push_back(j);
 			}
-			
+
 		}
 
 		// The maximum minSep value for all normal vectors (for all i values) is the minimal seperation
-		if (minSep >= separation) {
-			separation = minSep;
+		if (minSep >= collData.separation) {
+			collData.separation = minSep;
 			//minSepValues2 = minSepValues;
 			//minSepValues.clear();
 			preliminaryCollIndexVec2 = preliminaryCollIndexVec;
 		}
 	}
-	o_collIndexVec = preliminaryCollIndexVec2; //output
-	std::cout << o_collIndexVec.size() << ", ";
-	return separation;
+	collData.indexVec = preliminaryCollIndexVec2; //output
+	std::cout << collData.indexVec.size() << ", ";
+	return collData;
 }
 
 sf::Vector2f CollisionDetector::findCenterOfContact(const std::array<float, 4>& i_xValues, const std::array<float, 4>& i_yValues)
 {
-	return sf::Vector2f(computeMedian(i_xValues),computeMedian(i_yValues));
+	return sf::Vector2f(computeMedian(i_xValues), computeMedian(i_yValues));
 }
 
 float CollisionDetector::computeMedian(const std::array<float, 4>& i_arr) {
@@ -135,18 +136,18 @@ float CollisionDetector::computeMedian(const std::array<float, 4>& i_arr) {
 
 int CollisionDetector::incrIndex(int i_index, int i_pointCount)
 {
-	int newIndex = i_pointCount -1;
+	int newIndex = i_pointCount - 1;
 	if (i_index != 0) {
 		int newIndex = i_index - 1;
 	}
 	return newIndex;
-	
+
 }
 
 int CollisionDetector::decrIndex(int i_index, int i_pointCount)
-{	
+{
 	int newIndex = 0;
-	if (i_index != i_pointCount -1){
+	if (i_index != i_pointCount - 1) {
 		int newIndex = i_index + 1;
 	}
 	return newIndex;

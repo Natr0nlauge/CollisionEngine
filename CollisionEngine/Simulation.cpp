@@ -70,12 +70,6 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	/*std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -50.0f), sf::Vector2f(25.0f, -50.0f) };
-	collisionPartners.push_back(new Polygon(exampleVertices));
-	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f) };
-	collisionPartners.push_back(new Polygon(exampleVertices2));
-	std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, 5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(5.0f, -5.0f) };
-	collisionPartners.push_back(new Polygon(marker1));*/
 	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
 	collisionPartners.push_back(new Polygon(exampleVertices));
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };

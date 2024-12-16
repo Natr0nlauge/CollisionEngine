@@ -7,7 +7,12 @@ struct collisionEvent { //will be used to pass all the necessary information to 
 	RigidBody* pBody1;
 	RigidBody* pBody2;
 };
-//TODO check coding standard
+
+struct basicCollisionData {
+	float separation;
+	std::vector<int> indexVec;
+};
+
 
 class CollisionDetector
 {
@@ -23,7 +28,7 @@ public:
 private:
 	static CollisionDetector* s_instance;
 	CollisionDetector();
-	float findMinSeparation(Polygon& i_body1, Polygon& i_body2, std::vector<int>& o_collIndexVec/*sf::Vector2f& o_collLoc*/ );
+	basicCollisionData findMinSeparation(Polygon& i_body1, Polygon& i_body2/*, std::vector<int>& o_collIndexVec, sf::Vector2f& o_collLoc*/);
 	sf::Vector2f findCenterOfContact(const std::array<float, 4>& i_xValues, const std::array<float, 4>& i_yValues);
 	float computeMedian(const std::array<float, 4>& i_arr);
 	int incrIndex(int i_index, int max_index);

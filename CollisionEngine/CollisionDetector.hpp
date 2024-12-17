@@ -9,7 +9,7 @@ struct collisionEvent { //will be used to pass all the necessary information to 
 };
 
 struct basicCollisionData {
-	float separation;
+	float separation = std::numeric_limits<float>::lowest();
 	std::vector<int> indexVec;
 };
 

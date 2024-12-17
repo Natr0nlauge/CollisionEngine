@@ -5,7 +5,7 @@
 #include <vector>
 #include <cmath>
 
-const float minSepEpsilon = 0.5;
+const float minSepEpsilon = 0.1;
 
 
 
@@ -55,7 +55,7 @@ bool CollisionDetector::detectCollision(Polygon& i_body1, Polygon& i_body2, sf::
 			// Vertex of body 1 hits edge of body 2
 			o_collLoc = i_body1.getGlobalPoint(collData1.indexVec[0]);
 		}
-		else/*if (minSep1 > minSep2)*/ {
+		else/*if (collData2.separation > collData1.separation)*/ {
 			// Vertex of body 2 hits edge of body 1
 			o_collLoc = i_body2.getGlobalPoint(collData2.indexVec[0]);
 
@@ -74,10 +74,10 @@ bool CollisionDetector::detectCollision(Polygon& i_body1, Polygon& i_body2, sf::
 basicCollisionData CollisionDetector::findMinSeparation(Polygon& i_body1, Polygon& i_body2/*, std::vector<int>& o_collIndexVec*/) {
 
 	// minSepValues are really useful for debugging!
-	//std::vector<std::pair<float, int>> minSepValues;
-	//std::vector<std::pair<float, int>> minSepValues2;
+	std::vector<std::pair<float, int>> minSepValues;
+	std::vector<std::pair<float, int>> minSepValues2;
 	basicCollisionData collData;
-	collData.separation = std::numeric_limits<float>::lowest();
+	
 	std::vector<int> preliminaryCollIndexVec;
 	std::vector<int> preliminaryCollIndexVec2;
 
@@ -92,29 +92,34 @@ basicCollisionData CollisionDetector::findMinSeparation(Polygon& i_body1, Polygo
 			float dotProd = normal.x * pointConnector.x + normal.y * pointConnector.y;
 			// Find minimum value of all possible dot products (for each normal vector)
 			if (dotProd < minSep - minSepEpsilon) {
-				minSep = std::min(minSep, dotProd);
-				//minSep = dotProd;
-				//minSepValues.clear();
-				//minSepValues.emplace_back(dotProd, j);
+				//minSep = std::min(minSep, dotProd);
+				minSep = dotProd;
+				minSepValues.clear();
+				minSepValues.emplace_back(dotProd, j);
 				preliminaryCollIndexVec.clear(); //previous indices are irrelevant
 				preliminaryCollIndexVec.push_back(j); //save index
 			}
 			// If a minSep value is sufficiently close to a previous one, save another index (edge-to-edge-collision possible)
-			else if (fabs(minSep - dotProd) <= minSepEpsilon) {
-				//minSepValues.emplace_back(dotProd, j);
+			// Tolerance needs to be larger here to correctly account for angle deviations
+			else if (fabs(minSep - dotProd) <= 4*minSepEpsilon) { 
+				minSepValues.emplace_back(dotProd, j);
 				preliminaryCollIndexVec.push_back(j);
 			}
 
 		}
 
 		// The maximum minSep value for all normal vectors (for all i values) is the minimal seperation
-		if (minSep >= collData.separation) {
+		if (minSep > collData.separation) {
 			collData.separation = minSep;
-			//minSepValues2 = minSepValues;
-			//minSepValues.clear();
+			minSepValues2 = minSepValues;
 			preliminaryCollIndexVec2 = preliminaryCollIndexVec;
 		}
 	}
+	if (collData.separation < 0) {
+		//minSepValues2 = minSepValues;
+		minSepValues.clear();
+	}
+
 	collData.indexVec = preliminaryCollIndexVec2; //output
 	std::cout << collData.indexVec.size() << ", ";
 	return collData;

@@ -29,8 +29,6 @@ private:
 	Simulation();
 	static Simulation* s_instance;
 	CollisionDetector * s_cd = CollisionDetector::getInstance();
-
-	sf::Texture *playerTexture = nullptr;//TODO remove
 	
 
 	sf::View m_view;

@@ -70,12 +70,12 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
-	collisionPartners.push_back(new Polygon(exampleVertices));
+	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -500.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
+	collisionPartners.push_back(new Polygon(10.0,exampleVertices));
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
-	collisionPartners.push_back(new Polygon(exampleVertices2));
+	collisionPartners.push_back(new Polygon(10.0,exampleVertices2));
 	std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(5.0f, 5.0f)   };
-	collisionPartners.push_back(new Polygon(marker1));
+	collisionPartners.push_back(new Polygon(10.0,marker1));
 	
 
 
@@ -83,7 +83,7 @@ void Simulation::initBodies() {
 	for (RigidBody * colPar : collisionPartners) {
 		colPar->setOutlineColor(sf::Color::Red);
 		colPar->setFillColor(sf::Color::Black);
-		colPar->setOrigin(0.0f, 0.0f);
+		//colPar->setOrigin(0.0f, 0.0f
 		colPar->setOutlineThickness(-2.0f);
 		colPar->setOutlineColor(sf::Color::Red);
 	}

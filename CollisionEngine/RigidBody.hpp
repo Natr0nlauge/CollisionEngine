@@ -5,12 +5,15 @@
 class RigidBody : public sf::Shape
 {
 public:
+	//sf::Vector2f m_origin = sf::Vector2f(0.0f, 0.0f);
+	//sf::Vector2f m_position = sf::Vector2f(0.0f, 0.0f);
 	RigidBody(float i_mass);
 	~RigidBody();
 	float getMass() const;
 	float getMomentOfInertia() const;
 	void setVelocity(sf::Vector2f i_newVel);
 	void setAngularVelocity(float i_newAngVel);
+	void updatePositionAndAngle(float i_dT); //TODO check if there is a more elegant way for dt
 
 	
 protected:
@@ -20,11 +23,11 @@ protected:
 	virtual float calculateMomentOfInertia() = 0;
 	float calculateDensity() const;
 	virtual float calculateArea() = 0;
-	float mass; //center of mass is in origin
-	float momentOfInertia = 1.0f;
-	float area = 1.0f;
-	sf::Vector2f velocity = sf::Vector2f(0.0f,0.0f);
-	float angularVelocity = 0.0f;
+	float m_mass; //center of mass is in origin
+	float m_momentOfInertia = 1.0f;
+	float m_area = 1.0f;
+	sf::Vector2f m_velocity = sf::Vector2f(0.0f,0.0f);
+	float m_angularVelocity = 0.0f;
 
 };
 

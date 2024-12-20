@@ -33,7 +33,7 @@ bool CollisionDetector::detectCollision(Polygon& i_body1, Polygon& i_body2, sf::
 	basicCollisionData collData2 = findMinSeparation(i_body1, i_body2);
 	basicCollisionData collData1 = findMinSeparation(i_body2, i_body1);
 
-	//std::cout << collData1.separation << ", " << collData2.separation << "\n";
+	std::cout << collData1.separation << ", " << collData2.separation << "\n";
 
 	// If both minimum seperations are smaller than 0, it indicates a collision
 	if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
@@ -121,7 +121,7 @@ basicCollisionData CollisionDetector::findMinSeparation(Polygon& i_body1, Polygo
 	if (collData.separation < 0) {
 		//minSepValues2 = minSepValues;
 		minSepValues.clear();
-		std::cout << collData.normal.x << ", " << collData.normal.y << "\n";
+		//std::cout << collData.normal.x << ", " << collData.normal.y << "\n";
 	}
 
 	collData.indexVec = preliminaryCollIndexVec2; //output

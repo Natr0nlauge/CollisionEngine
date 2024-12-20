@@ -25,10 +25,10 @@ public:
 
 private:
 	sf::Clock clock;
-	std::vector<RigidBody*>collisionPartners;
+	std::vector<RigidBody*>collisionPartners; //TODO use reference instead of pointer?
 	Simulation();
 	static Simulation* s_instance;
-	CollisionDetector * s_cd = CollisionDetector::getInstance();
+	CollisionDetector * m_cd = CollisionDetector::getInstance();
 	
 
 	sf::View m_view;

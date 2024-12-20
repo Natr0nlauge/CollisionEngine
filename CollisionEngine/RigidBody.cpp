@@ -1,8 +1,9 @@
 #include "RigidBody.hpp"
+#include <iostream> //TODO remove this after debugging
 
 #define PI  3.14159265358979323846
 
-RigidBody::RigidBody(float i_mass) : Shape(), mass(i_mass) {
+RigidBody::RigidBody(float i_mass) : Shape(), m_mass(i_mass) {
 
 }
 
@@ -12,23 +13,34 @@ RigidBody::~RigidBody() {
 
 float RigidBody::getMass() const
 {
-    return mass;
+    return m_mass;
 }
 
 float RigidBody::getMomentOfInertia() const
 {
-    return momentOfInertia;
+    return m_momentOfInertia;
 }
 
 void RigidBody::setVelocity(sf::Vector2f i_newVel) 
 {
-    velocity = i_newVel;
+    m_velocity = i_newVel;
 }
 
 void RigidBody::setAngularVelocity(float i_newAngVel) 
 {
-    angularVelocity = i_newAngVel;
+    m_angularVelocity = i_newAngVel;
 }
+
+void RigidBody::updatePositionAndAngle(float i_dT)
+{
+    move(m_velocity.x * i_dT, m_velocity.y * i_dT);
+    rotate(m_angularVelocity * i_dT);
+    //std::cout << transformPointToGlobal(getPoint(0)).x << ", " << transformPointToGlobal(getPoint(0)).x << "\n";
+ }
+
+//void RigidBody::updatePositionAndAngle(float i_dT) {
+//
+//}
 
 
 
@@ -56,8 +68,10 @@ sf::Vector2f RigidBody::transformVectorToGlobal(sf::Vector2f i_localVector) {
 
 float RigidBody::calculateDensity() const
 {
-    return mass/area;
+    return m_mass/m_area;
 }
+
+
 
 
 

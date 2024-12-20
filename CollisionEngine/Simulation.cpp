@@ -55,8 +55,25 @@ void Simulation::update()
 {
 	m_window.setView(m_view); //update view
 	m_window.clear(); //remove old Objects
-	for (int i = 0; i < collisionPartners.size(); i++)
+	for (int i = 0; i < collisionPartners.size(); i++) {
 		m_window.draw(*collisionPartners[i]);
+		collisionPartners[i]->updatePositionAndAngle(m_dT);
+	}
+	//collision detection
+	//TODO make this more elegant...
+	Polygon* lvalue1 = static_cast<Polygon*>(collisionPartners[0]);
+	Polygon* lvalue2 = static_cast<Polygon*>(collisionPartners[1]);
+	sf::Vector2f colLoc;
+	if (m_cd->detectCollision(*lvalue1, *lvalue2, colLoc)) {
+		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
+		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
+		collisionPartners[2]->setPosition(colLoc);
+	}
+	else {
+		collisionPartners[0]->setOutlineColor(sf::Color::Red);
+		collisionPartners[1]->setOutlineColor(sf::Color::Red);
+		collisionPartners[2]->setPosition(sf::Vector2f(0.0f, 0.0f));
+	}
 	m_window.display(); //render the frame
 }
 
@@ -70,7 +87,7 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -500.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
+	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
 	collisionPartners.push_back(new Polygon(10.0,exampleVertices));
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
 	collisionPartners.push_back(new Polygon(10.0,exampleVertices2));
@@ -83,11 +100,12 @@ void Simulation::initBodies() {
 	for (RigidBody * colPar : collisionPartners) {
 		colPar->setOutlineColor(sf::Color::Red);
 		colPar->setFillColor(sf::Color::Black);
-		//colPar->setOrigin(0.0f, 0.0f
 		colPar->setOutlineThickness(-2.0f);
 		colPar->setOutlineColor(sf::Color::Red);
 	}
 	
+	collisionPartners[0]->setVelocity(sf::Vector2f(27.0f, 27.0f));
+	collisionPartners[0]->setAngularVelocity(27.0f);
 	collisionPartners[1]->setPosition(200.0f, 200.0f);
 }
 
@@ -143,21 +161,6 @@ void Simulation::handleEvents()
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
 			collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		}
-
-		//collision detection
-		Polygon* lvalue1 = static_cast<Polygon*>(collisionPartners[0]);
-		Polygon* lvalue2 = static_cast<Polygon*>(collisionPartners[1]);
-		sf::Vector2f colLoc;
-		if (s_cd->detectCollision(*lvalue1, *lvalue2, colLoc)) {
-			collisionPartners[0]->setOutlineColor(sf::Color::Blue);
-			collisionPartners[1]->setOutlineColor(sf::Color::Blue);
-			collisionPartners[2]->setPosition(colLoc);
-		}
-		else {
-			collisionPartners[0]->setOutlineColor(sf::Color::Red);
-			collisionPartners[1]->setOutlineColor(sf::Color::Red);
-			collisionPartners[2]->setPosition(sf::Vector2f(0.0f, 0.0f));
 		}
 
 	}

@@ -30,7 +30,7 @@ sf::Vector2f Polygon::getGlobalNormal(int i_index)
 }*/
 
 Polygon::Polygon(float i_mass, std::vector<sf::Vector2f> i_vertices) : m_points(i_vertices), RigidBody(i_mass) {
-	area = calculateArea();
+	m_area = calculateArea();
 	//setOrigin(calculateCenterOfMass());
 	setOrigin(sf::Vector2f(0.0f,0.0f));
 
@@ -42,7 +42,7 @@ Polygon::Polygon(float i_mass, std::vector<sf::Vector2f> i_vertices) : m_points(
 		current.y -= com.y;
 	}
 
-	momentOfInertia = calculateMomentOfInertia();
+	m_momentOfInertia = calculateMomentOfInertia();
 
 }
 
@@ -103,7 +103,7 @@ float Polygon::calculateMomentOfInertia()
 	}
 
 	moi = std::abs(moi) * density / 12.0f; // Divide by 12 and include density.
-	std::cout << moi << "\n";
+	//std::cout << moi << "\n";
 	return moi;
 }
 
@@ -159,6 +159,5 @@ sf::Vector2f Polygon::getGlobalPoint(int i_index)
 }
 
 sf::Vector2f calculateCenterOfMass() {
-
 	return sf::Vector2f(0.0f,0.0f);
 }

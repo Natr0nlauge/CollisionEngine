@@ -61,13 +61,14 @@ void Simulation::update()
 	}
 	//collision detection
 	//TODO make this more elegant...
-	Polygon* lvalue1 = static_cast<Polygon*>(collisionPartners[0]);
-	Polygon* lvalue2 = static_cast<Polygon*>(collisionPartners[1]);
-	sf::Vector2f colLoc;
-	if (m_cd->detectCollision(*lvalue1, *lvalue2, colLoc)) {
+	collisionEvent collEvent(*collisionPartners[0], *collisionPartners[1]);
+	//sf::Vector2f colLoc;
+	//TODO: check if collEvent is correctly written to
+	if (m_cd->detectCollision(collEvent)) {
+		std::cout << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
 		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
 		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
-		collisionPartners[2]->setPosition(colLoc);
+		collisionPartners[2]->setPosition(collEvent.collLoc1);
 	}
 	else {
 		collisionPartners[0]->setOutlineColor(sf::Color::Red);
@@ -125,7 +126,6 @@ void Simulation::handleEvents()
 			m_view.setSize(m_window.getSize().x, m_window.getSize().y); //adapt view size
 			m_view.setCenter(m_window.getSize().x / 2, m_window.getSize().y / 2); //adapt view center
 			break;
-
 		}
 
 		//keyboard control
@@ -152,9 +152,9 @@ void Simulation::handleEvents()
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
 			//std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).y << "\n";
-			for (int i = 0; i < collisionPartners[0]->getPointCount(); i++) {
+			/*for (int i = 0; i < collisionPartners[0]->getPointCount(); i++) {
 				std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).y << "\n";
-			}
+			}*/
 		}
 
 		//mouse control

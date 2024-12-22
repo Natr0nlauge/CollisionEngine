@@ -21,45 +21,49 @@ CollisionDetector* CollisionDetector::getInstance() {
 	return s_instance;
 }
 
-CollisionDetector::CollisionDetector() {}
+CollisionDetector::CollisionDetector() {
+}
 
-CollisionDetector::~CollisionDetector()
-{
+CollisionDetector::~CollisionDetector() {
 }
 
 //TODO: use a struct to transfer data to the collision handler
-bool CollisionDetector::detectCollision(Polygon& i_body1, Polygon& i_body2, sf::Vector2f& o_collLoc) {
+//TODO: case differentiation polygon and circle
+// Detects a collision between two bodies and writes results to a collisionEvent
+bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
+	//TODO: static casts
+	Polygon & body1 = static_cast<Polygon&>(c_collisionEvent.rBody1);
+	Polygon & body2 = static_cast<Polygon&>(c_collisionEvent.rBody2);
 
-	basicCollisionData collData2 = findMinSeparation(i_body1, i_body2);
-	basicCollisionData collData1 = findMinSeparation(i_body2, i_body1);
-
-	std::cout << collData1.separation << ", " << collData2.separation << "\n";
+	basicSeparationData collData2 = findMinSeparation(body1, body2);
+	basicSeparationData collData1 = findMinSeparation(body2, body1);
 
 	// If both minimum seperations are smaller than 0, it indicates a collision
 	if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
 		// Two values in each vector indicate an edge-to-edge collision
 		if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
 			// Get global coordinates of the colliding edges' vertices
-			std::array<float, 4>xValues = { i_body2.getGlobalPoint(collData2.indexVec[0]).x,
-					i_body2.getGlobalPoint(collData2.indexVec[1]).x,
-					i_body1.getGlobalPoint(collData1.indexVec[0]).x,
-					i_body1.getGlobalPoint(collData1.indexVec[1]).x };
-			std::array<float, 4>yValues = { i_body2.getGlobalPoint(collData2.indexVec[0]).y,
-					i_body2.getGlobalPoint(collData2.indexVec[1]).y,
-					i_body1.getGlobalPoint(collData1.indexVec[0]).y,
-					i_body1.getGlobalPoint(collData1.indexVec[1]).y };
+			std::array<float, 4>xValues = { body2.getGlobalPoint(collData2.indexVec[0]).x,
+					body2.getGlobalPoint(collData2.indexVec[1]).x,
+					body1.getGlobalPoint(collData1.indexVec[0]).x,
+					body1.getGlobalPoint(collData1.indexVec[1]).x };
+			std::array<float, 4>yValues = { body2.getGlobalPoint(collData2.indexVec[0]).y,
+					body2.getGlobalPoint(collData2.indexVec[1]).y,
+					body1.getGlobalPoint(collData1.indexVec[0]).y,
+					body1.getGlobalPoint(collData1.indexVec[1]).y };
 			// Output center point of contact area
-			o_collLoc = findCenterOfContact(xValues, yValues);
+			c_collisionEvent.collLoc1 = findCenterOfContact(xValues, yValues);
 		}
 		else if (collData2.separation < collData1.separation) {
 			// Vertex of body 1 hits edge of body 2
-			o_collLoc = i_body1.getGlobalPoint(collData1.indexVec[0]);
+			c_collisionEvent.collLoc1 = body1.getGlobalPoint(collData1.indexVec[0]);
 		}
 		else/*if (collData2.separation > collData1.separation)*/ {
 			// Vertex of body 2 hits edge of body 1
-			o_collLoc = i_body2.getGlobalPoint(collData2.indexVec[0]);
+			c_collisionEvent.collLoc1 = body2.getGlobalPoint(collData2.indexVec[0]);
 
 		}
+		//std::cout << c_collisionEvent.collLoc1.x << ", " << c_collisionEvent.collLoc1.y << "\n";
 		return true;
 	}
 	else {
@@ -71,12 +75,13 @@ bool CollisionDetector::detectCollision(Polygon& i_body1, Polygon& i_body2, sf::
 
 
 //TODO: Output collision normal
-basicCollisionData CollisionDetector::findMinSeparation(Polygon& i_body1, Polygon& i_body2/*, std::vector<int>& o_collIndexVec*/) {
+//TODO: use some sub-functions here to make it easier to read
+basicSeparationData CollisionDetector::findMinSeparation(Polygon& i_body1, Polygon& i_body2/*, std::vector<int>& o_collIndexVec*/) {
 
 	// minSepValues are really useful for debugging!
 	std::vector<std::pair<float, int>> minSepValues;
 	std::vector<std::pair<float, int>> minSepValues2;
-	basicCollisionData collData;
+	basicSeparationData collData;
 	int normalIndex = 0;
 	
 	std::vector<int> preliminaryCollIndexVec;

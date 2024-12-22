@@ -39,9 +39,9 @@ private:
 	static CollisionDetector* s_instance;
 	CollisionDetector();
 	basicSeparationData findMinSeparation(Polygon& i_body1, Polygon& i_body2);
-	sf::Vector2f findCenterOfContact(const std::array<float, 4>& i_xValues, const std::array<float, 4>& i_yValues);
+	/*sf::Vector2f findCenterOfContact(const std::array<float, 4>& i_xValues, const std::array<float, 4>& i_yValues);
 	float computeMedian(const std::array<float, 4>& i_arr);
 	int incrIndex(int i_index, int max_index);
-	int decrIndex(int i_index, int max_index);
+	int decrIndex(int i_index, int max_index);*/
 };
 

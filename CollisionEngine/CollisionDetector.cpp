@@ -7,6 +7,42 @@
 
 const float minSepEpsilon = 0.1;
 
+static void assignNormals(collisionEvent& o_collisionEvent, basicSeparationData& i_collData) {
+	o_collisionEvent.normal1 = i_collData.normal;
+	o_collisionEvent.normal2.x = -i_collData.normal.x;
+	o_collisionEvent.normal2.y = -i_collData.normal.y;
+}
+
+// TODO add this to some utility module
+static float computeMedian(const std::array<float, 4>& i_arr) {
+	// Make a copy of the array because we need to sort it
+	std::array<float, 4> sortedArr = i_arr;
+	std::sort(sortedArr.begin(), sortedArr.end());
+
+	// Compute and return the median (average of the two middle elements)
+	return (sortedArr[1] + sortedArr[2]) / 2.0f;
+}
+
+// Find global coordinates of the colliding edges' vertices
+static sf::Vector2f findCenterOfContact(basicSeparationData& i_sepData1, basicSeparationData& i_sepData2, Polygon& body1, Polygon& body2) {
+	const int numberOfPoints = 4;
+	sf::Vector2f vertices[numberOfPoints];
+	std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f};
+	std::array<float, numberOfPoints> yValues = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+	vertices[0] = body2.getGlobalPoint(i_sepData2.indexVec[0]);
+	vertices[1] = body2.getGlobalPoint(i_sepData2.indexVec[1]);
+	vertices[2] = body1.getGlobalPoint(i_sepData1.indexVec[0]);
+	vertices[3] = body1.getGlobalPoint(i_sepData1.indexVec[1]);
+
+	for (int i=0; i < numberOfPoints; i++) {
+		xValues[i] = vertices[i].x;
+		yValues[i] = vertices[i].y;
+	}
+
+	return sf::Vector2f(computeMedian(xValues), computeMedian(yValues));
+}
+
 
 
 CollisionDetector* CollisionDetector::s_instance = nullptr;
@@ -21,17 +57,17 @@ CollisionDetector* CollisionDetector::getInstance() {
 	return s_instance;
 }
 
+
+
 CollisionDetector::CollisionDetector() {
 }
 
 CollisionDetector::~CollisionDetector() {
 }
 
-//TODO: use a struct to transfer data to the collision handler
 //TODO: case differentiation polygon and circle
 // Detects a collision between two bodies and writes results to a collisionEvent
 bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
-	//TODO: static casts
 	Polygon & body1 = static_cast<Polygon&>(c_collisionEvent.rBody1);
 	Polygon & body2 = static_cast<Polygon&>(c_collisionEvent.rBody2);
 
@@ -42,26 +78,21 @@ bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
 	if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
 		// Two values in each vector indicate an edge-to-edge collision
 		if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
-			// Get global coordinates of the colliding edges' vertices
-			std::array<float, 4>xValues = { body2.getGlobalPoint(collData2.indexVec[0]).x,
-					body2.getGlobalPoint(collData2.indexVec[1]).x,
-					body1.getGlobalPoint(collData1.indexVec[0]).x,
-					body1.getGlobalPoint(collData1.indexVec[1]).x };
-			std::array<float, 4>yValues = { body2.getGlobalPoint(collData2.indexVec[0]).y,
-					body2.getGlobalPoint(collData2.indexVec[1]).y,
-					body1.getGlobalPoint(collData1.indexVec[0]).y,
-					body1.getGlobalPoint(collData1.indexVec[1]).y };
-			// Output center point of contact area
-			c_collisionEvent.collLoc1 = findCenterOfContact(xValues, yValues);
+			c_collisionEvent.collLoc1 = findCenterOfContact(collData1, collData2, body1, body2);
+			assignNormals(c_collisionEvent,  collData1);
 		}
 		else if (collData2.separation < collData1.separation) {
 			// Vertex of body 1 hits edge of body 2
+			// TODO check if normals have the correct direction
+			// Assign location
 			c_collisionEvent.collLoc1 = body1.getGlobalPoint(collData1.indexVec[0]);
+			assignNormals(c_collisionEvent,  collData1);
 		}
 		else/*if (collData2.separation > collData1.separation)*/ {
 			// Vertex of body 2 hits edge of body 1
+			// Assign location
 			c_collisionEvent.collLoc1 = body2.getGlobalPoint(collData2.indexVec[0]);
-
+			assignNormals(c_collisionEvent,  collData2);
 		}
 		//std::cout << c_collisionEvent.collLoc1.x << ", " << c_collisionEvent.collLoc1.y << "\n";
 		return true;
@@ -74,7 +105,7 @@ bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
 }
 
 
-//TODO: Output collision normal
+
 //TODO: use some sub-functions here to make it easier to read
 basicSeparationData CollisionDetector::findMinSeparation(Polygon& i_body1, Polygon& i_body2/*, std::vector<int>& o_collIndexVec*/) {
 
@@ -134,35 +165,28 @@ basicSeparationData CollisionDetector::findMinSeparation(Polygon& i_body1, Polyg
 	return collData;
 }
 
-sf::Vector2f CollisionDetector::findCenterOfContact(const std::array<float, 4>& i_xValues, const std::array<float, 4>& i_yValues)
-{
-	return sf::Vector2f(computeMedian(i_xValues), computeMedian(i_yValues));
-}
+//sf::Vector2f CollisionDetector::findCenterOfContact(const std::array<float, 4>& i_xValues, const std::array<float, 4>& i_yValues)
+//{
+//	return sf::Vector2f(computeMedian(i_xValues), computeMedian(i_yValues));
+//}
 
-float CollisionDetector::computeMedian(const std::array<float, 4>& i_arr) {
-	// Make a copy of the array because we need to sort it
-	std::array<float, 4> sortedArr = i_arr;
-	std::sort(sortedArr.begin(), sortedArr.end());
 
-	// Compute and return the median (average of the two middle elements)
-	return (sortedArr[1] + sortedArr[2]) / 2.0f;
-}
 
-int CollisionDetector::incrIndex(int i_index, int i_pointCount)
-{
-	int newIndex = i_pointCount - 1;
-	if (i_index != 0) {
-		int newIndex = i_index - 1;
-	}
-	return newIndex;
-
-}
-
-int CollisionDetector::decrIndex(int i_index, int i_pointCount)
-{
-	int newIndex = 0;
-	if (i_index != i_pointCount - 1) {
-		int newIndex = i_index + 1;
-	}
-	return newIndex;
-}
+//int CollisionDetector::incrIndex(int i_index, int i_pointCount)
+//{
+//	int newIndex = i_pointCount - 1;
+//	if (i_index != 0) {
+//		int newIndex = i_index - 1;
+//	}
+//	return newIndex;
+//
+//}
+//
+//int CollisionDetector::decrIndex(int i_index, int i_pointCount)
+//{
+//	int newIndex = 0;
+//	if (i_index != i_pointCount - 1) {
+//		int newIndex = i_index + 1;
+//	}
+//	return newIndex;
+//}

@@ -60,12 +60,9 @@ void Simulation::update()
 		collisionPartners[i]->updatePositionAndAngle(m_dT);
 	}
 	//collision detection
-	//TODO make this more elegant...
 	collisionEvent collEvent(*collisionPartners[0], *collisionPartners[1]);
-	//sf::Vector2f colLoc;
-	//TODO: check if collEvent is correctly written to
 	if (m_cd->detectCollision(collEvent)) {
-		std::cout << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
+		//std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " << collEvent.normal2.y << "\n";
 		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
 		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
 		collisionPartners[2]->setPosition(collEvent.collLoc1);
@@ -105,8 +102,8 @@ void Simulation::initBodies() {
 		colPar->setOutlineColor(sf::Color::Red);
 	}
 	
-	collisionPartners[0]->setVelocity(sf::Vector2f(27.0f, 27.0f));
-	collisionPartners[0]->setAngularVelocity(27.0f);
+	//collisionPartners[0]->setVelocity(sf::Vector2f(27.0f, 27.0f));
+	//collisionPartners[0]->setAngularVelocity(27.0f);
 	collisionPartners[1]->setPosition(200.0f, 200.0f);
 }
 

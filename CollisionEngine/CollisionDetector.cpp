@@ -5,6 +5,8 @@
 #include <vector>
 #include <cmath>
 
+CollisionDetector* CollisionDetector::s_instance = nullptr;
+
 const float minSepEpsilon = 0.1;
 
 static void assignNormals(collisionEvent& o_collisionEvent, basicSeparationData& i_collData) {
@@ -24,16 +26,16 @@ static float computeMedian(const std::array<float, 4>& i_arr) {
 }
 
 // Find global coordinates of the colliding edges' vertices
-static sf::Vector2f findCenterOfContact(basicSeparationData& i_sepData1, basicSeparationData& i_sepData2, Polygon& body1, Polygon& body2) {
+static sf::Vector2f findCenterOfContact(basicSeparationData& i_sepData1, basicSeparationData& i_sepData2, Polygon& i_body1, Polygon& i_body2) {
 	const int numberOfPoints = 4;
 	sf::Vector2f vertices[numberOfPoints];
-	std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f};
-	std::array<float, numberOfPoints> yValues = { 0.0f, 0.0f, 0.0f, 0.0f };
+	std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f}; 
+	std::array<float, numberOfPoints> yValues = {0.0f, 0.0f, 0.0f, 0.0f};
 
-	vertices[0] = body2.getGlobalPoint(i_sepData2.indexVec[0]);
-	vertices[1] = body2.getGlobalPoint(i_sepData2.indexVec[1]);
-	vertices[2] = body1.getGlobalPoint(i_sepData1.indexVec[0]);
-	vertices[3] = body1.getGlobalPoint(i_sepData1.indexVec[1]);
+	vertices[0] = i_body2.getGlobalPoint(i_sepData2.indexVec[0]);
+	vertices[1] = i_body2.getGlobalPoint(i_sepData2.indexVec[1]);
+	vertices[2] = i_body1.getGlobalPoint(i_sepData1.indexVec[0]);
+	vertices[3] = i_body1.getGlobalPoint(i_sepData1.indexVec[1]);
 
 	for (int i=0; i < numberOfPoints; i++) {
 		xValues[i] = vertices[i].x;
@@ -45,10 +47,11 @@ static sf::Vector2f findCenterOfContact(basicSeparationData& i_sepData1, basicSe
 
 
 
-CollisionDetector* CollisionDetector::s_instance = nullptr;
+
 
 CollisionDetector* CollisionDetector::getInstance() {
 	if (s_instance == nullptr) {
+		//TODO: check thread safety
 		//std::lock_guard<std::mutex> lock(mtx);
 		if (s_instance == nullptr) {
 			s_instance = new CollisionDetector();
@@ -164,12 +167,6 @@ basicSeparationData CollisionDetector::findMinSeparation(Polygon& i_body1, Polyg
 	//std::cout << collData.indexVec.size() << ", ";
 	return collData;
 }
-
-//sf::Vector2f CollisionDetector::findCenterOfContact(const std::array<float, 4>& i_xValues, const std::array<float, 4>& i_yValues)
-//{
-//	return sf::Vector2f(computeMedian(i_xValues), computeMedian(i_yValues));
-//}
-
 
 
 //int CollisionDetector::incrIndex(int i_index, int i_pointCount)

@@ -6,6 +6,7 @@
 struct collisionEvent { // Will be used to pass all the necessary information to the Collision Handler
 	RigidBody& rBody1;
 	RigidBody& rBody2;
+	//TODO: should this stuff be initialized?
 	sf::Vector2f collLoc1; // In global coordinates
 	//TODO: Check if saving collision Location in local coordinates is more efficient
 	sf::Vector2f normal1;
@@ -27,6 +28,7 @@ struct basicSeparationData {
 class CollisionDetector
 {
 public:
+	//TODO: should this return a reference?
 	static CollisionDetector* getInstance();
 	//TODO: Give this function a way to write collision Events (for example into a vector)
 	//TODO: overloads for detectCollision

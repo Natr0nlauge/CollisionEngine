@@ -8,7 +8,7 @@ private:
 	std::vector<sf::Vector2f> m_points = { sf::Vector2f(25.0f,25.0f), sf::Vector2f(-25.0f,25.0f), sf::Vector2f(-50.0f,0.0f),sf::Vector2f(-25.0f,-25.0f), sf::Vector2f(25.0f,-25.0f) };
 	float calculateSignedArea();
 	float calculateArea() override;
-	float calculateMomentOfInertia();
+	float calculateInverseMomentOfInertia();
 	sf::Vector2f calculateCenterOfMass();
 
 

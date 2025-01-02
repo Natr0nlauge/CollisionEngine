@@ -1,7 +1,8 @@
 #pragma once
 #include "sfml/Graphics.hpp"
 #include "RigidBody.hpp"
-#include "CollisionDetector.hpp"
+//#include "CollisionDetector.hpp"
+#include "CollisionResolver.hpp"
 #include "vector"
 
 #define VIEW_HEIGHT 512.0f
@@ -26,9 +27,12 @@ public:
 private:
 	sf::Clock clock;
 	std::vector<RigidBody*>collisionPartners; //TODO use reference instead of pointer?
+	std::vector<sf::RectangleShape*>pointMarkers;
+	std::vector<sf::RectangleShape*>axisMarkers;
 	Simulation();
-	static Simulation* s_instance;
+	static Simulation * s_instance;
 	CollisionDetector * m_cd = CollisionDetector::getInstance();
+	CollisionResolver * m_cr = CollisionResolver::getInstance();
 	
 
 	sf::View m_view;

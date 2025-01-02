@@ -42,7 +42,7 @@ Polygon::Polygon(float i_mass, std::vector<sf::Vector2f> i_vertices) : m_points(
 		current.y -= com.y;
 	}
 
-	m_momentOfInertia = calculateMomentOfInertia();
+	m_inverseMomentOfInertia = calculateInverseMomentOfInertia();
 
 }
 
@@ -77,19 +77,19 @@ float Polygon::calculateArea() {
 	return std::abs(calculateSignedArea());
 }
 
-float Polygon::calculateMomentOfInertia()
+float Polygon::calculateInverseMomentOfInertia()
 {
 	if (m_points.size() < 3)
-		return 0.0f; // A polygon needs at least 3 points.
+		return 0.0f; // A polygon needs at least 3 points
 
 	float moi = 0.0f;
-	float density = calculateDensity(); // Assuming you have a density method.
-	sf::Vector2f centroid = calculateCenterOfMass(); // Precompute the centroid.
+	float inverseDensity = calculateInverseDensity(); 
+	sf::Vector2f centroid = calculateCenterOfMass(); // Precompute the centroid
 
 	std::size_t n = m_points.size();
 	for (std::size_t i = 0; i < n; ++i)
 	{
-		std::size_t j = (i + 1) % n; // Wrap around to the first vertex.
+		std::size_t j = (i + 1) % n; // Wrap around to the first vertex
 
 		sf::Vector2f p1 = m_points[i] - centroid;
 		sf::Vector2f p2 = m_points[j] - centroid;
@@ -102,7 +102,8 @@ float Polygon::calculateMomentOfInertia()
 		moi += cross * term;
 	}
 
-	moi = std::abs(moi) * density / 12.0f; // Divide by 12 and include density.
+	float invMoi = 12.0f * inverseDensity * 1 / moi;
+	//moi = std::abs(moi) * density / 12.0f; // Divide by 12 and include density
 	//std::cout << moi << "\n";
 	return moi;
 }

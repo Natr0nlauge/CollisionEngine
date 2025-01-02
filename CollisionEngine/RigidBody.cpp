@@ -1,9 +1,9 @@
 #include "RigidBody.hpp"
 #include <iostream> //TODO remove this after debugging
 
-#define PI  3.14159265358979323846
+const float PI = 3.14159265358979323846;
 
-RigidBody::RigidBody(float i_mass) : Shape(), m_mass(i_mass) {
+RigidBody::RigidBody(float i_inverseMass) : Shape(), m_inverseMass(i_inverseMass) {
 
 }
 
@@ -11,14 +11,14 @@ RigidBody::~RigidBody() {
 
 }
 
-float RigidBody::getMass() const
+float RigidBody::getInverseMass() const
 {
-    return m_mass;
+    return m_inverseMass;
 }
 
-float RigidBody::getMomentOfInertia() const
+float RigidBody::getInverseMomentOfInertia() const
 {
-    return m_momentOfInertia;
+    return m_inverseMomentOfInertia;
 }
 
 void RigidBody::setVelocity(sf::Vector2f i_newVel) 
@@ -66,9 +66,9 @@ sf::Vector2f RigidBody::transformVectorToGlobal(sf::Vector2f i_localVector) {
     return globalVector;
 }
 
-float RigidBody::calculateDensity() const
+float RigidBody::calculateInverseDensity() const
 {
-    return m_mass/m_area;
+    return m_area*m_inverseMass;
 }
 
 

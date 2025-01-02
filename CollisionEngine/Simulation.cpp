@@ -2,7 +2,7 @@
 #include "CollisionDetector.hpp"
 #include "iostream"
 #include "stdlib.h"
-
+#include "sfmlUtility.h"
 
 const float PLAYER_VELOCITY = 500.0f; //pixels per second
 const float PLAYER_ANGULAR_VELOCITY = 22.5f; //degrees per second
@@ -33,7 +33,7 @@ Simulation* Simulation::getInstance()
 
 Simulation::~Simulation()
 {
-	//Delete everything belonging to Simulation
+	//TODO: Delete everything belonging to Simulation
 }
 
 void Simulation::run()
@@ -55,9 +55,16 @@ void Simulation::update()
 {
 	m_window.setView(m_view); //update view
 	m_window.clear(); //remove old Objects
+	//TODO: change loop
 	for (int i = 0; i < collisionPartners.size(); i++) {
 		m_window.draw(*collisionPartners[i]);
 		collisionPartners[i]->updatePositionAndAngle(m_dT);
+	}
+	for (sf::RectangleShape* marker : pointMarkers) {
+		m_window.draw(*marker);
+	}
+	for (sf::RectangleShape* marker : axisMarkers) {
+		m_window.draw(*marker);
 	}
 	//collision detection
 	collisionEvent collEvent(*collisionPartners[0], *collisionPartners[1]);
@@ -65,12 +72,19 @@ void Simulation::update()
 		//std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " << collEvent.normal2.y << "\n";
 		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
 		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
-		collisionPartners[2]->setPosition(collEvent.collLoc1);
+		pointMarkers[0]->setPosition(collEvent.collLoc1);
+		axisMarkers[0]->setPosition(collEvent.collLoc1);
+		axisMarkers[1]->setPosition(collEvent.collLoc1);
+		axisMarkers[0]->setRotation(getVectorDirection(collEvent.normal1));
+		axisMarkers[1]->setRotation(getVectorDirection(collEvent.normal1));
+		m_cr->handleCollision(collEvent);
 	}
 	else {
 		collisionPartners[0]->setOutlineColor(sf::Color::Red);
 		collisionPartners[1]->setOutlineColor(sf::Color::Red);
-		collisionPartners[2]->setPosition(sf::Vector2f(0.0f, 0.0f));
+		pointMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
+		axisMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
+		axisMarkers[1]->setPosition(sf::Vector2f(0.0f, 0.0f));
 	}
 	m_window.display(); //render the frame
 }
@@ -89,8 +103,10 @@ void Simulation::initBodies() {
 	collisionPartners.push_back(new Polygon(10.0,exampleVertices));
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
 	collisionPartners.push_back(new Polygon(10.0,exampleVertices2));
-	std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(5.0f, 5.0f)   };
-	collisionPartners.push_back(new Polygon(10.0,marker1));
+	//std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(5.0f, 5.0f)   };
+	pointMarkers.push_back(new sf::RectangleShape({10.0f,10.0f}));
+	axisMarkers.push_back(new sf::RectangleShape({50.0f,0.0f }));
+	axisMarkers.push_back(new sf::RectangleShape({0.0f,50.0f }));
 	
 
 
@@ -101,10 +117,27 @@ void Simulation::initBodies() {
 		colPar->setOutlineThickness(-2.0f);
 		colPar->setOutlineColor(sf::Color::Red);
 	}
+
+	for (sf::RectangleShape* marker : pointMarkers) {
+		marker->setOrigin({5.0f,5.0f});
+		marker->setOutlineColor(sf::Color::Red);
+		marker->setFillColor(sf::Color::Black);
+		marker->setOutlineThickness(-2.0f);
+		marker->setOutlineColor(sf::Color::Red);
+	}
+
+	for (sf::RectangleShape* marker : axisMarkers) {
+		marker->setOutlineColor(sf::Color::Red);
+		marker->setFillColor(sf::Color::Black);
+		marker->setOutlineThickness(-1.0f);
+		marker->setOutlineColor(sf::Color::Red);
+	}
 	
-	//collisionPartners[0]->setVelocity(sf::Vector2f(27.0f, 27.0f));
-	//collisionPartners[0]->setAngularVelocity(27.0f);
+	collisionPartners[0]->setVelocity(sf::Vector2f(27.0f, 27.0f));
+	collisionPartners[0]->setAngularVelocity(27.0f);
 	collisionPartners[1]->setPosition(200.0f, 200.0f);
+	collisionPartners[1]->setVelocity(sf::Vector2f(-27.0f, -27.0f));
+	collisionPartners[1]->setAngularVelocity(-27.0f);
 }
 
 //handle user input etc.

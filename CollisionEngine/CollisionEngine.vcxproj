@@ -22,22 +22,22 @@
   
   <ItemGroup>
 	  <ClCompile Include="main.cpp" />
-    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
+    <ClCompile Include="CollisionResolver.cpp" />
     <ClCompile Include="Polygon.cpp" />
-
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="sfmlUtility.cpp" />
     <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball.hpp" />
+    <ClInclude Include="Circle.hpp" />
     <ClInclude Include="CollisionDetector.hpp" />
+    <ClInclude Include="CollisionResolver.hpp" />
     <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="RigidBody.hpp" />
+    <ClInclude Include="sfmlUtility.h" />
     <ClInclude Include="Simulation.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\texture.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

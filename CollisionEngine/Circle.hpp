@@ -2,11 +2,11 @@
 
 #include "RigidBody.hpp"
 
-class Ball : public RigidBody
+class Circle : public RigidBody
 {
 public:
-	Ball();
-	~Ball();
+	Circle();
+	~Circle();
 };
 
 

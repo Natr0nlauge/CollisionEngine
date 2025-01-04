@@ -25,6 +25,7 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionResolver.cpp" />
+    <ClCompile Include="Matrix2f.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="sfmlUtility.cpp" />
@@ -34,9 +35,10 @@
     <ClInclude Include="Circle.hpp" />
     <ClInclude Include="CollisionDetector.hpp" />
     <ClInclude Include="CollisionResolver.hpp" />
+    <ClInclude Include="Matrix2f.hpp" />
     <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="RigidBody.hpp" />
-    <ClInclude Include="sfmlUtility.h" />
+    <ClInclude Include="sfmlUtility.hpp" />
     <ClInclude Include="Simulation.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

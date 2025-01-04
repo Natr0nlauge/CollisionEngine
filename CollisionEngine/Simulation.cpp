@@ -2,7 +2,7 @@
 #include "CollisionDetector.hpp"
 #include "iostream"
 #include "stdlib.h"
-#include "sfmlUtility.h"
+#include "sfmlUtility.hpp"
 
 const float PLAYER_VELOCITY = 500.0f; //pixels per second
 const float PLAYER_ANGULAR_VELOCITY = 22.5f; //degrees per second
@@ -75,8 +75,8 @@ void Simulation::update()
 		pointMarkers[0]->setPosition(collEvent.collLoc1);
 		axisMarkers[0]->setPosition(collEvent.collLoc1);
 		axisMarkers[1]->setPosition(collEvent.collLoc1);
-		axisMarkers[0]->setRotation(getVectorDirection(collEvent.normal1));
-		axisMarkers[1]->setRotation(getVectorDirection(collEvent.normal1));
+		axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal1));
+		axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal1));
 		m_cr->handleCollision(collEvent);
 	}
 	else {
@@ -99,9 +99,11 @@ void Simulation::initWindow()
 
 //prepare Bodies
 void Simulation::initBodies() {
-	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
+	//std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
+	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f) };
 	collisionPartners.push_back(new Polygon(10.0,exampleVertices));
-	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
+	//std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
+	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f) };
 	collisionPartners.push_back(new Polygon(10.0,exampleVertices2));
 	//std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(5.0f, 5.0f)   };
 	pointMarkers.push_back(new sf::RectangleShape({10.0f,10.0f}));
@@ -133,11 +135,12 @@ void Simulation::initBodies() {
 		marker->setOutlineColor(sf::Color::Red);
 	}
 	
-	collisionPartners[0]->setVelocity(sf::Vector2f(27.0f, 27.0f));
-	collisionPartners[0]->setAngularVelocity(27.0f);
-	collisionPartners[1]->setPosition(200.0f, 200.0f);
-	collisionPartners[1]->setVelocity(sf::Vector2f(-27.0f, -27.0f));
-	collisionPartners[1]->setAngularVelocity(-27.0f);
+	collisionPartners[0]->setPosition(200.0f, 200.0f);
+	collisionPartners[0]->setVelocity(sf::Vector2f(50.0f, 0.0f));
+	collisionPartners[0]->setAngularVelocity(20.0f);
+	collisionPartners[1]->setPosition(400.0f, 200.0f);
+	collisionPartners[1]->setVelocity(sf::Vector2f(-50.0, 0.0f));
+	collisionPartners[1]->setAngularVelocity(0.0f);
 }
 
 //handle user input etc.

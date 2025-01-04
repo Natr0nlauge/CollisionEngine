@@ -10,9 +10,9 @@ CollisionDetector* CollisionDetector::s_instance = nullptr;
 const float minSepEpsilon = 0.1;
 
 static void assignNormals(collisionEvent& o_collisionEvent, basicSeparationData& i_collData) {
-	o_collisionEvent.normal1 = i_collData.normal;
-	o_collisionEvent.normal2.x = -i_collData.normal.x;
-	o_collisionEvent.normal2.y = -i_collData.normal.y;
+	o_collisionEvent.normal2 = i_collData.normal;
+	o_collisionEvent.normal1.x = -i_collData.normal.x;
+	o_collisionEvent.normal1.y = -i_collData.normal.y;
 }
 
 // TODO add this to some utility module

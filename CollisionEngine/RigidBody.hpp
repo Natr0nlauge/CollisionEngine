@@ -13,6 +13,8 @@ public:
 	float getInverseMomentOfInertia() const;
 	void setVelocity(sf::Vector2f i_newVel);
 	void setAngularVelocity(float i_newAngVel);
+	sf::Vector2f getVelocity();
+	float getAngularVelocity();
 	void updatePositionAndAngle(float i_dT); //TODO check if there is a more elegant way for dt
 
 	

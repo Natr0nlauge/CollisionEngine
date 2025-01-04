@@ -29,7 +29,7 @@ sf::Vector2f Polygon::getGlobalNormal(int i_index)
 /*Polygon::Polygon(float i_mass) : RigidBody(i_mass) {
 }*/
 
-Polygon::Polygon(float i_mass, std::vector<sf::Vector2f> i_vertices) : m_points(i_vertices), RigidBody(i_mass) {
+Polygon::Polygon(float i_mass, std::vector<sf::Vector2f> i_vertices) : m_points(i_vertices), RigidBody(1/i_mass) {
 	m_area = calculateArea();
 	//setOrigin(calculateCenterOfMass());
 	setOrigin(sf::Vector2f(0.0f,0.0f));
@@ -77,6 +77,8 @@ float Polygon::calculateArea() {
 	return std::abs(calculateSignedArea());
 }
 
+
+// TODO test this function properly
 float Polygon::calculateInverseMomentOfInertia()
 {
 	if (m_points.size() < 3)
@@ -99,13 +101,13 @@ float Polygon::calculateInverseMomentOfInertia()
 		float term = (p1.x * p1.x + p1.x * p2.x + p2.x * p2.x) +
 			(p1.y * p1.y + p1.y * p2.y + p2.y * p2.y);
 
-		moi += cross * term;
+		moi += std::abs(cross)/2 * term; //TODO do I need the /2 ?
 	}
 
-	float invMoi = 12.0f * inverseDensity * 1 / moi;
+	float invMoi = inverseDensity * 12.0f / moi;
 	//moi = std::abs(moi) * density / 12.0f; // Divide by 12 and include density
 	//std::cout << moi << "\n";
-	return moi;
+	return invMoi;
 }
 
 // Calculate Center of Mass (Centroid)

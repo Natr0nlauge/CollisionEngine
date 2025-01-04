@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CollisionDetector.hpp"
+#include "sfmlUtility.hpp"
 
 class CollisionResolver
 {

@@ -40,6 +40,9 @@
     <ClCompile Include="sfmlUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix2f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RigidBody.hpp">
@@ -60,7 +63,10 @@
     <ClInclude Include="CollisionResolver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sfmlUtility.h">
+    <ClInclude Include="sfmlUtility.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix2f.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #include "RigidBody.hpp"
 #include <iostream> //TODO remove this after debugging
+#include "sfmlUtility.hpp"
 
 const float PI = 3.14159265358979323846;
 
@@ -31,6 +32,16 @@ void RigidBody::setAngularVelocity(float i_newAngVel)
     m_angularVelocity = i_newAngVel;
 }
 
+sf::Vector2f RigidBody::getVelocity()
+{
+    return m_velocity;
+}
+
+float RigidBody::getAngularVelocity()
+{
+    return m_angularVelocity;
+}
+
 void RigidBody::updatePositionAndAngle(float i_dT)
 {
     move(m_velocity.x * i_dT, m_velocity.y * i_dT);
@@ -38,32 +49,19 @@ void RigidBody::updatePositionAndAngle(float i_dT)
     //std::cout << transformPointToGlobal(getPoint(0)).x << ", " << transformPointToGlobal(getPoint(0)).x << "\n";
  }
 
-//void RigidBody::updatePositionAndAngle(float i_dT) {
-//
-//}
-
-
-
-sf::Vector2f RigidBody::transformPointToGlobal(sf::Vector2f i_localPoint)
-{
-    sf::Vector2f globalPoint;
-    
-    globalPoint = transformVectorToGlobal(i_localPoint);
-
-    //add position to account for translation
-    globalPoint.x += getPosition().x;
-    globalPoint.y += getPosition().y;
-    
-    return globalPoint;
+// Local to global
+sf::Vector2f RigidBody::transformPointToGlobal(sf::Vector2f i_localPoint){   
+    // Body position will be the new origin
+    sf::Vector2f localOrigin = getPosition();
+    float angle = getRotation() * PI / 180;
+    return sfu::transformPoint(i_localPoint, localOrigin, angle);
 }
 
+// Local to global
 sf::Vector2f RigidBody::transformVectorToGlobal(sf::Vector2f i_localVector) {
-    //multiply with rotation matrix
-    sf::Vector2f globalVector;
-    float theta = getRotation() * PI / 180;
-    globalVector.x = i_localVector.x * cos(theta) - i_localVector.y * sin(theta);
-    globalVector.y = i_localVector.x * sin(theta) + i_localVector.y * cos(theta);
-    return globalVector;
+    // Multiply with rotation matrix
+    float angle = getRotation() * PI / 180;
+    return sfu::rotateVector(i_localVector, angle);
 }
 
 float RigidBody::calculateInverseDensity() const

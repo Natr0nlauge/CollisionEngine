@@ -8,7 +8,7 @@ namespace sfu {
 
 	sfu::Matrix2f getRotationMatrix(float angle);
 
-	float getVectorAbsolute(sf::Vector2f i_vector);
+	float getVectorLength(sf::Vector2f i_vector);
 
 	float getVectorDirection(sf::Vector2f i_vector);
 

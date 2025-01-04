@@ -14,13 +14,13 @@ private:
 
 public:
 	//Polygon(float i_mass);
-	Polygon(float i_mass, std::vector<sf::Vector2f> vertices);
+	Polygon(float i_inverseMass, std::vector<sf::Vector2f> vertices);
 	~Polygon();
 	sf::Vector2f getPoint(std::size_t index) const;
 	std::size_t getPointCount() const;
 	std::vector<sf::Vector2f> getPoints();
 	sf::Vector2f getGlobalPoint(int i_index);
-	sf::Vector2f getNormal(int i_index); //TODO is this necessary?
+	sf::Vector2f getNormal(int i_index);
 	sf::Vector2f getGlobalNormal(int i_index);
 
 };

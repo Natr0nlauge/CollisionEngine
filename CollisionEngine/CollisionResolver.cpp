@@ -54,14 +54,22 @@ void CollisionResolver::handleCollision(collisionEvent& c_collEvent) {
 	closingVel2 += c_collEvent.rBody2.getVelocity();
 
 	sf::Vector2f closingVel = sfu::subtractVectors(closingVel1, closingVel2);
-	/*if (sfu::getVectorAbsolute(closingVel) > 0)
-	{*/
-		// Calculating desired velocity change (slightly modified)
-		//sf::Vector2f contactVel1 = sfu::rotateVector(closingVel1, contactTransformationAngle);
-		float contactVel1 = sfu::scalarProduct(closingVel1, c_collEvent.normal1);
-		float contactVel = sfu::scalarProduct(closingVel, c_collEvent.normal1);
+	
+	// Calculating desired velocity change (slightly modified)
+	//sf::Vector2f contactVel1 = sfu::rotateVector(closingVel1, contactTransformationAngle);
+	float contactVel1 = sfu::scalarProduct(closingVel1, c_collEvent.normal1);
+	//float contactVel = sfu::scalarProduct(closingVel, c_collEvent.normal1);
+	
 
-		float restitution = 1; //depends on material
+	// Projected closing velocity - Are objects moving towards each other or not?
+	float closingVel1Proj = sfu::scalarProduct(closingVel1,c_collEvent.normal1);
+	float closingVel2Proj = sfu::scalarProduct(closingVel2, c_collEvent.normal2);
+	float contactVel = closingVel1Proj + closingVel2Proj;
+	std::cout << contactVel << "\n";
+
+	if (contactVel > 0)
+		{
+		float restitution = 1.0f; //depends on material
 		float desiredDeltaVel1 = -contactVel1 * (1 + restitution);
 		float desiredDeltaVel = -contactVel * (1 + restitution);
 
@@ -92,8 +100,8 @@ void CollisionResolver::handleCollision(collisionEvent& c_collEvent) {
 		c_collEvent.rBody2.setVelocity(newVel2);
 		c_collEvent.rBody1.setAngularVelocity(newAngVel1);
 		c_collEvent.rBody2.setAngularVelocity(newAngVel2);
- 		std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
-	//}
+   		std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
+	}
 }
 
 

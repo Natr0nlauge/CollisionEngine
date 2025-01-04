@@ -29,7 +29,7 @@ sf::Vector2f Polygon::getGlobalNormal(int i_index)
 /*Polygon::Polygon(float i_mass) : RigidBody(i_mass) {
 }*/
 
-Polygon::Polygon(float i_mass, std::vector<sf::Vector2f> i_vertices) : m_points(i_vertices), RigidBody(1/i_mass) {
+Polygon::Polygon(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) : m_points(i_vertices), RigidBody(i_inverseMass) {
 	m_area = calculateArea();
 	//setOrigin(calculateCenterOfMass());
 	setOrigin(sf::Vector2f(0.0f,0.0f));

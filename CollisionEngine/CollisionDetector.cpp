@@ -7,12 +7,12 @@
 
 CollisionDetector* CollisionDetector::s_instance = nullptr;
 
-const float minSepEpsilon = 0.1;
+const float minSepEpsilon = 0.01;
 
 static void assignNormals(collisionEvent& o_collisionEvent, basicSeparationData& i_collData) {
-	o_collisionEvent.normal2 = i_collData.normal;
-	o_collisionEvent.normal1.x = -i_collData.normal.x;
-	o_collisionEvent.normal1.y = -i_collData.normal.y;
+	o_collisionEvent.normal1 = i_collData.normal;
+	o_collisionEvent.normal2.x = -i_collData.normal.x;
+	o_collisionEvent.normal2.y = -i_collData.normal.y;
 }
 
 // TODO add this to some utility module
@@ -76,13 +76,13 @@ bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
 
 	basicSeparationData collData2 = findMinSeparation(body1, body2);
 	basicSeparationData collData1 = findMinSeparation(body2, body1);
-
+	//std::cout << collData1.separation << ", " << collData2.separation << "\n";
 	// If both minimum seperations are smaller than 0, it indicates a collision
 	if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
 		// Two values in each vector indicate an edge-to-edge collision
 		if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
 			c_collisionEvent.collLoc1 = findCenterOfContact(collData1, collData2, body1, body2);
-			assignNormals(c_collisionEvent,  collData1);
+			assignNormals(c_collisionEvent,  collData1); //TODO this causes errors
 		}
 		else if (collData2.separation < collData1.separation) {
 			// Vertex of body 1 hits edge of body 2
@@ -97,7 +97,7 @@ bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
 			c_collisionEvent.collLoc1 = body2.getGlobalPoint(collData2.indexVec[0]);
 			assignNormals(c_collisionEvent,  collData2);
 		}
-		//std::cout << c_collisionEvent.collLoc1.x << ", " << c_collisionEvent.collLoc1.y << "\n";
+		//std::cout << "Position in CollisionDetector: " << c_collisionEvent.collLoc1.x << ", " << c_collisionEvent.collLoc1.y << "\n";
 		return true;
 	}
 	else {

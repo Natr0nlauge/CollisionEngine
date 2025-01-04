@@ -3,12 +3,13 @@
 
 sfu::Matrix2f sfu::getRotationMatrix(float i_angle)
 {
+	i_angle = i_angle * PI / 180;
 	float cosA = std::cos(i_angle);
 	float sinA = std::sin(i_angle);
 	return Matrix2f(cosA, -sinA, sinA, cosA);
 }
 
-float sfu::getVectorAbsolute(sf::Vector2f i_vector)
+float sfu::getVectorLength(sf::Vector2f i_vector)
 {
 	return sqrt(i_vector.x* i_vector.x+ i_vector.y* i_vector.y)   ;
 }

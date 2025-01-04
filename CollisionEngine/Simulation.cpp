@@ -66,26 +66,55 @@ void Simulation::update()
 	for (sf::RectangleShape* marker : axisMarkers) {
 		m_window.draw(*marker);
 	}
-	//collision detection
+	for (int i = 0; i < collisionPartners.size(); i++) {
+		for (int j = 0; j < i; j++) {
+			//collision detection
+			collisionEvent collEvent(*collisionPartners[i], *collisionPartners[j]);
+			if (m_cd->detectCollision(collEvent)) {
+				//std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " << collEvent.normal2.y << "\n";
+				collisionPartners[i]->setOutlineColor(sf::Color::Blue);
+				collisionPartners[j]->setOutlineColor(sf::Color::Blue);
+				pointMarkers[0]->setPosition(collEvent.collLoc1);
+				axisMarkers[0]->setPosition(collEvent.collLoc1);
+				axisMarkers[1]->setPosition(collEvent.collLoc1);
+				//std::cout << "Position in Simulation: " << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
+				axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal1));
+				axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal1));
+				m_cr->handleCollision(collEvent);
+			}
+			else {
+				//collisionPartners[i]->setOutlineColor(sf::Color::Red);
+				//collisionPartners[j]->setOutlineColor(sf::Color::Red);
+				//pointMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
+				//axisMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
+				//axisMarkers[1]->setPosition(sf::Vector2f(0.0f, 0.0f));
+				
+			}
+			
+		}
+	}
 	collisionEvent collEvent(*collisionPartners[0], *collisionPartners[1]);
-	if (m_cd->detectCollision(collEvent)) {
-		//std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " << collEvent.normal2.y << "\n";
-		collisionPartners[0]->setOutlineColor(sf::Color::Blue);
-		collisionPartners[1]->setOutlineColor(sf::Color::Blue);
-		pointMarkers[0]->setPosition(collEvent.collLoc1);
-		axisMarkers[0]->setPosition(collEvent.collLoc1);
-		axisMarkers[1]->setPosition(collEvent.collLoc1);
-		axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal1));
-		axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal1));
-		m_cr->handleCollision(collEvent);
-	}
-	else {
-		collisionPartners[0]->setOutlineColor(sf::Color::Red);
-		collisionPartners[1]->setOutlineColor(sf::Color::Red);
-		pointMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
-		axisMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
-		axisMarkers[1]->setPosition(sf::Vector2f(0.0f, 0.0f));
-	}
+	//if (m_cd->detectCollision(collEvent)) {
+	//	//std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " << collEvent.normal2.y << "\n";
+	//	collisionPartners[0]->setOutlineColor(sf::Color::Blue);
+	//	collisionPartners[1]->setOutlineColor(sf::Color::Blue);
+	//	pointMarkers[0]->setPosition(collEvent.collLoc1);
+	//	axisMarkers[0]->setPosition(collEvent.collLoc1);
+	//	axisMarkers[1]->setPosition(collEvent.collLoc1);
+	//	axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal1));
+	//	axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal1));
+	//	m_cr->handleCollision(collEvent);
+	//}
+	//else {
+	//	//colPar1->setOutlineColor(sf::Color::Red);
+	//	//colPar2->setOutlineColor(sf::Color::Red);
+	//	pointMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
+	//	axisMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
+	//	axisMarkers[1]->setPosition(sf::Vector2f(0.0f, 0.0f));
+
+	//}
+	
+
 	m_window.display(); //render the frame
 }
 
@@ -101,10 +130,24 @@ void Simulation::initWindow()
 void Simulation::initBodies() {
 	//std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
 	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f) };
-	collisionPartners.push_back(new Polygon(10.0,exampleVertices));
+	collisionPartners.push_back(new Polygon(0.1,exampleVertices));
 	//std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
 	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f) };
-	collisionPartners.push_back(new Polygon(10.0,exampleVertices2));
+	collisionPartners.push_back(new Polygon(0.1,exampleVertices2));
+	
+	// Simulation border TODO: Replace with a seperate class
+	std::vector<sf::Vector2f> borderVertices3 = { sf::Vector2f(0.0f, 50.0f), sf::Vector2f(450.0f, 50.0f), sf::Vector2f(450.0f, 0.0f), sf::Vector2f(0.0f, 0.0f)   };
+	collisionPartners.push_back(new Polygon(0.0, borderVertices3));
+	std::vector<sf::Vector2f> borderVertices4 = { sf::Vector2f(0.0f, 50.0f), sf::Vector2f(450.0f, 50.0f), sf::Vector2f(450.0f, 0.0f), sf::Vector2f(0.0f, 0.0f) };
+	collisionPartners.push_back(new Polygon(0.0, borderVertices4));
+	std::vector<sf::Vector2f> borderVertices5 = { sf::Vector2f(0.0f, 450.0f), sf::Vector2f(50.0f, 450.0f), sf::Vector2f(50.0f, 0.0f), sf::Vector2f(0.0f, 0.0f) };
+	collisionPartners.push_back(new Polygon(0.0, borderVertices5));
+	std::vector<sf::Vector2f> borderVertices6 = { sf::Vector2f(0.0f, 450.0f), sf::Vector2f(50.0f, 450.0f), sf::Vector2f(50.0f, 0.0f), sf::Vector2f(0.0f, 0.0f) };
+	collisionPartners.push_back(new Polygon(0.0, borderVertices6));
+	
+	
+	
+	
 	//std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(5.0f, 5.0f)   };
 	pointMarkers.push_back(new sf::RectangleShape({10.0f,10.0f}));
 	axisMarkers.push_back(new sf::RectangleShape({50.0f,0.0f }));
@@ -137,10 +180,18 @@ void Simulation::initBodies() {
 	
 	collisionPartners[0]->setPosition(200.0f, 200.0f);
 	collisionPartners[0]->setVelocity(sf::Vector2f(50.0f, 0.0f));
-	collisionPartners[0]->setAngularVelocity(20.0f);
-	collisionPartners[1]->setPosition(400.0f, 200.0f);
-	collisionPartners[1]->setVelocity(sf::Vector2f(-50.0, 0.0f));
+	collisionPartners[0]->setAngularVelocity(0.0f);
+	collisionPartners[0]->setRotation(20.0f);
+	collisionPartners[1]->setPosition(400.0f, 400.0f);
+	//collisionPartners[1]->setVelocity(sf::Vector2f(-50.0f, 0.0f));
 	collisionPartners[1]->setAngularVelocity(0.0f);
+
+
+
+	collisionPartners[2]->setPosition(256.0f, 5.0f);
+	collisionPartners[3]->setPosition(256.0f, 507.0f);
+	collisionPartners[4]->setPosition(5.0f, 256.0f);
+	collisionPartners[5]->setPosition(507.0f, 256.0f);
 }
 
 //handle user input etc.

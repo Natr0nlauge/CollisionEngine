@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <cmath>
+#include "sfmlUtility.hpp"
 
 CollisionDetector* CollisionDetector::s_instance = nullptr;
 
@@ -82,19 +83,21 @@ bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
 		// Two values in each vector indicate an edge-to-edge collision
 		if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
 			c_collisionEvent.collLoc1 = findCenterOfContact(collData1, collData2, body1, body2);
-			assignNormals(c_collisionEvent,  collData1); //TODO this causes errors
+			assignNormals(c_collisionEvent,  collData1); //TODO this causes errors!
 		}
 		else if (collData2.separation < collData1.separation) {
 			// Vertex of body 1 hits edge of body 2
 			// TODO check if normals have the correct direction
 			// Assign location
 			c_collisionEvent.collLoc1 = body1.getGlobalPoint(collData1.indexVec[0]);
-			assignNormals(c_collisionEvent,  collData1);
+			collData1.normal = sfu::scaleVector(collData1.normal, -1); //make sure that normal has the correct direction
+			assignNormals(c_collisionEvent, collData1);
 		}
 		else/*if (collData2.separation > collData1.separation)*/ {
 			// Vertex of body 2 hits edge of body 1
 			// Assign location
 			c_collisionEvent.collLoc1 = body2.getGlobalPoint(collData2.indexVec[0]);
+			//collData2.normal = sfu::scaleVector(collData2.normal, -1);
 			assignNormals(c_collisionEvent,  collData2);
 		}
 		//std::cout << "Position in CollisionDetector: " << c_collisionEvent.collLoc1.x << ", " << c_collisionEvent.collLoc1.y << "\n";

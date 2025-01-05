@@ -45,13 +45,15 @@ void CollisionResolver::handleCollision(collisionEvent& c_collEvent) {
 	float deltaVel = deltaVelSummand1 + deltaVelSummand2 + deltaVelSummand3 + deltaVelSummand4;
 
 	// Calculate closing velocity at contact point
-	float angVel1 = c_collEvent.rBody1.getAngularVelocity();
-	float angVel2 = c_collEvent.rBody2.getAngularVelocity();
+	float angVel1 = c_collEvent.rBody1.getAngularVelocity()*sfu::PI/180;
+	float angVel2 = c_collEvent.rBody2.getAngularVelocity()*sfu::PI / 180;
+	sf::Vector2f tranVel1 = c_collEvent.rBody1.getVelocity();
+	sf::Vector2f tranVel2 = c_collEvent.rBody2.getVelocity();
 	// simplification of cross product
 	sf::Vector2f closingVel1 = sf::Vector2f(-angVel1 * relativePosition1.y, angVel1 * relativePosition1.x);
 	sf::Vector2f closingVel2 = sf::Vector2f(-angVel2 * relativePosition2.y, angVel2 * relativePosition2.x);
-	closingVel1 += c_collEvent.rBody1.getVelocity();
-	closingVel2 += c_collEvent.rBody2.getVelocity();
+	closingVel1 = sfu::addVectors(closingVel1, tranVel1);
+	closingVel2 = sfu::addVectors(closingVel2, tranVel2);
 
 	sf::Vector2f closingVel = sfu::subtractVectors(closingVel1, closingVel2);
 	
@@ -64,7 +66,8 @@ void CollisionResolver::handleCollision(collisionEvent& c_collEvent) {
 	// Projected closing velocity - Are objects moving towards each other or not?
 	float closingVel1Proj = sfu::scalarProduct(closingVel1,c_collEvent.normal1);
 	float closingVel2Proj = sfu::scalarProduct(closingVel2, c_collEvent.normal2);
-	float contactVel = closingVel1Proj + closingVel2Proj;
+	std::cout << "Normal in CollisionResolver: " << c_collEvent.normal2.x << ", " << c_collEvent.normal2.y << "\n";
+	float contactVel =  closingVel1Proj + closingVel2Proj;
 	std::cout << contactVel << "\n";
 
 	if (contactVel > 0)

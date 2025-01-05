@@ -78,8 +78,8 @@ void Simulation::update()
 				axisMarkers[0]->setPosition(collEvent.collLoc1);
 				axisMarkers[1]->setPosition(collEvent.collLoc1);
 				//std::cout << "Position in Simulation: " << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
-				axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal1));
-				axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal1));
+				axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal2));
+				axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal2));
 				m_cr->handleCollision(collEvent);
 			}
 			else {
@@ -180,7 +180,7 @@ void Simulation::initBodies() {
 	
 	collisionPartners[0]->setPosition(200.0f, 200.0f);
 	collisionPartners[0]->setVelocity(sf::Vector2f(50.0f, 0.0f));
-	collisionPartners[0]->setAngularVelocity(0.0f);
+	collisionPartners[0]->setAngularVelocity(10.0f);
 	collisionPartners[0]->setRotation(20.0f);
 	collisionPartners[1]->setPosition(400.0f, 400.0f);
 	//collisionPartners[1]->setVelocity(sf::Vector2f(-50.0f, 0.0f));

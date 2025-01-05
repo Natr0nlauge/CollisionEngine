@@ -53,14 +53,14 @@ void RigidBody::updatePositionAndAngle(float i_dT)
 sf::Vector2f RigidBody::transformPointToGlobal(sf::Vector2f i_localPoint){   
     // Body position will be the new origin
     sf::Vector2f localOrigin = getPosition();
-    float angle = getRotation() /* /*PI / 180*/  ;
+    float angle = getRotation()  ;
     return sfu::transformPoint(i_localPoint, localOrigin, angle);
 }
 
 // Local to global
 sf::Vector2f RigidBody::transformVectorToGlobal(sf::Vector2f i_localVector) {
     // Multiply with rotation matrix
-    float angle = getRotation() /** PI / 180*/;
+    float angle = getRotation();
     return sfu::rotateVector(i_localVector, angle);
 }
 

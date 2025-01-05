@@ -82,6 +82,7 @@ bool CollisionDetector::detectCollision(collisionEvent& c_collisionEvent) {
 	if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
 		// Two values in each vector indicate an edge-to-edge collision
 		if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
+			collData1.normal = sfu::scaleVector(collData1.normal, -1); //make sure that normal has the correct direction
 			c_collisionEvent.collLoc1 = findCenterOfContact(collData1, collData2, body1, body2);
 			assignNormals(c_collisionEvent,  collData1); //TODO this causes errors!
 		}

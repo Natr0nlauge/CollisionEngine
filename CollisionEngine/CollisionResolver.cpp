@@ -45,8 +45,8 @@ void CollisionResolver::handleCollision(collisionEvent& c_collEvent) {
 	float deltaVel = deltaVelSummand1 + deltaVelSummand2 + deltaVelSummand3 + deltaVelSummand4;
 
 	// Calculate closing velocity at contact point
-	float angVel1 = c_collEvent.rBody1.getAngularVelocity()*sfu::PI/180;
-	float angVel2 = c_collEvent.rBody2.getAngularVelocity()*sfu::PI / 180;
+	float angVel1 = c_collEvent.rBody1.getAngularVelocity() * sfu::PI / 180;
+	float angVel2 = c_collEvent.rBody2.getAngularVelocity() * sfu::PI / 180;
 	sf::Vector2f tranVel1 = c_collEvent.rBody1.getVelocity();
 	sf::Vector2f tranVel2 = c_collEvent.rBody2.getVelocity();
 	// simplification of cross product
@@ -82,8 +82,11 @@ void CollisionResolver::handleCollision(collisionEvent& c_collEvent) {
 		// In global
 		//sf::Vector2f impulse1 = sfu::rotateVector(impulse1Contact, -contactTransformationAngle);
 		
-		sf::Vector2f impulse1 = sfu::rotateVector(impulseContact, -contactTransformationAngle);
-		sf::Vector2f impulse2 = sfu::scaleVector(impulse1,-1.0f); // Newton's third law
+		//sf::Vector2f impulse1 = sfu::rotateVector(impulseContact, -contactTransformationAngle);
+		//sf::Vector2f impulse2 = sfu::scaleVector(impulse1,-1.0f); // Newton's third law
+
+		sf::Vector2f impulse1 = sfu::rotateVector(impulseContact, contactTransformationAngle);
+		sf::Vector2f impulse2 = sfu::scaleVector(impulse1, -1.0f); // Newton's third law
 
 		//sf::Vector2f velocityChange1 = sfu::scaleVector(impulse1,c_collEvent.rBody1.getInverseMass());
 		sf::Vector2f velocityChange1 = sfu::scaleVector(impulse1, c_collEvent.rBody1.getInverseMass());
@@ -92,18 +95,18 @@ void CollisionResolver::handleCollision(collisionEvent& c_collEvent) {
 
 		float impulsiveTorque1 = sfu::pseudoCrossProduct( relativePosition1, impulse1);
 		float impulsiveTorque2 = sfu::pseudoCrossProduct( relativePosition2, impulse2);
-		float angularVelocityChange1 = c_collEvent.rBody1.getInverseMomentOfInertia() * impulsiveTorque1;
-		float angularVelocityChange2 = c_collEvent.rBody2.getInverseMomentOfInertia() * impulsiveTorque2;
+		float angularVelocityChange1 = c_collEvent.rBody1.getInverseMomentOfInertia() * impulsiveTorque1 ;
+		float angularVelocityChange2 = c_collEvent.rBody2.getInverseMomentOfInertia() * impulsiveTorque2 ;
 
 		sf::Vector2f newVel1 = sfu::addVectors(c_collEvent.rBody1.getVelocity(), velocityChange1);
-		float newAngVel1 = c_collEvent.rBody1.getAngularVelocity() + angularVelocityChange1;
-		sf::Vector2f newVel2 = sfu::addVectors(c_collEvent.rBody2.getVelocity(), velocityChange2);
-		float newAngVel2 = c_collEvent.rBody2.getAngularVelocity() + angularVelocityChange2;
+		float newAngVel1 = c_collEvent.rBody1.getAngularVelocity() + angularVelocityChange1 * 180 / sfu::PI;
+		sf::Vector2f newVel2 = sfu::addVectors(c_collEvent.rBody2.getVelocity(), velocityChange2 );
+		float newAngVel2 = c_collEvent.rBody2.getAngularVelocity() + angularVelocityChange2 * 180 / sfu::PI;
 		c_collEvent.rBody1.setVelocity(newVel1);
 		c_collEvent.rBody2.setVelocity(newVel2);
 		c_collEvent.rBody1.setAngularVelocity(newAngVel1);
 		c_collEvent.rBody2.setAngularVelocity(newAngVel2);
-   		std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
+    	std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
 	}
 }
 

@@ -27,6 +27,7 @@ void RigidBody::setVelocity(sf::Vector2f i_newVel)
     m_velocity = i_newVel;
 }
 
+// In degrees
 void RigidBody::setAngularVelocity(float i_newAngVel) 
 {
     m_angularVelocity = i_newAngVel;
@@ -37,6 +38,7 @@ sf::Vector2f RigidBody::getVelocity()
     return m_velocity;
 }
 
+// In degrees
 float RigidBody::getAngularVelocity()
 {
     return m_angularVelocity;

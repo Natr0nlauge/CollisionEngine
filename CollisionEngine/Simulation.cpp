@@ -46,7 +46,7 @@ void Simulation::run()
 		handleEvents();
 		update();
 
-		m_dT = clock.restart().asSeconds();
+		//m_dT = clock.restart().asSeconds();
 
 	}
 }
@@ -178,12 +178,12 @@ void Simulation::initBodies() {
 		marker->setOutlineColor(sf::Color::Red);
 	}
 	
-	collisionPartners[0]->setPosition(200.0f, 200.0f);
+	collisionPartners[0]->setPosition(200.0f, 160.0f);
 	collisionPartners[0]->setVelocity(sf::Vector2f(50.0f, 0.0f));
-	collisionPartners[0]->setAngularVelocity(10.0f);
-	collisionPartners[0]->setRotation(20.0f);
-	collisionPartners[1]->setPosition(400.0f, 400.0f);
-	//collisionPartners[1]->setVelocity(sf::Vector2f(-50.0f, 0.0f));
+	collisionPartners[0]->setAngularVelocity(0.0f);
+	collisionPartners[0]->setRotation(0.0f);
+	collisionPartners[1]->setPosition(400.0f, 200.0f);
+	collisionPartners[1]->setVelocity(sf::Vector2f(-50.0f, 0.0f));
 	collisionPartners[1]->setAngularVelocity(0.0f);
 
 

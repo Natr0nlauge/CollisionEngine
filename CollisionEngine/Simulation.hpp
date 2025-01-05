@@ -17,7 +17,7 @@ public:
 	void run();
 
 	//static Simulation* instance;
-	float m_dT = 0;
+	float m_dT = 0.0005; // TODO use clock for this?
 
 	sf::RenderWindow m_window;
 

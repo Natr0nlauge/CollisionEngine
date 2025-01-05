@@ -78,33 +78,33 @@ float Polygon::calculateArea() {
 }
 
 
-// TODO test this function properly
+// TODO change this (mass moment of inertia needed instead of area moi)
 float Polygon::calculateInverseMomentOfInertia()
 {
 	if (m_points.size() < 3)
 		return 0.0f; // A polygon needs at least 3 points
 
-	float moi = 0.0f;
+	float numerator = 0.0f;
+	float denominator = 0.0f;
 	float inverseDensity = calculateInverseDensity(); 
+	float inverseMass = getInverseMass();
 	sf::Vector2f centroid = calculateCenterOfMass(); // Precompute the centroid
 
 	std::size_t n = m_points.size();
-	for (std::size_t i = 0; i < n; ++i)
-	{
-		std::size_t j = (i + 1) % n; // Wrap around to the first vertex
+	for (int i = 0; i < n; ++i) {
+		int j = (i + 1) % n; // Next vertex index (wrap around)
+		float xi = m_points[i].x - centroid.x;
+		float yi = m_points[i].y - centroid.y;
+		float xj = m_points[j].x - centroid.x;
+		float yj = m_points[j].y - centroid.y;
 
-		sf::Vector2f p1 = m_points[i] - centroid;
-		sf::Vector2f p2 = m_points[j] - centroid;
-
-		float cross = p1.x * p2.y - p2.x * p1.y;
-
-		float term = (p1.x * p1.x + p1.x * p2.x + p2.x * p2.x) +
-			(p1.y * p1.y + p1.y * p2.y + p2.y * p2.y);
-
-		moi += std::abs(cross)/2 * term; //TODO do I need the /2 ?
+		double commonTerm = std::abs(xi * yj - xj * yi);
+		numerator += (xi * xi + xi * xj + xj * xj + yi * yi + yi * yj + yj * yj) * commonTerm;
+		denominator += commonTerm;
 	}
 
-	float invMoi = inverseDensity * 12.0f / moi;
+	float moi = numerator/(denominator * 6.0f);
+	float invMoi = inverseMass / std::abs(moi);
 	//moi = std::abs(moi) * density / 12.0f; // Divide by 12 and include density
 	//std::cout << moi << "\n";
 	return invMoi;

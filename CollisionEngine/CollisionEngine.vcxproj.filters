@@ -37,7 +37,7 @@
     <ClCompile Include="CollisionResolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sfmlUtility.cpp">
+    <ClCompile Include="sfml_utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Matrix2f.cpp">
@@ -63,7 +63,7 @@
     <ClInclude Include="CollisionResolver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sfmlUtility.hpp">
+    <ClInclude Include="sfml_utility.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Matrix2f.hpp">

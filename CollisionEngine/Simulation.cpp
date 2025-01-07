@@ -2,250 +2,191 @@
 #include "CollisionDetector.hpp"
 #include "iostream"
 #include "stdlib.h"
-#include "sfmlUtility.hpp"
+#include "sfml_utility.hpp"
 
-const float PLAYER_VELOCITY = 500.0f; //pixels per second
-const float PLAYER_ANGULAR_VELOCITY = 22.5f; //degrees per second
+const float PLAYER_VELOCITY = 500.0f;        // pixels per second
+const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
 
-Simulation* Simulation::s_instance = nullptr; //pointer to Singleton instance
-//CollisionDetector* s_cd = CollisionDetector::getInstance();
+Simulation * Simulation::s_instance = nullptr; // pointer to Singleton instance
+std::mutex Simulation::mtx;
 
-//float Simulation::s_dT = 0.1f;
-
-Simulation::Simulation()
-{
-	//Initialize everything belonging to Simulation
-	initWindow();
-	initBodies();
-
+Simulation * Simulation::getInstance() {
+    if (s_instance == nullptr) {
+        std::lock_guard<std::mutex> lock(mtx);
+        if (s_instance == nullptr) {
+            s_instance = new Simulation();
+        }
+    }
+    return s_instance;
 }
 
-Simulation* Simulation::getInstance()
-{
-	if (s_instance == nullptr) {
-		//std::lock_guard<std::mutex> lock(mtx);
-		if (s_instance == nullptr) {
-			s_instance = new Simulation();
-		}
-	}
-	return s_instance;
+Simulation::Simulation() {}
+
+Simulation::~Simulation() {
+    // Clean up collisionPartners if Simulation owns the RigidBody pointers
+    for (RigidBody * body : m_collisionPartners) {
+        delete body; // Assuming Simulation owns the RigidBody objects
+    }
+    m_collisionPartners.clear();
+
+    // Clean up pointMarkers
+    for (sf::RectangleShape * marker : m_pointMarkers) {
+        delete marker; // Assuming Simulation owns these
+    }
+    m_pointMarkers.clear();
+
+    // Clean up axisMarkers
+    for (sf::RectangleShape * marker : m_axisMarkers) {
+        delete marker; // Assuming Simulation owns these
+    }
+    m_axisMarkers.clear();
+
+    // Properly close the render window
+    if (m_window.isOpen()) {
+        m_window.close();
+    }
 }
 
-Simulation::~Simulation()
-{
-	//TODO: Delete everything belonging to Simulation
+void Simulation::run() {
+
+    m_clock.restart();
+
+    while (m_window.isOpen()) {
+        // Use crappy polling algorithm because sf::Clock doesn't support anything else
+        while (m_clock.getElapsedTime().asSeconds() < m_dT) {} // wait until m_dT is elapsed
+        handleEvents();
+        update();
+        m_clock.restart();
+        // m_dT = clock.restart().asSeconds();
+    }
 }
 
-void Simulation::run()
-{
-
-	clock.restart();
-
-	while (m_window.isOpen()) {
-
-		handleEvents();
-		update();
-
-		//m_dT = clock.restart().asSeconds();
-
-	}
+void Simulation::addCollisionPartner(RigidBody * r_collisionPartner) {
+    m_collisionPartners.push_back(r_collisionPartner);
+    r_collisionPartner->setOutlineColor(sf::Color::Red);
+    r_collisionPartner->setFillColor(sf::Color::Black);
+    r_collisionPartner->setOutlineThickness(-2.0f);
 }
 
-void Simulation::update()
-{
-	m_window.setView(m_view); //update view
-	m_window.clear(); //remove old Objects
-	//TODO: change loop
-	for (int i = 0; i < collisionPartners.size(); i++) {
-		m_window.draw(*collisionPartners[i]);
-		collisionPartners[i]->updatePositionAndAngle(m_dT);
-	}
-	for (sf::RectangleShape* marker : pointMarkers) {
-		m_window.draw(*marker);
-	}
-	for (sf::RectangleShape* marker : axisMarkers) {
-		m_window.draw(*marker);
-	}
-	for (int i = 0; i < collisionPartners.size(); i++) {
-		for (int j = 0; j < i; j++) {
-			//collision detection
-			collisionEvent collEvent(*collisionPartners[i], *collisionPartners[j]);
-			if (m_cd->detectCollision(collEvent)) {
-				//std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " << collEvent.normal2.y << "\n";
-				collisionPartners[i]->setOutlineColor(sf::Color::Blue);
-				collisionPartners[j]->setOutlineColor(sf::Color::Blue);
-				pointMarkers[0]->setPosition(collEvent.collLoc1);
-				axisMarkers[0]->setPosition(collEvent.collLoc1);
-				axisMarkers[1]->setPosition(collEvent.collLoc1);
-				//std::cout << "Position in Simulation: " << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
-				axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal2));
-				axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal2));
-				m_cr->handleCollision(collEvent);
-			}
-			else {
-				//collisionPartners[i]->setOutlineColor(sf::Color::Red);
-				//collisionPartners[j]->setOutlineColor(sf::Color::Red);
-				//pointMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
-				//axisMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
-				//axisMarkers[1]->setPosition(sf::Vector2f(0.0f, 0.0f));
-				
-			}
-			
-		}
-	}
-	collisionEvent collEvent(*collisionPartners[0], *collisionPartners[1]);
-	//if (m_cd->detectCollision(collEvent)) {
-	//	//std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " << collEvent.normal2.y << "\n";
-	//	collisionPartners[0]->setOutlineColor(sf::Color::Blue);
-	//	collisionPartners[1]->setOutlineColor(sf::Color::Blue);
-	//	pointMarkers[0]->setPosition(collEvent.collLoc1);
-	//	axisMarkers[0]->setPosition(collEvent.collLoc1);
-	//	axisMarkers[1]->setPosition(collEvent.collLoc1);
-	//	axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal1));
-	//	axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal1));
-	//	m_cr->handleCollision(collEvent);
-	//}
-	//else {
-	//	//colPar1->setOutlineColor(sf::Color::Red);
-	//	//colPar2->setOutlineColor(sf::Color::Red);
-	//	pointMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
-	//	axisMarkers[0]->setPosition(sf::Vector2f(0.0f, 0.0f));
-	//	axisMarkers[1]->setPosition(sf::Vector2f(0.0f, 0.0f));
-
-	//}
-	
-
-	m_window.display(); //render the frame
+void Simulation::deleteCollisionPartner(int i_index) {
+    RigidBody * colParToDelete = m_collisionPartners[i_index];
+    delete colParToDelete;
+    m_collisionPartners.erase(m_collisionPartners.begin() + i_index);
 }
 
-//prepare window and view
-void Simulation::initWindow()
-{
-	m_window.create(sf::VideoMode(512, 512), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
-	m_view = sf::View(sf::Vector2f(VIEW_HEIGHT / 2, VIEW_HEIGHT / 2), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
-
+void Simulation::initWindow(float i_viewWidth, float i_viewHeight, float i_frameRate) {
+    m_window.create(sf::VideoMode(i_viewWidth, 512), "SFML 2D collision Simulation",
+            sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
+    m_view = sf::View(sf::Vector2f(i_viewWidth / 2, i_viewHeight / 2), sf::Vector2f(i_viewWidth, i_viewHeight));
+    m_dT = 1 / i_frameRate;
 }
 
-//prepare Bodies
-void Simulation::initBodies() {
-	//std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -50.0f), sf::Vector2f(-25.0f, -50.0f),sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
-	std::vector<sf::Vector2f> exampleVertices = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f) };
-	collisionPartners.push_back(new Polygon(0.1,exampleVertices));
-	//std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
-	std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f) };
-	collisionPartners.push_back(new Polygon(0.1,exampleVertices2));
-	
-	// Simulation border TODO: Replace with a seperate class
-	std::vector<sf::Vector2f> borderVertices3 = { sf::Vector2f(0.0f, 50.0f), sf::Vector2f(450.0f, 50.0f), sf::Vector2f(450.0f, 0.0f), sf::Vector2f(0.0f, 0.0f)   };
-	collisionPartners.push_back(new Polygon(0.0, borderVertices3));
-	std::vector<sf::Vector2f> borderVertices4 = { sf::Vector2f(0.0f, 50.0f), sf::Vector2f(450.0f, 50.0f), sf::Vector2f(450.0f, 0.0f), sf::Vector2f(0.0f, 0.0f) };
-	collisionPartners.push_back(new Polygon(0.0, borderVertices4));
-	std::vector<sf::Vector2f> borderVertices5 = { sf::Vector2f(0.0f, 450.0f), sf::Vector2f(50.0f, 450.0f), sf::Vector2f(50.0f, 0.0f), sf::Vector2f(0.0f, 0.0f) };
-	collisionPartners.push_back(new Polygon(0.0, borderVertices5));
-	std::vector<sf::Vector2f> borderVertices6 = { sf::Vector2f(0.0f, 450.0f), sf::Vector2f(50.0f, 450.0f), sf::Vector2f(50.0f, 0.0f), sf::Vector2f(0.0f, 0.0f) };
-	collisionPartners.push_back(new Polygon(0.0, borderVertices6));
-	
-	
-	
-	
-	//std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f), sf::Vector2f(5.0f, 5.0f)   };
-	pointMarkers.push_back(new sf::RectangleShape({10.0f,10.0f}));
-	axisMarkers.push_back(new sf::RectangleShape({50.0f,0.0f }));
-	axisMarkers.push_back(new sf::RectangleShape({0.0f,50.0f }));
-	
+// prepare Bodies
+void Simulation::initBodies(std::vector<RigidBody *> i_rigidBodies) {
 
+    // std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f),
+    // sf::Vector2f(5.0f, 5.0f)   };
+    m_pointMarkers.push_back(new sf::RectangleShape({10.0f, 10.0f}));
+    m_axisMarkers.push_back(new sf::RectangleShape({50.0f, 0.0f}));
+    m_axisMarkers.push_back(new sf::RectangleShape({0.0f, 50.0f}));
 
+    for (RigidBody * rBody : i_rigidBodies) {
+        addCollisionPartner(rBody);
+    }
 
-	for (RigidBody * colPar : collisionPartners) {
-		colPar->setOutlineColor(sf::Color::Red);
-		colPar->setFillColor(sf::Color::Black);
-		colPar->setOutlineThickness(-2.0f);
-		colPar->setOutlineColor(sf::Color::Red);
-	}
+    for (sf::RectangleShape * marker : m_pointMarkers) {
+        marker->setOrigin({5.0f, 5.0f});
+        marker->setOutlineColor(sf::Color::Red);
+        marker->setFillColor(sf::Color::Black);
+        marker->setOutlineThickness(-2.0f);
+    }
 
-	for (sf::RectangleShape* marker : pointMarkers) {
-		marker->setOrigin({5.0f,5.0f});
-		marker->setOutlineColor(sf::Color::Red);
-		marker->setFillColor(sf::Color::Black);
-		marker->setOutlineThickness(-2.0f);
-		marker->setOutlineColor(sf::Color::Red);
-	}
-
-	for (sf::RectangleShape* marker : axisMarkers) {
-		marker->setOutlineColor(sf::Color::Red);
-		marker->setFillColor(sf::Color::Black);
-		marker->setOutlineThickness(-1.0f);
-		marker->setOutlineColor(sf::Color::Red);
-	}
-	
-	collisionPartners[0]->setPosition(200.0f, 160.0f);
-	collisionPartners[0]->setVelocity(sf::Vector2f(50.0f, 0.0f));
-	collisionPartners[0]->setAngularVelocity(0.0f);
-	collisionPartners[0]->setRotation(0.0f);
-	collisionPartners[1]->setPosition(400.0f, 200.0f);
-	collisionPartners[1]->setVelocity(sf::Vector2f(-50.0f, 0.0f));
-	collisionPartners[1]->setAngularVelocity(0.0f);
-
-
-
-	collisionPartners[2]->setPosition(256.0f, 5.0f);
-	collisionPartners[3]->setPosition(256.0f, 507.0f);
-	collisionPartners[4]->setPosition(5.0f, 256.0f);
-	collisionPartners[5]->setPosition(507.0f, 256.0f);
+    for (sf::RectangleShape * marker : m_axisMarkers) {
+        marker->setOutlineColor(sf::Color::Red);
+        marker->setFillColor(sf::Color::Black);
+        marker->setOutlineThickness(-1.0f);
+    }
 }
 
-//handle user input etc.
-void Simulation::handleEvents()
-{
-	sf::Event event;
-	while (m_window.pollEvent(event)) {
-		sf::Vector2u newSize;
+void Simulation::update() {
+    m_window.setView(m_view); // update view
+    m_window.clear();         // remove old Objects
+    for (int i = 0; i < m_collisionPartners.size(); i++) {
+        for (int j = 0; j < i; j++) {
+            // collision detection
+            collisionEvent_type collEvent(*m_collisionPartners[i], *m_collisionPartners[j]);
+            if (m_cd->detectCollision(collEvent)) {
+                // std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " <<
+                // collEvent.normal2.y << "\n"; collisionPartners[i]->setOutlineColor(sf::Color::Blue);
+                // collisionPartners[j]->setOutlineColor(sf::Color::Blue);
+                m_pointMarkers[0]->setPosition(collEvent.collLoc1);
+                m_axisMarkers[0]->setPosition(collEvent.collLoc1);
+                m_axisMarkers[1]->setPosition(collEvent.collLoc1);
+                // std::cout << "Position in Simulation: " << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
+                m_axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.normal2));
+                m_axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.normal2));
+                m_cr->handleCollision(collEvent);
+            }
+        }
+        m_window.draw(*m_collisionPartners[i]);
+        m_collisionPartners[i]->updatePositionAndAngle(m_dT);
+    }
+    for (sf::RectangleShape * marker : m_pointMarkers) {
+        m_window.draw(*marker);
+    }
+    for (sf::RectangleShape * marker : m_axisMarkers) {
+        m_window.draw(*marker);
+    }
+    for (int i = 0; i < m_collisionPartners.size(); i++) {}
 
-		switch (event.type) {
-		case sf::Event::Closed:
-			m_window.close();	//close window
-			break;
-		case sf::Event::Resized: //change window size and adapt view
-			std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
-			m_view.setSize(m_window.getSize().x, m_window.getSize().y); //adapt view size
-			m_view.setCenter(m_window.getSize().x / 2, m_window.getSize().y / 2); //adapt view center
-			break;
-		}
+    m_window.display(); // render the frame
+}
 
-		//keyboard control
-		float movIncr = m_dT * PLAYER_VELOCITY;
-		float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-			collisionPartners[0]->move(-movIncr, 0.0f);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-			collisionPartners[0]->move(movIncr, 0.0f);
-		}
+// handle user input etc.
+void Simulation::handleEvents() {
+    sf::Event event;
+    while (m_window.pollEvent(event)) {
+        sf::Vector2u newSize;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-			collisionPartners[0]->move(0.0f, movIncr);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-			collisionPartners[0]->move(0.0f, -movIncr);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-			collisionPartners[0]->rotate(angIncr);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
-			collisionPartners[0]->rotate(-angIncr);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-			//std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalPoints()[0]).y << "\n";
-			/*for (int i = 0; i < collisionPartners[0]->getPointCount(); i++) {
-				std::cout << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).x << ", " << ((static_cast<Polygon*>(collisionPartners[0]))->getGlobalNormal(i)).y << "\n";
-			}*/
-		}
+        switch (event.type) {
+        case sf::Event::Closed:
+            Simulation::~Simulation(); // destroy Simulation; close window
+            break;
+        case sf::Event::Resized: // change window size and adapt view
+            std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
+            m_view.setSize(m_window.getSize().x, m_window.getSize().y);                 // adapt view size
+            m_view.setCenter(m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f); // adapt view center
+            break;
+        }
 
-		//mouse control
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-			collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-		}
+        // keyboard control
+        float movIncr = m_dT * PLAYER_VELOCITY;
+        float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+            m_collisionPartners[0]->move(-movIncr, 0.0f);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+            m_collisionPartners[0]->move(movIncr, 0.0f);
+        }
 
-	}
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+            m_collisionPartners[0]->move(0.0f, movIncr);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+            m_collisionPartners[0]->move(0.0f, -movIncr);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
+            m_collisionPartners[0]->rotate(angIncr);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
+            m_collisionPartners[0]->rotate(-angIncr);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {}
+
+        // mouse control
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+            m_collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+        }
+    }
 }

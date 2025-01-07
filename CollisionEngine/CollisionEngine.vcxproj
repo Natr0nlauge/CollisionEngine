@@ -28,7 +28,7 @@
     <ClCompile Include="Matrix2f.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="RigidBody.cpp" />
-    <ClCompile Include="sfmlUtility.cpp" />
+    <ClCompile Include="sfml_utility.cpp" />
     <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -38,7 +38,7 @@
     <ClInclude Include="Matrix2f.hpp" />
     <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="RigidBody.hpp" />
-    <ClInclude Include="sfmlUtility.hpp" />
+    <ClInclude Include="sfml_utility.hpp" />
     <ClInclude Include="Simulation.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

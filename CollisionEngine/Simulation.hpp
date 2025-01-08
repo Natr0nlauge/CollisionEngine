@@ -15,9 +15,6 @@ class Simulation {
     ~Simulation();
 
     // Public methods
-    // void initWindow();
-    // void initWindow(float i_frameRate);
-    // void initWindow(float i_viewWidth, float i_viewHeight);
     void initBodies(std::vector<RigidBody *> i_rigidBodies);
     void initWindow(float i_viewWidth = DEFAULT_VIEW_WIDTH, float i_viewHeight = DEFAULT_VIEW_HEIGHT,
             float i_frameRate = DEFAULT_FRAME_RATE);

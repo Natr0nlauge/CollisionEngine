@@ -4,7 +4,7 @@ sfu::Matrix2f::Matrix2f() : m{{1, 0}, {0, 1}} {};
 sfu::Matrix2f::Matrix2f(float m11, float m12, float m21, float m22) : m{{m11, m12}, {m21, m22}} {};
 
 // Multiply with vector
-sf::Vector2f sfu::Matrix2f::multiply(sf::Vector2f i_vector) {
+sf::Vector2f sfu::Matrix2f::multiply(sf::Vector2f i_vector) const {
     sf::Vector2f outputVec = sf::Vector2f();
 
     outputVec.x = m[0][0] * i_vector.x + m[0][1] * i_vector.y;

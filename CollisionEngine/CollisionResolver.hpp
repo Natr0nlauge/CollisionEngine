@@ -13,7 +13,7 @@ class CollisionResolver {
 	~CollisionResolver();
 
 	// Public methods
-	void handleCollision(collisionEvent_type& colEvent);
+    void handleCollision(collisionEvent_type & c_collEvent);
 
 
 
@@ -26,5 +26,13 @@ private:
 	// Deleted copy constructor and assignment operator
     CollisionResolver(const CollisionResolver &) = delete;
     CollisionResolver & operator=(const CollisionResolver &) = delete;
+	
+	// Private methods
+    sf::Vector2f computeRelativePosition(const sf::Vector2f collLoc, const sf::Vector2f bodyPosition);
+    float calculateContactVelocity(const collisionEvent_type & i_collEvent, sf::Vector2f relativePosition1, sf::Vector2f relativePosition2);
+    float calculateDeltaVelPerUnitImpulse(const collisionEvent_type & i_collEvent, sf::Vector2f relativePosition1,
+            sf::Vector2f relativePosition2);
+    void handleCollision(collisionEvent_type & c_collEvent, sf::Vector2f relativePosition1, sf::Vector2f relativePosition2,
+            float i_impulseContactLengthX, float contactTransformationAngle);
 };
 

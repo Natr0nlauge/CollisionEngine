@@ -11,7 +11,7 @@ class Matrix2f {
     Matrix2f();
     Matrix2f(float m11, float m12, float m21, float m22);
 
-    sf::Vector2f multiply(sf::Vector2f i_vector);
+    sf::Vector2f multiply(sf::Vector2f i_vector) const;
     // float getDeterminant();
     // Matrix2f getInverse();
 };

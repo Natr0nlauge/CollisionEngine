@@ -16,5 +16,11 @@ class CollisionEvent {
     void resolve();
 
   private:
+      // TODO make inputs arrays wherever possible
     // Private methods
+    sf::Vector2f computeRelativePosition(const sf::Vector2f i_collLoc, const sf::Vector2f i_bodyPosition);
+    float calculateContactVelocity(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2);
+    float calculateDeltaVelPerUnitImpulse(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2);
+    void handleCollision(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2, float i_impulseContactX,
+            float i_contactTransformationAngle);
 };

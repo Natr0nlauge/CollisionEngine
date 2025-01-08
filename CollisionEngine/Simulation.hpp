@@ -2,7 +2,7 @@
 #include "sfml/Graphics.hpp"
 #include "RigidBody.hpp"
 // #include "CollisionDetector.hpp"
-#include "CollisionResolver.hpp"
+#include "CollisionDetector.hpp"
 #include "vector"
 #include <mutex>
 
@@ -42,7 +42,7 @@ class Simulation {
     std::vector<sf::RectangleShape *> m_pointMarkers;
     std::vector<sf::RectangleShape *> m_axisMarkers;
     CollisionDetector * m_cd = CollisionDetector::getInstance();
-    CollisionResolver * m_cr = CollisionResolver::getInstance();
+    //CollisionResolver * m_cr = CollisionResolver::getInstance();
     sf::View m_view;
     float m_dT = 1/DEFAULT_FRAME_RATE; // in seconds
     sf::RenderWindow m_window;

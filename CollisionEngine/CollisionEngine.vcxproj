@@ -24,7 +24,7 @@
 	  <ClCompile Include="main.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
-    <ClCompile Include="CollisionResolver.cpp" />
+    <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="Matrix2f.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="RigidBody.cpp" />
@@ -34,7 +34,7 @@
   <ItemGroup>
     <ClInclude Include="Circle.hpp" />
     <ClInclude Include="CollisionDetector.hpp" />
-    <ClInclude Include="CollisionResolver.hpp" />
+    <ClInclude Include="CollisionEvent.hpp" />
     <ClInclude Include="Matrix2f.hpp" />
     <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="RigidBody.hpp" />

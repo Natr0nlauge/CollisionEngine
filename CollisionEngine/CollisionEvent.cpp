@@ -1,11 +1,13 @@
 #include "CollisionEvent.hpp"
 #include "sfml_utility.hpp"
 
-float RESTITUTION = 1.0f; // depends on material; 1.0 for collisions without losses
+const float RESTITUTION = 1.0f; // depends on material; 1.0 for collisions without losses
 // TODO define this for every body seperately
 
+const int BODIES_PER_COLLISION = 2;
+
 void CollisionEvent::resolve() {
-    float contactTransformationAngle = sfu::getVectorDirection(m_contactNormal); // only one is needed;
+    float contactTransformationAngle = sfu::getVectorDirection(m_contactNormals[0]); // only one is needed;
 
     // Get relative position in global coordinates for body 1 and 2
     sf::Vector2f relativePosition1 = computeRelativePosition(m_collisionLocation, m_collisionPartners[0]->getPosition());
@@ -18,17 +20,18 @@ void CollisionEvent::resolve() {
 
         float deltaVelPerUnitImpulse = calculateDeltaVelPerUnitImpulse(relativePosition1, relativePosition2);
 
+        sf::Vector2f relativePosition[2] = {relativePosition1, relativePosition2};
+
         float impulseContactX = desiredDeltaVel / deltaVelPerUnitImpulse;
 
-        handleCollision(relativePosition1, relativePosition2, impulseContactX, contactTransformationAngle);
-
+        handleCollision(relativePosition, impulseContactX, contactTransformationAngle);
     }
 }
 
-sf::Vector2f CollisionEvent::computeRelativePosition(const sf::Vector2f i_collLoc, const sf::Vector2f i_bodyPosition) {
+sf::Vector2f CollisionEvent::computeRelativePosition(sf::Vector2f i_collLoc, sf::Vector2f i_bodyPosition) {
     return sfu::subtractVectors(i_collLoc, i_bodyPosition);
 }
-float CollisionEvent::calculateContactVelocity(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2) {
+float CollisionEvent::calculateContactVelocity(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2) const {
     // Calculate closing velocity at contact point
     float angVel1 = m_collisionPartners[0]->getAngularVelocity() * sfu::PI / 180;
     float angVel2 = m_collisionPartners[1]->getAngularVelocity() * sfu::PI / 180;
@@ -43,17 +46,17 @@ float CollisionEvent::calculateContactVelocity(sf::Vector2f i_relativePosition1,
     sf::Vector2f closingVel = sfu::subtractVectors(closingVel1, closingVel2);
 
     // Projected closing velocity - Are objects moving towards each other or not?
-    float closingVel1Proj = sfu::scalarProduct(closingVel1, m_contactNormal);
-    float closingVel2Proj = sfu::scalarProduct(closingVel2, sfu::scaleVector(m_contactNormal, -1.0f));
+    float closingVel1Proj = sfu::scalarProduct(closingVel1, m_contactNormals[0]);
+    float closingVel2Proj = sfu::scalarProduct(closingVel2, m_contactNormals[1]);
     // std::cout << "Normal in CollisionResolver: " << c_collEvent.normal2.x << ", " << c_collEvent.normal2.y << "\n";
     return closingVel1Proj + closingVel2Proj;
     // std::cout << contactVel << "\n";
 }
 
-float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2) {
+float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2) const {
     // Implement the three equations, see p. 338
-    float torquePerUnitImpulse1 = sfu::pseudoCrossProduct(i_relativePosition1, m_contactNormal);
-    float torquePerUnitImpulse2 = sfu::pseudoCrossProduct(i_relativePosition2, sfu::scaleVector(m_contactNormal, -1.0f));
+    float torquePerUnitImpulse1 = sfu::pseudoCrossProduct(i_relativePosition1, m_contactNormals[0]);
+    float torquePerUnitImpulse2 = sfu::pseudoCrossProduct(i_relativePosition2, m_contactNormals[1]);
     float angVelPerUnitImpulse1 = m_collisionPartners[0]->getInverseMomentOfInertia() * torquePerUnitImpulse1;
     float angVelPerUnitImpulse2 = m_collisionPartners[1]->getInverseMomentOfInertia() * torquePerUnitImpulse2;
     sf::Vector2f velocityPerUnitImpulse1 = sfu::pseudoCrossProduct2(angVelPerUnitImpulse1, i_relativePosition1);
@@ -61,8 +64,8 @@ float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f i_relativePos
 
     // Total velocity change per unit impulse
     // Splitting into summands for debugging
-    float deltaVelSummand1 = sfu::scalarProduct(velocityPerUnitImpulse1, m_contactNormal);
-    float deltaVelSummand2 = sfu::scalarProduct(velocityPerUnitImpulse2, sfu::scaleVector(m_contactNormal, -1.0f));
+    float deltaVelSummand1 = sfu::scalarProduct(velocityPerUnitImpulse1, m_contactNormals[0]);
+    float deltaVelSummand2 = sfu::scalarProduct(velocityPerUnitImpulse2, m_contactNormals[1]);
 
     float deltaVelSummand3 = m_collisionPartners[0]->getInverseMass();
     float deltaVelSummand4 = m_collisionPartners[1]->getInverseMass();
@@ -70,34 +73,63 @@ float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f i_relativePos
     return deltaVelSummand1 + deltaVelSummand2 + deltaVelSummand3 + deltaVelSummand4;
 }
 
-void CollisionEvent::handleCollision(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2, float i_impulseContactX,
+void CollisionEvent::handleCollision(sf::Vector2f * i_relativePosition, float i_impulseContactX,
         float i_contactTransformationAngle) {
 
-sf::Vector2f impulseContact = sf::Vector2f(i_impulseContactX, 0.0f);
+    sf::Vector2f impulseContact = sf::Vector2f(i_impulseContactX, 0.0f);
 
     // In global coordinates
-    sf::Vector2f impulse1 = sfu::rotateVector(impulseContact, i_contactTransformationAngle);
-    sf::Vector2f impulse2 = sfu::scaleVector(impulse1, -1.0f); // Newton's third law
+    sf::Vector2f impulse[2];
+    impulse[0] = sfu::rotateVector(impulseContact, i_contactTransformationAngle);
+    impulse[1] = sfu::scaleVector(impulse[0], -1.0f);
+    // sf::Vector2f impulse2 = sfu::scaleVector(impulse1, -1.0f); // Newton's third law
 
-    sf::Vector2f velocityChange1 = sfu::scaleVector(impulse1, m_collisionPartners[0]->getInverseMass());
-    sf::Vector2f velocityChange2 = sfu::scaleVector(impulse2, m_collisionPartners[1]->getInverseMass());
+    for (int i = 0; i < BODIES_PER_COLLISION; i++) {
 
-    float impulsiveTorque1 = sfu::pseudoCrossProduct(i_relativePosition1, impulse1);
-    float impulsiveTorque2 = sfu::pseudoCrossProduct(i_relativePosition2, impulse2);
-    float angularVelocityChange1 = m_collisionPartners[0]->getInverseMomentOfInertia() * impulsiveTorque1;
-    float angularVelocityChange2 = m_collisionPartners[1]->getInverseMomentOfInertia() * impulsiveTorque2;
+        applyImpulse(m_collisionPartners[i], i_relativePosition[i], impulse[i]);
 
-    sf::Vector2f newVel1 = sfu::addVectors(m_collisionPartners[0]->getVelocity(), velocityChange1);
-    float newAngVel1 = m_collisionPartners[0]->getAngularVelocity() + angularVelocityChange1 * 180 / sfu::PI;
-    sf::Vector2f newVel2 = sfu::addVectors(m_collisionPartners[1]->getVelocity(), velocityChange2);
-    float newAngVel2 = m_collisionPartners[1]->getAngularVelocity() + angularVelocityChange2 * 180 / sfu::PI;
-    m_collisionPartners[0]->setVelocity(newVel1);
-    m_collisionPartners[1]->setVelocity(newVel2);
-    m_collisionPartners[0]->setAngularVelocity(newAngVel1);
-    m_collisionPartners[1]->setAngularVelocity(newAngVel2);
+         // Impulse is the opposite for body 2
+    }
     // std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
-
-
 }
 
+void CollisionEvent::applyImpulse(RigidBody * c_collisionPartner, sf::Vector2f i_relativePosition, sf::Vector2f i_impulse) {
 
+    sf::Vector2f velocityChange = sfu::scaleVector(i_impulse, c_collisionPartner->getInverseMass());
+
+    float impulsiveTorque = sfu::pseudoCrossProduct(i_relativePosition, i_impulse);
+    float angularVelocityChange = c_collisionPartner->getInverseMomentOfInertia() * impulsiveTorque;
+
+    sf::Vector2f newVel = sfu::addVectors(c_collisionPartner->getVelocity(), velocityChange);
+    float newAngVel = c_collisionPartner->getAngularVelocity() + angularVelocityChange * 180 / sfu::PI;
+    c_collisionPartner->setVelocity(newVel);
+    c_collisionPartner->setAngularVelocity(newAngVel);
+}
+
+//void CollisionEvent::handleCollision(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2, float i_impulseContactX,
+//        float i_contactTransformationAngle) {
+//
+//    sf::Vector2f impulseContact = sf::Vector2f(i_impulseContactX, 0.0f);
+//
+//    // In global coordinates
+//    sf::Vector2f impulse1 = sfu::rotateVector(impulseContact, i_contactTransformationAngle);
+//    sf::Vector2f impulse2 = sfu::scaleVector(impulse1, -1.0f); // Newton's third law
+//
+//    sf::Vector2f velocityChange1 = sfu::scaleVector(impulse1, m_collisionPartners[0]->getInverseMass());
+//    sf::Vector2f velocityChange2 = sfu::scaleVector(impulse2, m_collisionPartners[1]->getInverseMass());
+//
+//    float impulsiveTorque1 = sfu::pseudoCrossProduct(i_relativePosition1, impulse1);
+//    float impulsiveTorque2 = sfu::pseudoCrossProduct(i_relativePosition2, impulse2);
+//    float angularVelocityChange1 = m_collisionPartners[0]->getInverseMomentOfInertia() * impulsiveTorque1;
+//    float angularVelocityChange2 = m_collisionPartners[1]->getInverseMomentOfInertia() * impulsiveTorque2;
+//
+//    sf::Vector2f newVel1 = sfu::addVectors(m_collisionPartners[0]->getVelocity(), velocityChange1);
+//    float newAngVel1 = m_collisionPartners[0]->getAngularVelocity() + angularVelocityChange1 * 180 / sfu::PI;
+//    sf::Vector2f newVel2 = sfu::addVectors(m_collisionPartners[1]->getVelocity(), velocityChange2);
+//    float newAngVel2 = m_collisionPartners[1]->getAngularVelocity() + angularVelocityChange2 * 180 / sfu::PI;
+//    m_collisionPartners[0]->setVelocity(newVel1);
+//    m_collisionPartners[1]->setVelocity(newVel2);
+//    m_collisionPartners[0]->setAngularVelocity(newAngVel1);
+//    m_collisionPartners[1]->setAngularVelocity(newAngVel2);
+//    // std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
+//}

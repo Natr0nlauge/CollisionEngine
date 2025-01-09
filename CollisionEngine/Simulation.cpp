@@ -123,8 +123,8 @@ void Simulation::update() {
                 m_axisMarkers[0]->setPosition(collEvent.m_collisionLocation);
                 m_axisMarkers[1]->setPosition(collEvent.m_collisionLocation);
                 // std::cout << "Position in Simulation: " << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
-                m_axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.m_contactNormal));
-                m_axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.m_contactNormal));
+                m_axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.m_contactNormals[0]));
+                m_axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.m_contactNormals[0]));
                 collEvent.resolve();
             }
         }

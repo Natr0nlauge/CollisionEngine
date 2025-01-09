@@ -81,23 +81,24 @@ bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
         if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
             collData1.normal = sfu::scaleVector(collData1.normal, -1); // make sure that normal has the correct direction
             c_collisionEvent.m_collisionLocation = findCenterOfContact(collData1, collData2, *collPars[0], *collPars[1]);
-            c_collisionEvent.m_contactNormal = collData1.normal; // TODO this causes problems!
+            c_collisionEvent.m_contactNormals[0] = collData1.normal; // TODO this causes problems!
+            c_collisionEvent.m_contactNormals[1] = sfu::scaleVector(collData1.normal, -1.0f);
         } else if (collData2.separation < collData1.separation) {
             // Vertex of body 1 hits edge of body 2
             // TODO check if normals have the correct direction
             // Assign location
             c_collisionEvent.m_collisionLocation = collPars[0]->getGlobalPoint(collData1.indexVec[0]);
             //collData1.normal = sfu::scaleVector(collData1.normal, -1.0f); // make sure that normal has the correct direction
-            c_collisionEvent.m_contactNormal = sfu::scaleVector(collData1.normal, -1.0f);
+            c_collisionEvent.m_contactNormals[0] = sfu::scaleVector(collData1.normal, -1.0f);
+            c_collisionEvent.m_contactNormals[1] = collData1.normal;
             
             //assignNormal(c_collisionEvent, collData1);
         } else /*if (collData2.separation > collData1.separation)*/ {
             // Vertex of body 2 hits edge of body 1
             // Assign location
             c_collisionEvent.m_collisionLocation = collPars[1]->getGlobalPoint(collData2.indexVec[0]);
-            // collData2.normal = sfu::scaleVector(collData2.normal, -1);
-            c_collisionEvent.m_contactNormal = sfu::scaleVector(collData2.normal, 1.0f);
-            //c_collisionEvent.m_contactNormal = collData2.normal;
+            c_collisionEvent.m_contactNormals[0] = sfu::scaleVector(collData2.normal, 1.0f);
+            c_collisionEvent.m_contactNormals[1] = sfu::scaleVector(collData2.normal, -1.0f);
         }
         // std::cout << "Position in CollisionDetector: " << c_collisionEvent.collLoc1.x << ", " << c_collisionEvent.collLoc1.y << "\n";
         return true;

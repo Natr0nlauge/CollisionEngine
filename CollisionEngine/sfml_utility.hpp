@@ -6,6 +6,8 @@
 namespace sfu {
 const float PI = 3.14159265358979323846;
 
+float computeMedian(const std::array<float, 4> & i_arr);
+
 sfu::Matrix2f getRotationMatrix(float angle);
 
 float getVectorLength(sf::Vector2f i_vector);

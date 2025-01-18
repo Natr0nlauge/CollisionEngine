@@ -3,24 +3,13 @@
 #include <array>
 #include <algorithm>
 #include <vector>
-#include <cmath>
 #include "sfml_utility.hpp"
 
-CollisionDetector * CollisionDetector::s_instance = nullptr;
-
-// TODO add this to some utility module
-static float computeMedian(const std::array<float, 4> & i_arr) {
-    // Make a copy of the array because we need to sort it
-    std::array<float, 4> sortedArr = i_arr;
-    std::sort(sortedArr.begin(), sortedArr.end());
-
-    // Compute and return the median (average of the two middle elements)
-    return (sortedArr[1] + sortedArr[2]) / 2.0f;
-}
+std::unique_ptr<CollisionDetector> CollisionDetector::s_instance = nullptr;
+std::mutex CollisionDetector::mtx;
 
 // Find global coordinates of the colliding edges' vertices
-// TODO make this a private method
-static sf::Vector2f findCenterOfContact(separationData_type & i_sepData1, separationData_type & i_sepData2, Polygon & i_body1,
+sf::Vector2f CollisionDetector::findCenterOfContact(separationData_type & i_sepData1, separationData_type & i_sepData2, Polygon & i_body1,
         Polygon & i_body2) {
     const int numberOfPoints = 4;
     sf::Vector2f vertices[numberOfPoints];
@@ -37,38 +26,10 @@ static sf::Vector2f findCenterOfContact(separationData_type & i_sepData1, separa
         yValues[i] = vertices[i].y;
     }
 
-    return sf::Vector2f(computeMedian(xValues), computeMedian(yValues));
+    return sf::Vector2f(sfu::computeMedian(xValues), sfu::computeMedian(yValues));
 }
 
-const float minSepEpsilon = 0.01;
-
-CollisionDetector * CollisionDetector::getInstance() {
-    if (s_instance == nullptr) {
-        // TODO: check thread safety
-        // std::lock_guard<std::mutex> lock(mtx);
-        if (s_instance == nullptr) {
-            s_instance = new CollisionDetector();
-        }
-    }
-    return s_instance;
-}
-
-CollisionDetector::CollisionDetector() {}
-
-CollisionDetector::~CollisionDetector() {}
-
-// TODO this might be obselete
-//static void assignNormal(CollisionEvent & o_collisionEvent, separationData_type & i_collData) {
-//    
-//    /*o_collisionEvent.normal2.x = -i_collData.normal.x;
-//    o_collisionEvent.normal2.y = -i_collData.normal.y;*/
-//}
-
-// TODO: case differentiation polygon and circle
-//  Detects a collision between two bodies and writes results to a collisionEvent
-// TODO maybe change input and output
-bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
-
+bool CollisionDetector::detectPolygonCollision(CollisionEvent & c_collisionEvent) {
     Polygon * collPars[2] = {static_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]),
             static_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1])};
 
@@ -79,20 +40,19 @@ bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
     if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
         // Two values in each vector indicate an edge-to-edge collision
         if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
-            collData1.normal = sfu::scaleVector(collData1.normal, -1); // make sure that normal has the correct direction
+            // collData1.normal = sfu::scaleVector(collData1.normal, -1); // make sure that normal has the correct direction
             c_collisionEvent.m_collisionLocation = findCenterOfContact(collData1, collData2, *collPars[0], *collPars[1]);
-            c_collisionEvent.m_contactNormals[0] = collData1.normal; // TODO this causes problems!
-            c_collisionEvent.m_contactNormals[1] = sfu::scaleVector(collData1.normal, -1.0f);
+            c_collisionEvent.m_contactNormals[0] = collData2.normal; // TODO this causes problems!
+            c_collisionEvent.m_contactNormals[1] = collData1.normal;
         } else if (collData2.separation < collData1.separation) {
             // Vertex of body 1 hits edge of body 2
-            // TODO check if normals have the correct direction
             // Assign location
             c_collisionEvent.m_collisionLocation = collPars[0]->getGlobalPoint(collData1.indexVec[0]);
-            //collData1.normal = sfu::scaleVector(collData1.normal, -1.0f); // make sure that normal has the correct direction
+            // collData1.normal = sfu::scaleVector(collData1.normal, -1.0f); // make sure that normal has the correct direction
             c_collisionEvent.m_contactNormals[0] = sfu::scaleVector(collData1.normal, -1.0f);
-            c_collisionEvent.m_contactNormals[1] = collData1.normal;
-            
-            //assignNormal(c_collisionEvent, collData1);
+            c_collisionEvent.m_contactNormals[1] = sfu::scaleVector(collData1.normal, 1.0f);
+
+            // assignNormal(c_collisionEvent, collData1);
         } else /*if (collData2.separation > collData1.separation)*/ {
             // Vertex of body 2 hits edge of body 1
             // Assign location
@@ -107,13 +67,33 @@ bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
     }
 }
 
-// TODO: use some sub-functions here to make it easier to read
-separationData_type CollisionDetector::findMinSeparation(Polygon & i_body1, Polygon & i_body2 /*, std::vector<int>& o_collIndexVec*/) {
+CollisionDetector & CollisionDetector::getInstance() {
+    if (s_instance == nullptr) {
+        std::lock_guard<std::mutex> lock(mtx);
+        if (!s_instance) {
+            s_instance.reset(new CollisionDetector());
+        }
+    }
+    return *s_instance;
+}
 
-    // minSepValues are really useful for debugging!
-    std::vector<std::pair<float, int>> minSepValues;
-    std::vector<std::pair<float, int>> minSepValues2;
-    separationData_type collData;
+CollisionDetector::CollisionDetector() {}
+
+CollisionDetector::~CollisionDetector() {}
+
+//  Detects a collision between two polygons and writes results to a collisionEvent
+bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
+    if (dynamic_cast<Polygon*>(c_collisionEvent.m_collisionPartners[0]) && dynamic_cast<Polygon*>(c_collisionEvent.m_collisionPartners[1])){
+        return detectPolygonCollision(c_collisionEvent);
+    } else {
+        return false;
+    }
+}
+
+// TODO: use some sub-functions here to make it easier to read
+separationData_type CollisionDetector::findMinSeparation(Polygon & i_body1, Polygon & i_body2 /*, std::vector<int>& o_collIndexVec*/) const {
+
+    separationData_type sepData;
     int normalIndex = 0;
 
     std::vector<int> preliminaryCollIndexVec;
@@ -130,57 +110,31 @@ separationData_type CollisionDetector::findMinSeparation(Polygon & i_body1, Poly
                     i_body2.getGlobalPoint(j).y - i_body1.getGlobalPoint(i).y);
             float dotProd = normal.x * pointConnector.x + normal.y * pointConnector.y;
             // Find minimum value of all possible dot products (for each normal vector)
-            if (dotProd < minSep - minSepEpsilon) {
+            if (dotProd < minSep - MIN_SEP_EPSILON) {
                 // minSep = std::min(minSep, dotProd);
                 minSep = dotProd;
-                minSepValues.clear();
-                minSepValues.emplace_back(dotProd, j);
-                preliminaryCollIndexVec.clear();      // previous indices are irrelevant
-                preliminaryCollIndexVec.push_back(j); // save index
+                preliminaryCollIndexVec.clear();        // previous indices are irrelevant
+                preliminaryCollIndexVec.push_back(j);   // save index
             }
             // If a minSep value is sufficiently close to a previous one, save another index (edge-to-edge-collision possible)
             // Tolerance needs to be larger here to correctly account for angle deviations
-            else if (fabs(minSep - dotProd) <= 4 * minSepEpsilon) {
-                minSepValues.emplace_back(dotProd, j);
+            else if (fabs(minSep - dotProd) <= 4 * MIN_SEP_EPSILON) {
                 preliminaryCollIndexVec.push_back(j);
             }
         }
 
         // The maximum minSep value for all normal vectors (for all i values) is the minimal seperation
-        if (minSep > collData.separation) {
-            collData.separation = minSep;
-            minSepValues2 = minSepValues;
+        if (minSep > sepData.separation) {
+            sepData.separation = minSep;
             preliminaryCollIndexVec2 = preliminaryCollIndexVec;
             normalIndex = i;
-            collData.normal = normal;
+            sepData.normal = normal;
+            
         }
     }
-    if (collData.separation < 0) {
-        // minSepValues2 = minSepValues;
-        minSepValues.clear();
-        // std::cout << collData.normal.x << ", " << collData.normal.y << "\n";
-    }
 
-    collData.indexVec = preliminaryCollIndexVec2; // output
+    sepData.indexVec = preliminaryCollIndexVec2; // output
     // std::cout << collData.indexVec.size() << ", ";
-    return collData;
+    return sepData;
 }
 
-// int CollisionDetector::incrIndex(int i_index, int i_pointCount)
-//{
-//	int newIndex = i_pointCount - 1;
-//	if (i_index != 0) {
-//		int newIndex = i_index - 1;
-//	}
-//	return newIndex;
-//
-// }
-//
-// int CollisionDetector::decrIndex(int i_index, int i_pointCount)
-//{
-//	int newIndex = 0;
-//	if (i_index != i_pointCount - 1) {
-//		int newIndex = i_index + 1;
-//	}
-//	return newIndex;
-// }

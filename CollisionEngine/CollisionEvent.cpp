@@ -2,7 +2,6 @@
 #include "sfml_utility.hpp"
 
 const float RESTITUTION = 1.0f; // depends on material; 1.0 for collisions without losses
-// TODO define this for every body seperately
 
 const int BODIES_PER_COLLISION = 2;
 
@@ -94,30 +93,4 @@ void CollisionEvent::applyImpulse(RigidBody * c_collisionPartner, sf::Vector2f i
     c_collisionPartner->setAngularVelocity(newAngVel);
 }
 
-// void CollisionEvent::handleCollision(sf::Vector2f i_relativePosition1, sf::Vector2f i_relativePosition2, float i_impulseContactX,
-//         float i_contactTransformationAngle) {
-//
-//     sf::Vector2f impulseContact = sf::Vector2f(i_impulseContactX, 0.0f);
-//
-//     // In global coordinates
-//     sf::Vector2f impulse1 = sfu::rotateVector(impulseContact, i_contactTransformationAngle);
-//     sf::Vector2f impulse2 = sfu::scaleVector(impulse1, -1.0f); // Newton's third law
-//
-//     sf::Vector2f velocityChange1 = sfu::scaleVector(impulse1, m_collisionPartners[0]->getInverseMass());
-//     sf::Vector2f velocityChange2 = sfu::scaleVector(impulse2, m_collisionPartners[1]->getInverseMass());
-//
-//     float impulsiveTorque1 = sfu::pseudoCrossProduct(i_relativePosition1, impulse1);
-//     float impulsiveTorque2 = sfu::pseudoCrossProduct(i_relativePosition2, impulse2);
-//     float angularVelocityChange1 = m_collisionPartners[0]->getInverseMomentOfInertia() * impulsiveTorque1;
-//     float angularVelocityChange2 = m_collisionPartners[1]->getInverseMomentOfInertia() * impulsiveTorque2;
-//
-//     sf::Vector2f newVel1 = sfu::addVectors(m_collisionPartners[0]->getVelocity(), velocityChange1);
-//     float newAngVel1 = m_collisionPartners[0]->getAngularVelocity() + angularVelocityChange1 * 180 / sfu::PI;
-//     sf::Vector2f newVel2 = sfu::addVectors(m_collisionPartners[1]->getVelocity(), velocityChange2);
-//     float newAngVel2 = m_collisionPartners[1]->getAngularVelocity() + angularVelocityChange2 * 180 / sfu::PI;
-//     m_collisionPartners[0]->setVelocity(newVel1);
-//     m_collisionPartners[1]->setVelocity(newVel2);
-//     m_collisionPartners[0]->setAngularVelocity(newAngVel1);
-//     m_collisionPartners[1]->setAngularVelocity(newAngVel2);
-//     // std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
-// }
+

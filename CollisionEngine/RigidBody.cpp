@@ -7,6 +7,17 @@ RigidBody::RigidBody(float i_inverseMass) : Shape(), m_inverseMass(i_inverseMass
 
 RigidBody::~RigidBody() {}
 
+std::size_t RigidBody::getPointCount() const {
+    return m_points.size();
+}
+
+sf::Vector2f RigidBody::getPoint(std::size_t i_index) const {
+    if (i_index < m_points.size()) {
+        return m_points[i_index];
+    }
+    return sf::Vector2f(0.f, 0.f); // Fallback (shouldn't happen if used correctly)
+}
+
 float RigidBody::getInverseMass() const {
     return m_inverseMass;
 }

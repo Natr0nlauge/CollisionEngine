@@ -43,9 +43,9 @@ int main() {
     collisionPartners[4]->setPosition(5.0f, 256.0f);
     collisionPartners[5]->setPosition(507.0f, 256.0f);
 
-	Simulation * simPointer = Simulation::getInstance();
-    simPointer->initBodies(collisionPartners);
-    simPointer->initWindow();
-	simPointer->run();
+	Simulation & simRef = Simulation::getInstance();
+    simRef.initBodies(collisionPartners);
+    simRef.initWindow();
+	simRef.run();
 	
 }

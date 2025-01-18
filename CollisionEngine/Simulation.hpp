@@ -1,15 +1,15 @@
 #pragma once
 #include "sfml/Graphics.hpp"
 #include "RigidBody.hpp"
-// #include "CollisionDetector.hpp"
 #include "CollisionDetector.hpp"
 #include "vector"
 #include <mutex>
+#include <memory>
 
 class Simulation {
   public:
     // Singleton accessor
-    static Simulation * getInstance();
+    static Simulation & getInstance();
 
     // Destructor
     ~Simulation();
@@ -24,7 +24,7 @@ class Simulation {
 
   private:
     // Singleton implementation
-    static Simulation * s_instance;
+    static std::unique_ptr<Simulation> s_instance;
     static std::mutex mtx;
     Simulation();
 
@@ -35,13 +35,14 @@ class Simulation {
     // Private methods
     void update();
     void handleEvents();
+    template <typename T> void cleanupMember(std::vector<T*>& member);
 
     // Member variables
     sf::Clock m_clock;
     std::vector<RigidBody *> m_collisionPartners;
     std::vector<sf::RectangleShape *> m_pointMarkers;
     std::vector<sf::RectangleShape *> m_axisMarkers;
-    CollisionDetector * m_cd = CollisionDetector::getInstance();
+    CollisionDetector & m_cd = CollisionDetector::getInstance();
     sf::View m_view;
     float m_dT = 1/DEFAULT_FRAME_RATE; // in seconds
     sf::RenderWindow m_window;
@@ -49,3 +50,5 @@ class Simulation {
     static constexpr float DEFAULT_VIEW_HEIGHT = 512.0f; // Window initial size
     static constexpr float DEFAULT_FRAME_RATE = 120.0f;
 };
+
+

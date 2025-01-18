@@ -1,4 +1,15 @@
 #include "sfml_utility.hpp"
+#include "CollisionDetector.hpp"
+#include <array>
+
+float sfu::computeMedian(const std::array<float, 4> & i_arr) {
+    // Make a copy of the array because we need to sort it
+    std::array<float, 4> sortedArr = i_arr;
+    std::sort(sortedArr.begin(), sortedArr.end());
+
+    // Compute and return the median (average of the two middle elements)
+    return (sortedArr[1] + sortedArr[2]) / 2.0f;
+}
 
 sfu::Matrix2f sfu::getRotationMatrix(float i_angle) {
     i_angle = i_angle * PI / 180;

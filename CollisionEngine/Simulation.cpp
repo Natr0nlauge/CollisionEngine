@@ -7,44 +7,38 @@
 const float PLAYER_VELOCITY = 500.0f;        // pixels per second
 const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
 
-Simulation * Simulation::s_instance = nullptr; // pointer to Singleton instance
+std::unique_ptr<Simulation> Simulation::s_instance = nullptr; // pointer to Singleton instance
 std::mutex Simulation::mtx;
 
-Simulation * Simulation::getInstance() {
+Simulation & Simulation::getInstance() {
     if (s_instance == nullptr) {
         std::lock_guard<std::mutex> lock(mtx);
-        if (s_instance == nullptr) {
-            s_instance = new Simulation();
+        if (!s_instance) {
+            s_instance.reset(new Simulation());
         }
     }
-    return s_instance;
+    return *s_instance;
 }
 
 Simulation::Simulation() {}
 
 Simulation::~Simulation() {
-    // Clean up collisionPartners if Simulation owns the RigidBody pointers
-    for (RigidBody * body : m_collisionPartners) {
-        delete body; // Assuming Simulation owns the RigidBody objects
-    }
-    m_collisionPartners.clear();
 
-    // Clean up pointMarkers
-    for (sf::RectangleShape * marker : m_pointMarkers) {
-        delete marker; // Assuming Simulation owns these
-    }
-    m_pointMarkers.clear();
-
-    // Clean up axisMarkers
-    for (sf::RectangleShape * marker : m_axisMarkers) {
-        delete marker; // Assuming Simulation owns these
-    }
-    m_axisMarkers.clear();
+    cleanupMember(m_collisionPartners);
+    cleanupMember(m_pointMarkers);
+    cleanupMember(m_axisMarkers);
 
     // Properly close the render window
     if (m_window.isOpen()) {
         m_window.close();
     }
+}
+
+template <typename T> inline void Simulation::cleanupMember(std::vector<T *> & member) {
+    for (T * element : member) {
+        delete element;
+    }
+    member.clear();
 }
 
 void Simulation::run() {
@@ -114,8 +108,8 @@ void Simulation::update() {
     for (int i = 0; i < m_collisionPartners.size(); i++) {
         for (int j = 0; j < i; j++) {
             // collision detection
-            CollisionEvent collEvent(m_collisionPartners[i], m_collisionPartners[j]);
-            if (m_cd->detectCollision(collEvent)) {
+            CollisionEvent collEvent(m_collisionPartners[j], m_collisionPartners[i]);
+            if (m_cd.detectCollision(collEvent)) {
                 // std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " <<
                 // collEvent.normal2.y << "\n"; collisionPartners[i]->setOutlineColor(sf::Color::Blue);
                 // collisionPartners[j]->setOutlineColor(sf::Color::Blue);
@@ -137,7 +131,6 @@ void Simulation::update() {
     for (sf::RectangleShape * marker : m_axisMarkers) {
         m_window.draw(*marker);
     }
-    for (int i = 0; i < m_collisionPartners.size(); i++) {}
 
     m_window.display(); // render the frame
 }

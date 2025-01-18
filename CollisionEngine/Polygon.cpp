@@ -1,12 +1,12 @@
 #include "Polygon.hpp"
 #include <iostream>
 
-Polygon::Polygon(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) : m_points(i_vertices), RigidBody(i_inverseMass) {
-    m_area = calculateArea();
-    // setOrigin(calculateCenterOfMass());
+Polygon::Polygon(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) :/* m_points(i_vertices),*/ RigidBody(i_inverseMass) {
+    m_points = i_vertices;
+    calculateArea();
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 
-    // Redifine all the vertices, so the center of mass is at {0,0}
+    // Redefine all the vertices, so the center of mass is at {0,0}
     sf::Vector2f com = calculateCenterOfMass();
     for (size_t i = 0; i < getPointCount(); ++i) {
         sf::Vector2f & current = m_points[i];
@@ -17,17 +17,6 @@ Polygon::Polygon(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) : m_
 }
 
 Polygon::~Polygon() {}
-
-std::size_t Polygon::getPointCount() const {
-    return m_points.size();
-}
-
-sf::Vector2f Polygon::getPoint(std::size_t i_index) const {
-    if (i_index < m_points.size()) {
-        return m_points[i_index];
-    }
-    return sf::Vector2f(0.f, 0.f); // Fallback (shouldn't happen if used correctly)
-}
 
 std::vector<sf::Vector2f> Polygon::getPoints() {
     return m_points;
@@ -81,8 +70,8 @@ float Polygon::calculateSignedArea() {
     return area / 2.0f;
 }
 
-float Polygon::calculateArea() {
-    return std::abs(calculateSignedArea());
+void Polygon::calculateArea() {
+    m_area = std::abs(calculateSignedArea());
 }
 
 float Polygon::calculateInverseMomentOfInertia() {
@@ -93,7 +82,7 @@ float Polygon::calculateInverseMomentOfInertia() {
     float denominator = 0.0f;
     float inverseDensity = calculateInverseDensity();
     float inverseMass = getInverseMass();
-    sf::Vector2f centroid = calculateCenterOfMass(); // Precompute the centroid
+    sf::Vector2f centroid = calculateCenterOfMass();
 
     std::size_t n = m_points.size();
     for (int i = 0; i < n; ++i) {

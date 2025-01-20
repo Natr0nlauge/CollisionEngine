@@ -16,6 +16,8 @@ float getVectorDirection(sf::Vector2f i_vector);
 
 sf::Vector2f scaleVector(sf::Vector2f i_vector, float factor);
 
+sf::Vector2f normalizeVector(sf::Vector2f i_vector);
+
 sf::Vector2f addVectors(sf::Vector2f i_vec1, sf::Vector2f i_vec2);
 
 sf::Vector2f subtractVectors(sf::Vector2f vec1, sf::Vector2f vec2);

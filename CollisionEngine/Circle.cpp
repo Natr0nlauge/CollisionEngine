@@ -36,7 +36,7 @@ void Circle::calculatePoints() {
     }
 }
 
-sf::Vector2f Circle::calculatePoint(float angle) {
+sf::Vector2f Circle::calculatePoint(float angle) const {
     sf::Vector2f newPoint = sf::Vector2f(cos(angle), sin(angle));
     return sfu::scaleVector(newPoint, m_radius);
 }

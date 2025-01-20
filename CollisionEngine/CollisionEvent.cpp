@@ -1,5 +1,6 @@
 #include "CollisionEvent.hpp"
 #include "sfml_utility.hpp"
+#include <iostream>
 
 const float RESTITUTION = 1.0f; // depends on material; 1.0 for collisions without losses
 
@@ -42,8 +43,9 @@ float CollisionEvent::calculateContactVelocity(sf::Vector2f * i_relativePosition
         projectedClosingVelocity += sfu::scalarProduct(closingVel, m_contactNormals[i]);
     }
     // std::cout << "Normal in CollisionResolver: " << c_collEvent.normal2.x << ", " << c_collEvent.normal2.y << "\n";
+    std::cout << projectedClosingVelocity << "\n";
     return projectedClosingVelocity;
-    // std::cout << contactVel << "\n";
+    
 }
 
 float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f * i_relativePositions) const {
@@ -75,7 +77,6 @@ void CollisionEvent::handleCollision(sf::Vector2f * i_relativePosition, float i_
 
         applyImpulse(m_collisionPartners[i], i_relativePosition[i], impulse[i]);
 
-        // Impulse is the opposite for body 2
     }
     // std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
 }

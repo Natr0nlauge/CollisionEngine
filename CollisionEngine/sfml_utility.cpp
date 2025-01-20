@@ -30,10 +30,21 @@ sf::Vector2f sfu::scaleVector(sf::Vector2f i_vector, float factor) {
     return sf::Vector2f(i_vector.x * factor, i_vector.y * factor);
 }
 
+sf::Vector2f sfu::normalizeVector(sf::Vector2f i_vector) {
+    float vectorLength = getVectorLength(i_vector);
+    if (vectorLength != 0) {
+        return scaleVector(i_vector, 1 / getVectorLength(i_vector));
+    } else {
+        return sf::Vector2f(0.0f, 0.0f);
+    }
+
+}
+
 sf::Vector2f sfu::addVectors(sf::Vector2f i_vec1, sf::Vector2f i_vec2) {
     return sf::Vector2f(i_vec1.x + i_vec2.x, i_vec1.y + i_vec2.y);
 }
 
+// vec1 - vec2
 sf::Vector2f sfu::subtractVectors(sf::Vector2f i_vec1, sf::Vector2f i_vec2) {
     return sf::Vector2f(i_vec1.x - i_vec2.x, i_vec1.y - i_vec2.y);
 }

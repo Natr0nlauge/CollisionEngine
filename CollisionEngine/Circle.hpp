@@ -17,7 +17,7 @@ class Circle : public RigidBody {
     float calculateInverseMomentOfInertia() override;
     sf::Vector2f calculateCenterOfMass() override;
     void calculatePoints();
-    sf::Vector2f calculatePoint(float angle);
+    sf::Vector2f calculatePoint(float angle) const;
 
     // Private member variables:
     float m_radius;

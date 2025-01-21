@@ -76,7 +76,7 @@ bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_colli
     sf::Vector2f * firstNormalPointer = &c_collisionEvent.m_contactNormals[1];
     sf::Vector2f * secondNormalPointer = &c_collisionEvent.m_contactNormals[0];
     if (!theCircle) { // The guess was wrong, reassign pointers
-        //std::cout << "Genau " << "\n";
+        // std::cout << "Genau " << "\n";
         theCircle = dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[1]);
         thePolygon = dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]);
         firstNormalPointer = &c_collisionEvent.m_contactNormals[0];
@@ -115,7 +115,7 @@ bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_colli
             }
         }
 
-        //std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
+        // std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
         if (edgeSeparation < cornerSeparation) {
             sf::Vector2f assumedCollisionNormal =
                     thePolygon->getGlobalNormal(normalIndex); // TODO this might be important when checking normal allocation
@@ -154,16 +154,40 @@ bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_colli
             sf::Vector2f normal = sfu::subtractVectors(theCircle->getPosition(), c_collisionEvent.m_collisionLocation);
             *firstNormalPointer = sfu::normalizeVector(normal);
         }
-        //std::cout << separation << "\n";
+        // std::cout << separation << "\n";
 
         *secondNormalPointer = sfu::scaleVector(*firstNormalPointer, -1.0f);
 
         if (separation < 0) {
             return true;
-        } else {
-            return false;
         }
     } // end of if (thePolygon != NULL && theCircle != NULL)
+
+    return false;
+}
+
+bool CollisionDetector::detectCircleCollision(CollisionEvent & c_collisionEvent) {
+
+    Circle * firstBody = static_cast<Circle *>(c_collisionEvent.m_collisionPartners[0]);
+    Circle * secondBody = static_cast<Circle *>(c_collisionEvent.m_collisionPartners[1]);
+    if (firstBody != NULL && secondBody != NULL) {
+        sf::Vector2f firstPosition = c_collisionEvent.m_collisionPartners[0]->getPosition();
+        sf::Vector2f secondPosition = c_collisionEvent.m_collisionPartners[1]->getPosition();
+        sf::Vector2f relativePosition = sfu::subtractVectors(firstBody->getPosition(), secondBody->getPosition());
+
+        float offset = sfu::getVectorLength(relativePosition);
+        float separation = offset - firstBody->getRadius() - secondBody->getRadius();
+
+        if (separation < 0) {
+            c_collisionEvent.m_contactNormals[1] = sfu::normalizeVector(relativePosition);
+            c_collisionEvent.m_contactNormals[0] = sfu::scaleVector(c_collisionEvent.m_contactNormals[1], -1);
+            sf::Vector2f relativeCollisionPosition = sfu::scaleVector(c_collisionEvent.m_contactNormals[0],firstBody->getRadius());
+            c_collisionEvent.m_collisionLocation = sfu::addVectors(firstBody->getPosition(), relativeCollisionPosition);
+            
+            return true;
+        }
+    }
+    return false;
 }
 
 CollisionDetector & CollisionDetector::getInstance() {
@@ -182,7 +206,7 @@ CollisionDetector::~CollisionDetector() {}
 
 //  Detects a collision between two polygons and writes results to a collisionEvent
 bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
-    // TODO noone can ever read this
+    // TODO noone can ever read this :(
     if (dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]) &&
             dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1])) {
         return detectPolygonCollision(c_collisionEvent);
@@ -191,6 +215,9 @@ bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
                (dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[0]) &&
                        dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1]))) {
         return detectPolygonAndCircleCollision(c_collisionEvent);
+    } else if ((dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[0]) &&
+                       dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[1]))) {
+        return detectCircleCollision(c_collisionEvent);
     } else {
         return false;
     }

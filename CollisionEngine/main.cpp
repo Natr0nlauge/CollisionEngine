@@ -9,7 +9,7 @@ int main() {
     // sf::Vector2f(-50.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)     };
     std::vector<sf::Vector2f> exampleVertices = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-25.0f, 25.0f),
             sf::Vector2f(25.0f, 25.0f)};
-    collisionPartners.push_back(new Polygon(0.1, exampleVertices));
+    collisionPartners.push_back(new Circle(0.1, 25));
     // std::vector<sf::Vector2f> exampleVertices2 = { sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-50.0f, 0.0f),
     // sf::Vector2f(-75.0f, 225.0f), sf::Vector2f(25.0f, 25.0f)     };
     std::vector<sf::Vector2f> exampleVertices2 = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-25.0f, 25.0f),

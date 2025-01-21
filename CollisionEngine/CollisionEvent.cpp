@@ -43,7 +43,7 @@ float CollisionEvent::calculateContactVelocity(sf::Vector2f * i_relativePosition
         projectedClosingVelocity += sfu::scalarProduct(closingVel, m_contactNormals[i]);
     }
     // std::cout << "Normal in CollisionResolver: " << c_collEvent.normal2.x << ", " << c_collEvent.normal2.y << "\n";
-    std::cout << projectedClosingVelocity << "\n";
+    // std::cout << projectedClosingVelocity << "\n";
     return projectedClosingVelocity;
     
 }

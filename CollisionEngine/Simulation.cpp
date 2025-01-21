@@ -146,7 +146,7 @@ void Simulation::handleEvents() {
             Simulation::~Simulation(); // destroy Simulation; close window
             break;
         case sf::Event::Resized: // change window size and adapt view
-            std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
+            //std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
             m_view.setSize(m_window.getSize().x, m_window.getSize().y);                 // adapt view size
             m_view.setCenter(m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f); // adapt view center
             break;

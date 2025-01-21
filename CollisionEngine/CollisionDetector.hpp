@@ -38,6 +38,7 @@ class CollisionDetector {
             Polygon & i_body2);
     bool detectPolygonCollision(CollisionEvent & c_collisionEvent);
     bool detectPolygonAndCircleCollision(CollisionEvent & c_collisionEvent);
+    bool detectCircleCollision(CollisionEvent & c_collisionEvent);
 
     // Private member variables
     const float MIN_SEP_EPSILON = 0.01;

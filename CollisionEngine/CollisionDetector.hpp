@@ -6,9 +6,22 @@
 #include <mutex>
 
 // Includes some data about the separation
-struct separationData_type {
+struct polygonSeparationData_type {
     float separation = std::numeric_limits<float>::lowest();
     std::vector<int> indexVec; // TODO this might not be ideal
+    sf::Vector2f normal;
+};
+
+struct circleSeparationData_type {
+    float edgeSeparation = std::numeric_limits<float>::lowest();
+    float cornerSeparation = std::numeric_limits<float>::max();
+    int pointIndex = -1;
+    int normalIndex = -1;
+};
+
+struct pointSeparationData_type {
+    float separation = std::numeric_limits<float>::lowest();
+    int index = -1;
     sf::Vector2f normal;
 };
 
@@ -33,13 +46,17 @@ class CollisionDetector {
     CollisionDetector(const CollisionDetector &) = delete;
     CollisionDetector & operator=(const CollisionDetector &) = delete;
     //  Private methods
-    separationData_type findMinPolygonSeparation(Polygon & i_body1, Polygon & i_body2) const;
-    sf::Vector2f findCenterOfContact(separationData_type & i_sepData1, separationData_type & i_sepData2, Polygon & i_body1,
+    pointSeparationData_type calculateMinPointSeparation(Polygon & i_polygon, sf::Vector2f i_point) const;
+    polygonSeparationData_type calculateMinPolygonSeparation(Polygon & i_body1, Polygon & i_body2) const;
+    circleSeparationData_type calculateMinCircleSeparation(Polygon & i_polygon, Circle & i_circle) const;
+    sf::Vector2f findCenterOfContact(polygonSeparationData_type & i_sepData1, polygonSeparationData_type & i_sepData2, Polygon & i_body1,
             Polygon & i_body2);
     bool detectPolygonCollision(CollisionEvent & c_collisionEvent);
     bool detectPolygonAndCircleCollision(CollisionEvent & c_collisionEvent);
     bool detectCircleCollision(CollisionEvent & c_collisionEvent);
 
+    
+
     // Private member variables
-    const float MIN_SEP_EPSILON = 0.01;
+    const float MIN_SEP_EPSILON = 0.01; // This makes "Central collisions" possible
 };

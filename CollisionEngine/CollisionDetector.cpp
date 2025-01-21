@@ -9,7 +9,7 @@ std::unique_ptr<CollisionDetector> CollisionDetector::s_instance = nullptr;
 std::mutex CollisionDetector::mtx;
 
 // Find global coordinates of the colliding edges' vertices
-sf::Vector2f CollisionDetector::findCenterOfContact(separationData_type & i_sepData1, separationData_type & i_sepData2, Polygon & i_body1,
+sf::Vector2f CollisionDetector::findCenterOfContact(polygonSeparationData_type & i_sepData1, polygonSeparationData_type & i_sepData2, Polygon & i_body1,
         Polygon & i_body2) {
     const int numberOfPoints = 4;
     sf::Vector2f vertices[numberOfPoints];
@@ -33,8 +33,8 @@ bool CollisionDetector::detectPolygonCollision(CollisionEvent & c_collisionEvent
     Polygon * collPars[2] = {static_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]),
             static_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1])};
 
-    separationData_type collData2 = findMinPolygonSeparation(*collPars[0], *collPars[1]);
-    separationData_type collData1 = findMinPolygonSeparation(*collPars[1], *collPars[0]);
+    polygonSeparationData_type collData2 = calculateMinPolygonSeparation(*collPars[0], *collPars[1]);
+    polygonSeparationData_type collData1 = calculateMinPolygonSeparation(*collPars[1], *collPars[0]);
     // std::cout << collData1.separation << ", " << collData2.separation << "\n";
     //  If both minimum seperations are smaller than 0, it indicates a collision
     if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
@@ -42,7 +42,7 @@ bool CollisionDetector::detectPolygonCollision(CollisionEvent & c_collisionEvent
         if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
             // collData1.normal = sfu::scaleVector(collData1.normal, -1); // make sure that normal has the correct direction
             c_collisionEvent.m_collisionLocation = findCenterOfContact(collData1, collData2, *collPars[0], *collPars[1]);
-            c_collisionEvent.m_contactNormals[0] = collData2.normal; // TODO this causes problems!
+            c_collisionEvent.m_contactNormals[0] = collData2.normal;
             c_collisionEvent.m_contactNormals[1] = collData1.normal;
         } else if (collData2.separation < collData1.separation) {
             // Vertex of body 1 hits edge of body 2
@@ -75,102 +75,65 @@ bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_colli
     Polygon * thePolygon = dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1]);
     sf::Vector2f * firstNormalPointer = &c_collisionEvent.m_contactNormals[1];
     sf::Vector2f * secondNormalPointer = &c_collisionEvent.m_contactNormals[0];
+
     if (!theCircle) { // The guess was wrong, reassign pointers
-        // std::cout << "Genau " << "\n";
         theCircle = dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[1]);
         thePolygon = dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]);
         firstNormalPointer = &c_collisionEvent.m_contactNormals[0];
         secondNormalPointer = &c_collisionEvent.m_contactNormals[1];
     }
-    float radius = theCircle->getRadius();
-    float cornerSeparation = std::numeric_limits<float>::max();
-    float edgeSeparation = std::numeric_limits<float>::lowest();
+
+    if (!thePolygon || !theCircle) {
+        return false;
+    }
+
     float separation = std::numeric_limits<float>::max();
-    int pointIndex = -1;
-    int normalIndex = -1;
 
-    // Iterate through all normals and check distance to Circle Location
-    if (thePolygon != NULL && theCircle != NULL) { // TODO check if this is necessary
-        for (int i = 0; i < thePolygon->getPointCount(); i++) {
-            // TODO use pointers for assigning normals
-            sf::Vector2f testPoint = thePolygon->getGlobalPoint(i);
-            sf::Vector2f relativeCirclePosition = sfu::subtractVectors(theCircle->getPosition(), testPoint);
+    // Modified SAT algorithm
+    circleSeparationData_type circleSeparationData = calculateMinCircleSeparation(*thePolygon, *theCircle);
+    float cornerSeparation = circleSeparationData.cornerSeparation;
+    float edgeSeparation = circleSeparationData.edgeSeparation;
+    int pointIndex = circleSeparationData.pointIndex;
+    int normalIndex = circleSeparationData.normalIndex;
 
-            float newCornerSeparation = sfu::getVectorLength(relativeCirclePosition) - radius;
-            if (newCornerSeparation < cornerSeparation) {
-                cornerSeparation = newCornerSeparation;
-                pointIndex = i;
-            }
+    std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
+    if (circleSeparationData.edgeSeparation < cornerSeparation) {
+        sf::Vector2f assumedCollisionNormal = thePolygon->getGlobalNormal(normalIndex);
+        sf::Vector2f assumedCollisionLocation =
+                sfu::addVectors(theCircle->getPosition(), sfu::scaleVector(assumedCollisionNormal, -theCircle->getRadius()));
 
-            sf::Vector2f testNormal = thePolygon->getGlobalNormal(i);
-            sf::Vector2f pointConnector = sfu::subtractVectors(theCircle->getPosition(), testPoint);
-            // std::cout << testPoint.x << ", " << testPoint.y << "\n";
-            float newEdgeSeparation = sfu::scalarProduct(testNormal, pointConnector) - theCircle->getRadius();
-            // Edge separation is the maximum value of all possible edge separations
-            // std::cout << newEdgeSeparation << "\n";
-            if (newEdgeSeparation > edgeSeparation) {
-                // minSep = std::min(minSep, dotProd);
-                edgeSeparation = newEdgeSeparation; // previous indices are irrelevant
-                normalIndex = i;                    // save index
-            }
+        float collisionSeparation = std::numeric_limits<float>::lowest();
+        // Check if the Collision Location is actually inside the Polygon
+        collisionSeparation = calculateMinPointSeparation(*thePolygon, assumedCollisionLocation).separation;
+        if (collisionSeparation < 0) {
+            *firstNormalPointer = assumedCollisionNormal;
+            c_collisionEvent.m_collisionLocation = assumedCollisionLocation;
+            separation = edgeSeparation;
+        } else {
+            edgeSeparation = std::numeric_limits<float>::max();
         }
+    }
 
-        // std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
-        if (edgeSeparation < cornerSeparation) {
-            sf::Vector2f assumedCollisionNormal =
-                    thePolygon->getGlobalNormal(normalIndex); // TODO this might be important when checking normal allocation
-            sf::Vector2f assumedCollisionLocation =
-                    sfu::addVectors(theCircle->getPosition(), sfu::scaleVector(assumedCollisionNormal, -theCircle->getRadius()));
+    if (edgeSeparation >= cornerSeparation) {
+        separation = cornerSeparation;
+        c_collisionEvent.m_collisionLocation = thePolygon->getGlobalPoint(pointIndex);
+        sf::Vector2f normal = sfu::subtractVectors(theCircle->getPosition(), c_collisionEvent.m_collisionLocation);
+        *firstNormalPointer = sfu::normalizeVector(normal);
+    }
+    // std::cout << separation << "\n";
 
-            float collisionSeparation = std::numeric_limits<float>::lowest();
-            // Check if the Collision Location is actually inside the Polygon
-            for (int i = 0; i < thePolygon->getPointCount(); i++) {
-                // TODO make this a subfunction and use it at other points in the code
-                sf::Vector2f testVertex = thePolygon->getGlobalPoint(i);
-                sf::Vector2f testNormal = thePolygon->getGlobalNormal(i);
-                sf::Vector2f pointConnector = sfu::subtractVectors(assumedCollisionLocation, testVertex);
-                // std::cout << testPoint.x << ", " << testPoint.y << "\n";
-                float newCollisionSeparation = sfu::scalarProduct(testNormal, pointConnector);
-                // Edge separation is the maximum value of all possible edge separations
-                if (newCollisionSeparation > collisionSeparation) {
-                    // minSep = std::min(minSep, dotProd);
-                    collisionSeparation = newCollisionSeparation; // previous indices are irrelevant
-                }
-            }
-            // std::cout << collisionSeparation << "\n";
-            if (collisionSeparation < 0) {
-                // TODO: Check if circle is body 1 or 2 first (TEST IT!!!)
-                *firstNormalPointer = assumedCollisionNormal;
-                c_collisionEvent.m_collisionLocation = assumedCollisionLocation;
-                separation = edgeSeparation;
-            } else {
-                edgeSeparation = std::numeric_limits<float>::max();
-            }
-        }
-        if (edgeSeparation >= cornerSeparation) {
-            separation = cornerSeparation;
-            c_collisionEvent.m_collisionLocation = thePolygon->getGlobalPoint(pointIndex);
-            // TODO: Check if circle is body 1 or 2 first (TEST IT!!!!)
-            sf::Vector2f normal = sfu::subtractVectors(theCircle->getPosition(), c_collisionEvent.m_collisionLocation);
-            *firstNormalPointer = sfu::normalizeVector(normal);
-        }
-        // std::cout << separation << "\n";
+    *secondNormalPointer = sfu::scaleVector(*firstNormalPointer, -1.0f);
 
-        *secondNormalPointer = sfu::scaleVector(*firstNormalPointer, -1.0f);
+    return separation < 0;
+} // end of if (thePolygon != NULL && theCircle != NULL)
 
-        if (separation < 0) {
-            return true;
-        }
-    } // end of if (thePolygon != NULL && theCircle != NULL)
 
-    return false;
-}
 
 bool CollisionDetector::detectCircleCollision(CollisionEvent & c_collisionEvent) {
 
     Circle * firstBody = static_cast<Circle *>(c_collisionEvent.m_collisionPartners[0]);
     Circle * secondBody = static_cast<Circle *>(c_collisionEvent.m_collisionPartners[1]);
-    if (firstBody != NULL && secondBody != NULL) {
+    if (firstBody && secondBody) {
         sf::Vector2f firstPosition = c_collisionEvent.m_collisionPartners[0]->getPosition();
         sf::Vector2f secondPosition = c_collisionEvent.m_collisionPartners[1]->getPosition();
         sf::Vector2f relativePosition = sfu::subtractVectors(firstBody->getPosition(), secondBody->getPosition());
@@ -181,13 +144,35 @@ bool CollisionDetector::detectCircleCollision(CollisionEvent & c_collisionEvent)
         if (separation < 0) {
             c_collisionEvent.m_contactNormals[1] = sfu::normalizeVector(relativePosition);
             c_collisionEvent.m_contactNormals[0] = sfu::scaleVector(c_collisionEvent.m_contactNormals[1], -1);
-            sf::Vector2f relativeCollisionPosition = sfu::scaleVector(c_collisionEvent.m_contactNormals[0],firstBody->getRadius());
+            sf::Vector2f relativeCollisionPosition = sfu::scaleVector(c_collisionEvent.m_contactNormals[0], firstBody->getRadius());
             c_collisionEvent.m_collisionLocation = sfu::addVectors(firstBody->getPosition(), relativeCollisionPosition);
-            
+
             return true;
         }
     }
     return false;
+}
+
+pointSeparationData_type CollisionDetector::calculateMinPointSeparation(Polygon & i_polygon, sf::Vector2f i_point) const {
+    pointSeparationData_type separationData;
+    sf::Vector2f normal = sf::Vector2f();
+    for (int i = 0; i < i_polygon.getPointCount(); i++) {
+        // TODO make this a subfunction and use it at other points in the code
+        sf::Vector2f testVertex = i_polygon.getGlobalPoint(i);
+        sf::Vector2f testNormal = i_polygon.getGlobalNormal(i);
+        sf::Vector2f pointConnector = sfu::subtractVectors(i_point, testVertex);
+        // std::cout << testPoint.x << ", " << testPoint.y << "\n";
+        float newSeparation = sfu::scalarProduct(testNormal, pointConnector);
+        // Edge separation is the maximum value of all possible edge separations
+        if (newSeparation > separationData.separation) {
+            // minSep = std::min(minSep, dotProd);
+            separationData.separation = newSeparation; // previous indices are irrelevant
+            separationData.index = i;
+            separationData.normal = testNormal;
+        }
+    }
+
+    return separationData;
 }
 
 CollisionDetector & CollisionDetector::getInstance() {
@@ -206,28 +191,26 @@ CollisionDetector::~CollisionDetector() {}
 
 //  Detects a collision between two polygons and writes results to a collisionEvent
 bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
-    // TODO noone can ever read this :(
-    if (dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]) &&
-            dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1])) {
+    RigidBody * firstBody = c_collisionEvent.m_collisionPartners[0];
+    RigidBody * secondBody = c_collisionEvent.m_collisionPartners[1];
+    if (dynamic_cast<Polygon *>(firstBody) && dynamic_cast<Polygon *>(secondBody)) {
+        // Both bodies are Polygons
         return detectPolygonCollision(c_collisionEvent);
-    } else if ((dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]) &&
-                       dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[1])) ||
-               (dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[0]) &&
-                       dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1]))) {
+    } else if ((dynamic_cast<Polygon *>(firstBody) && dynamic_cast<Circle *>(secondBody)) ||
+               (dynamic_cast<Circle *>(firstBody) && dynamic_cast<Polygon *>(secondBody))) {
+        // One body is a circle and one is a polygon
         return detectPolygonAndCircleCollision(c_collisionEvent);
-    } else if ((dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[0]) &&
-                       dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[1]))) {
+    } else if ((dynamic_cast<Circle *>(firstBody) && dynamic_cast<Circle *>(secondBody))) {
+        // Both bodies are circles
         return detectCircleCollision(c_collisionEvent);
     } else {
         return false;
     }
 }
 
-// TODO: use some sub-functions here to make it easier to read
-separationData_type CollisionDetector::findMinPolygonSeparation(Polygon & i_body1,
-        Polygon & i_body2 /*, std::vector<int>& o_collIndexVec*/) const {
+polygonSeparationData_type CollisionDetector::calculateMinPolygonSeparation(Polygon & i_body1, Polygon & i_body2) const {
 
-    separationData_type sepData;
+    polygonSeparationData_type sepData;
     int normalIndex = 0;
 
     std::vector<int> preliminaryCollIndexVec;
@@ -238,6 +221,7 @@ separationData_type CollisionDetector::findMinPolygonSeparation(Polygon & i_body
         sf::Vector2f normal = i_body1.getGlobalNormal(i);
         float minSep = std::numeric_limits<float>::max();
 
+        // Modified SAT algorithm
         for (int j = 0; j < i_body2.getPointCount(); j++) {
             // Calculate dot product for each normal and for each connecting line between vertices
             sf::Vector2f pointConnector = sf::Vector2f(i_body2.getGlobalPoint(j).x - i_body1.getGlobalPoint(i).x,
@@ -269,4 +253,35 @@ separationData_type CollisionDetector::findMinPolygonSeparation(Polygon & i_body
     sepData.indexVec = preliminaryCollIndexVec2; // output
     // std::cout << collData.indexVec.size() << ", ";
     return sepData;
+}
+
+circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(Polygon & i_polygon, Circle & i_circle) const {
+    float radius = i_circle.getRadius();
+    circleSeparationData_type separationData;
+
+    // Modified SAT algorithm
+    for (int i = 0; i < i_polygon.getPointCount(); i++) {
+        sf::Vector2f testPoint = i_polygon.getGlobalPoint(i);
+        sf::Vector2f relativeCirclePosition = sfu::subtractVectors(i_circle.getPosition(), testPoint);
+
+        float newCornerSeparation = sfu::getVectorLength(relativeCirclePosition) - radius;
+        if (newCornerSeparation < separationData.cornerSeparation) {
+            separationData.cornerSeparation = newCornerSeparation;
+            separationData.pointIndex = i;
+        }
+
+        sf::Vector2f testNormal = i_polygon.getGlobalNormal(i);
+        sf::Vector2f pointConnector = sfu::subtractVectors(i_circle.getPosition(), testPoint);
+        // std::cout << testPoint.x << ", " << testPoint.y << "\n";
+        float newEdgeSeparation = sfu::scalarProduct(testNormal, pointConnector) - radius;
+        // Edge separation is the maximum value of all possible edge separations
+        // std::cout << newEdgeSeparation << "\n";
+        if (newEdgeSeparation > separationData.edgeSeparation) {
+            // minSep = std::min(minSep, dotProd);
+            separationData.edgeSeparation = newEdgeSeparation; // previous indices are irrelevant
+            separationData.normalIndex = i;                     // save index
+        }
+    }
+
+    return separationData;
 }

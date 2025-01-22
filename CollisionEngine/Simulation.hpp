@@ -2,7 +2,8 @@
 #include "sfml/Graphics.hpp"
 #include "RigidBody.hpp"
 #include "CollisionDetector.hpp"
-#include "vector"
+#include "BoundaryElement.hpp"
+#include <vector>
 #include <mutex>
 #include <memory>
 
@@ -16,6 +17,7 @@ class Simulation {
 
     // Public methods
     void initBodies(std::vector<RigidBody *> i_rigidBodies);
+    void initBoundaries(std::vector<BoundaryElement *> i_boundaryElements);
     void initWindow(float i_viewWidth = DEFAULT_VIEW_WIDTH, float i_viewHeight = DEFAULT_VIEW_HEIGHT,
             float i_frameRate = DEFAULT_FRAME_RATE);
     void run();
@@ -42,6 +44,7 @@ class Simulation {
     std::vector<RigidBody *> m_collisionPartners;
     std::vector<sf::RectangleShape *> m_pointMarkers;
     std::vector<sf::RectangleShape *> m_axisMarkers;
+    std::vector<BoundaryElement *> m_boundaryElements;
     CollisionDetector & m_cd = CollisionDetector::getInstance();
     sf::View m_view;
     float m_dT = 1/DEFAULT_FRAME_RATE; // in seconds

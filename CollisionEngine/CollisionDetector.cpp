@@ -67,7 +67,6 @@ bool CollisionDetector::detectPolygonCollision(CollisionEvent & c_collisionEvent
     }
 }
 
-// TODO might want to use some helper functions
 bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_collisionEvent) {
     // Detect which body is the circle and which is the polygon
     // Take a guess
@@ -102,9 +101,9 @@ bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_colli
         sf::Vector2f assumedCollisionLocation =
                 sfu::addVectors(theCircle->getPosition(), sfu::scaleVector(assumedCollisionNormal, -theCircle->getRadius()));
 
-        float collisionSeparation = std::numeric_limits<float>::lowest();
         // Check if the Collision Location is actually inside the Polygon
-        collisionSeparation = calculateMinPointSeparation(*thePolygon, assumedCollisionLocation).separation;
+        float collisionSeparation = thePolygon->calculateMinPointSeparation(assumedCollisionLocation).separation;
+        std::cout << collisionSeparation << "\n";
         if (collisionSeparation < 0) {
             *firstNormalPointer = assumedCollisionNormal;
             c_collisionEvent.m_collisionLocation = assumedCollisionLocation;
@@ -153,27 +152,7 @@ bool CollisionDetector::detectCircleCollision(CollisionEvent & c_collisionEvent)
     return false;
 }
 
-pointSeparationData_type CollisionDetector::calculateMinPointSeparation(Polygon & i_polygon, sf::Vector2f i_point) const {
-    pointSeparationData_type separationData;
-    sf::Vector2f normal = sf::Vector2f();
-    for (int i = 0; i < i_polygon.getPointCount(); i++) {
-        // TODO make this a subfunction and use it at other points in the code
-        sf::Vector2f testVertex = i_polygon.getGlobalPoint(i);
-        sf::Vector2f testNormal = i_polygon.getGlobalNormal(i);
-        sf::Vector2f pointConnector = sfu::subtractVectors(i_point, testVertex);
-        // std::cout << testPoint.x << ", " << testPoint.y << "\n";
-        float newSeparation = sfu::scalarProduct(testNormal, pointConnector);
-        // Edge separation is the maximum value of all possible edge separations
-        if (newSeparation > separationData.separation) {
-            // minSep = std::min(minSep, dotProd);
-            separationData.separation = newSeparation; // previous indices are irrelevant
-            separationData.index = i;
-            separationData.normal = testNormal;
-        }
-    }
 
-    return separationData;
-}
 
 CollisionDetector & CollisionDetector::getInstance() {
     if (s_instance == nullptr) {

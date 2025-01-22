@@ -22,6 +22,7 @@
   
   <ItemGroup>
 	  <ClCompile Include="main.cpp" />
+    <ClCompile Include="BoundaryElement.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionEvent.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoundaryElement.hpp" />
     <ClInclude Include="Circle.hpp" />
     <ClInclude Include="CollisionDetector.hpp" />
     <ClInclude Include="CollisionEvent.hpp" />

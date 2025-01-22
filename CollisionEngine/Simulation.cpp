@@ -27,6 +27,7 @@ Simulation::~Simulation() {
     cleanupMember(m_collisionPartners);
     cleanupMember(m_pointMarkers);
     cleanupMember(m_axisMarkers);
+    cleanupMember(m_boundaryElements);
 
     // Properly close the render window
     if (m_window.isOpen()) {
@@ -36,7 +37,7 @@ Simulation::~Simulation() {
 
 template <typename T> inline void Simulation::cleanupMember(std::vector<T *> & member) {
     for (T * element : member) {
-        delete element;
+        delete element; // TODO this throws an exception when deleting borderElements
     }
     member.clear();
 }
@@ -57,9 +58,6 @@ void Simulation::run() {
 
 void Simulation::addCollisionPartner(RigidBody * r_collisionPartner) {
     m_collisionPartners.push_back(r_collisionPartner);
-    r_collisionPartner->setOutlineColor(sf::Color::Red);
-    r_collisionPartner->setFillColor(sf::Color::Black);
-    r_collisionPartner->setOutlineThickness(-2.0f);
 }
 
 void Simulation::deleteCollisionPartner(int i_index) {
@@ -86,6 +84,9 @@ void Simulation::initBodies(std::vector<RigidBody *> i_rigidBodies) {
 
     for (RigidBody * rBody : i_rigidBodies) {
         addCollisionPartner(rBody);
+        rBody->setOutlineColor(sf::Color::Red);
+        rBody->setFillColor(sf::Color::Black);
+        rBody->setOutlineThickness(-2.0f);
     }
 
     for (sf::RectangleShape * marker : m_pointMarkers) {
@@ -99,6 +100,13 @@ void Simulation::initBodies(std::vector<RigidBody *> i_rigidBodies) {
         marker->setOutlineColor(sf::Color::Red);
         marker->setFillColor(sf::Color::Black);
         marker->setOutlineThickness(-1.0f);
+    }
+}
+
+void Simulation::initBoundaries(std::vector<BoundaryElement *> i_boundaryElements) {
+    for (BoundaryElement * element : i_boundaryElements) {
+        addCollisionPartner(element);
+        m_boundaryElements = i_boundaryElements;
     }
 }
 
@@ -131,6 +139,14 @@ void Simulation::update() {
     for (sf::RectangleShape * marker : m_axisMarkers) {
         m_window.draw(*marker);
     }
+    for (BoundaryElement * element : m_boundaryElements) {
+        sf::Vertex * vertexArray = element->getVertexArray();
+        // Copy the content into a local array
+        sf::Vertex localVertexArray[2];
+        localVertexArray[0] = vertexArray[0];
+        localVertexArray[1] = vertexArray[1];
+        m_window.draw(localVertexArray , 2, sf::Lines);
+    }
 
     m_window.display(); // render the frame
 }
@@ -146,7 +162,7 @@ void Simulation::handleEvents() {
             Simulation::~Simulation(); // destroy Simulation; close window
             break;
         case sf::Event::Resized: // change window size and adapt view
-            //std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
+            // std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
             m_view.setSize(m_window.getSize().x, m_window.getSize().y);                 // adapt view size
             m_view.setCenter(m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f); // adapt view center
             break;

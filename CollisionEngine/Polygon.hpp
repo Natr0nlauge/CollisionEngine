@@ -2,6 +2,12 @@
 
 #include "RigidBody.hpp"
 
+struct pointSeparationData_type {
+    float separation = std::numeric_limits<float>::lowest();
+    int index = -1;
+    sf::Vector2f normal;
+};
+
 class Polygon : public RigidBody {
   public:
     // Constructor
@@ -16,6 +22,7 @@ class Polygon : public RigidBody {
     sf::Vector2f getNormal(int i_index);
     sf::Vector2f getGlobalPoint(int i_index);
     sf::Vector2f getGlobalNormal(int i_index);
+    pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point);
 
   private:
     // Utility methods

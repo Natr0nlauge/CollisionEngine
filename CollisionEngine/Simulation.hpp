@@ -1,6 +1,6 @@
 #pragma once
 #include "sfml/Graphics.hpp"
-#include "RigidBody.hpp"
+#include "EdgeStructure.hpp"
 #include "CollisionDetector.hpp"
 #include "BoundaryElement.hpp"
 #include <vector>
@@ -16,12 +16,13 @@ class Simulation {
     ~Simulation();
 
     // Public methods
-    void initBodies(std::vector<RigidBody *> i_rigidBodies);
+    void initBodies(std::vector<RigidBody *> i_collisionPartners);
     void initBoundaries(std::vector<BoundaryElement *> i_boundaryElements);
     void initWindow(float i_viewWidth = DEFAULT_VIEW_WIDTH, float i_viewHeight = DEFAULT_VIEW_HEIGHT,
             float i_frameRate = DEFAULT_FRAME_RATE);
     void run();
     void addCollisionPartner(RigidBody * i_collisionPartner);
+    void addPlayer(RigidBody * i_player);
     void deleteCollisionPartner(int i_index);
 
   private:
@@ -42,6 +43,7 @@ class Simulation {
     // Member variables
     sf::Clock m_clock;
     std::vector<RigidBody *> m_collisionPartners;
+    std::vector<RigidBody *> m_players;
     std::vector<sf::RectangleShape *> m_pointMarkers;
     std::vector<sf::RectangleShape *> m_axisMarkers;
     std::vector<BoundaryElement *> m_boundaryElements;

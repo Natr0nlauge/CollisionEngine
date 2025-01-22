@@ -27,7 +27,6 @@ Simulation::~Simulation() {
     cleanupMember(m_collisionPartners);
     cleanupMember(m_pointMarkers);
     cleanupMember(m_axisMarkers);
-    cleanupMember(m_boundaryElements);
 
     // Properly close the render window
     if (m_window.isOpen()) {
@@ -56,8 +55,17 @@ void Simulation::run() {
     }
 }
 
-void Simulation::addCollisionPartner(RigidBody * r_collisionPartner) {
-    m_collisionPartners.push_back(r_collisionPartner);
+void Simulation::addCollisionPartner(RigidBody * i_collisionPartner) {
+    m_collisionPartners.push_back(i_collisionPartner);
+    
+}
+
+void Simulation::addPlayer(RigidBody * i_player) {
+    m_players.push_back(i_player);
+    i_player->setOutlineColor(sf::Color::Red);
+    i_player->setFillColor(sf::Color::Black);
+    i_player->setOutlineThickness(-2.0f);
+    addCollisionPartner(i_player);
 }
 
 void Simulation::deleteCollisionPartner(int i_index) {
@@ -74,7 +82,7 @@ void Simulation::initWindow(float i_viewWidth, float i_viewHeight, float i_frame
 }
 
 // prepare Bodies
-void Simulation::initBodies(std::vector<RigidBody *> i_rigidBodies) {
+void Simulation::initBodies(std::vector<RigidBody*>i_collisionPartners) {
 
     // std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f),
     // sf::Vector2f(5.0f, 5.0f)   };
@@ -82,7 +90,7 @@ void Simulation::initBodies(std::vector<RigidBody *> i_rigidBodies) {
     m_axisMarkers.push_back(new sf::RectangleShape({50.0f, 0.0f}));
     m_axisMarkers.push_back(new sf::RectangleShape({0.0f, 50.0f}));
 
-    for (RigidBody * rBody : i_rigidBodies) {
+    for (RigidBody * rBody : i_collisionPartners) {
         addCollisionPartner(rBody);
         rBody->setOutlineColor(sf::Color::Red);
         rBody->setFillColor(sf::Color::Black);

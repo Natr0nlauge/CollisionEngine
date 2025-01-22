@@ -9,8 +9,8 @@ std::unique_ptr<CollisionDetector> CollisionDetector::s_instance = nullptr;
 std::mutex CollisionDetector::mtx;
 
 // Find global coordinates of the colliding edges' vertices
-sf::Vector2f CollisionDetector::findCenterOfContact(polygonSeparationData_type & i_sepData1, polygonSeparationData_type & i_sepData2, Polygon & i_body1,
-        Polygon & i_body2) {
+sf::Vector2f CollisionDetector::findCenterOfContact(edgeStructureSeparationData_type & i_sepData1, edgeStructureSeparationData_type & i_sepData2, EdgeStructure & i_body1,
+        EdgeStructure & i_body2) {
     const int numberOfPoints = 4;
     sf::Vector2f vertices[numberOfPoints];
     std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -29,14 +29,14 @@ sf::Vector2f CollisionDetector::findCenterOfContact(polygonSeparationData_type &
     return sf::Vector2f(sfu::computeMedian(xValues), sfu::computeMedian(yValues));
 }
 
-bool CollisionDetector::detectPolygonCollision(CollisionEvent & c_collisionEvent) {
-    Polygon * collPars[2] = {static_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]),
-            static_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1])};
+bool CollisionDetector::detectEdgeStructureCollision(CollisionEvent & c_collisionEvent) {
+    EdgeStructure * collPars[2] = {static_cast<EdgeStructure *>(c_collisionEvent.m_collisionPartners[0]),
+            static_cast<EdgeStructure *>(c_collisionEvent.m_collisionPartners[1])};
 
-    polygonSeparationData_type collData2 = calculateMinPolygonSeparation(*collPars[0], *collPars[1]);
-    polygonSeparationData_type collData1 = calculateMinPolygonSeparation(*collPars[1], *collPars[0]);
-    // std::cout << collData1.separation << ", " << collData2.separation << "\n";
-    //  If both minimum seperations are smaller than 0, it indicates a collision
+    edgeStructureSeparationData_type collData2 = calculateMinEdgeStructureSeparation(*collPars[0], *collPars[1]);
+    edgeStructureSeparationData_type collData1 = calculateMinEdgeStructureSeparation(*collPars[1], *collPars[0]);
+    //std::cout << collData1.separation << ", " << collData2.separation << "\n";
+    //  If both minimum seperations are smaller than 0, it indicates a collision.
     if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
         // Two values in each vector indicate an edge-to-edge collision
         if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
@@ -67,43 +67,43 @@ bool CollisionDetector::detectPolygonCollision(CollisionEvent & c_collisionEvent
     }
 }
 
-bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_collisionEvent) {
-    // Detect which body is the circle and which is the polygon
+bool CollisionDetector::detectEdgeStructureAndCircleCollision(CollisionEvent & c_collisionEvent) {
+    // Detect which body is the circle and which is the edgeStructure
     // Take a guess
     Circle * theCircle = dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[0]);
-    Polygon * thePolygon = dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[1]);
+    EdgeStructure * theEdgeStructure = dynamic_cast<EdgeStructure *>(c_collisionEvent.m_collisionPartners[1]);
     sf::Vector2f * firstNormalPointer = &c_collisionEvent.m_contactNormals[1];
     sf::Vector2f * secondNormalPointer = &c_collisionEvent.m_contactNormals[0];
 
     if (!theCircle) { // The guess was wrong, reassign pointers
         theCircle = dynamic_cast<Circle *>(c_collisionEvent.m_collisionPartners[1]);
-        thePolygon = dynamic_cast<Polygon *>(c_collisionEvent.m_collisionPartners[0]);
+        theEdgeStructure = dynamic_cast<EdgeStructure *>(c_collisionEvent.m_collisionPartners[0]);
         firstNormalPointer = &c_collisionEvent.m_contactNormals[0];
         secondNormalPointer = &c_collisionEvent.m_contactNormals[1];
     }
 
-    if (!thePolygon || !theCircle) {
+    if (!theEdgeStructure || !theCircle) {
         return false;
     }
 
     float separation = std::numeric_limits<float>::max();
 
     // Modified SAT algorithm
-    circleSeparationData_type circleSeparationData = calculateMinCircleSeparation(*thePolygon, *theCircle);
+    circleSeparationData_type circleSeparationData = calculateMinCircleSeparation(*theEdgeStructure, *theCircle);
     float cornerSeparation = circleSeparationData.cornerSeparation;
     float edgeSeparation = circleSeparationData.edgeSeparation;
     int pointIndex = circleSeparationData.pointIndex;
     int normalIndex = circleSeparationData.normalIndex;
 
-    std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
+    //std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
     if (circleSeparationData.edgeSeparation < cornerSeparation) {
-        sf::Vector2f assumedCollisionNormal = thePolygon->getGlobalNormal(normalIndex);
+        sf::Vector2f assumedCollisionNormal = theEdgeStructure->getGlobalNormal(normalIndex);
         sf::Vector2f assumedCollisionLocation =
                 sfu::addVectors(theCircle->getPosition(), sfu::scaleVector(assumedCollisionNormal, -theCircle->getRadius()));
 
-        // Check if the Collision Location is actually inside the Polygon
-        float collisionSeparation = thePolygon->calculateMinPointSeparation(assumedCollisionLocation).separation;
-        std::cout << collisionSeparation << "\n";
+        // Check if the Collision Location is actually inside the EdgeStructure
+        float collisionSeparation = theEdgeStructure->calculateMinPointSeparation(assumedCollisionLocation).separation;
+
         if (collisionSeparation < 0) {
             *firstNormalPointer = assumedCollisionNormal;
             c_collisionEvent.m_collisionLocation = assumedCollisionLocation;
@@ -115,7 +115,7 @@ bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_colli
 
     if (edgeSeparation >= cornerSeparation) {
         separation = cornerSeparation;
-        c_collisionEvent.m_collisionLocation = thePolygon->getGlobalPoint(pointIndex);
+        c_collisionEvent.m_collisionLocation = theEdgeStructure->getGlobalPoint(pointIndex);
         sf::Vector2f normal = sfu::subtractVectors(theCircle->getPosition(), c_collisionEvent.m_collisionLocation);
         *firstNormalPointer = sfu::normalizeVector(normal);
     }
@@ -124,7 +124,7 @@ bool CollisionDetector::detectPolygonAndCircleCollision(CollisionEvent & c_colli
     *secondNormalPointer = sfu::scaleVector(*firstNormalPointer, -1.0f);
 
     return separation < 0;
-} // end of if (thePolygon != NULL && theCircle != NULL)
+} // end of if (theEdgeStructure != NULL && theCircle != NULL)
 
 
 
@@ -168,17 +168,17 @@ CollisionDetector::CollisionDetector() {}
 
 CollisionDetector::~CollisionDetector() {}
 
-//  Detects a collision between two polygons and writes results to a collisionEvent
+//  Detects a collision between two edgeStructures and writes results to a collisionEvent
 bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
     RigidBody * firstBody = c_collisionEvent.m_collisionPartners[0];
     RigidBody * secondBody = c_collisionEvent.m_collisionPartners[1];
-    if (dynamic_cast<Polygon *>(firstBody) && dynamic_cast<Polygon *>(secondBody)) {
-        // Both bodies are Polygons
-        return detectPolygonCollision(c_collisionEvent);
-    } else if ((dynamic_cast<Polygon *>(firstBody) && dynamic_cast<Circle *>(secondBody)) ||
-               (dynamic_cast<Circle *>(firstBody) && dynamic_cast<Polygon *>(secondBody))) {
-        // One body is a circle and one is a polygon
-        return detectPolygonAndCircleCollision(c_collisionEvent);
+    if (dynamic_cast<EdgeStructure *>(firstBody) && dynamic_cast<EdgeStructure *>(secondBody)) {
+        // Both bodies are EdgeStructures
+        return detectEdgeStructureCollision(c_collisionEvent);
+    } else if ((dynamic_cast<EdgeStructure *>(firstBody) && dynamic_cast<Circle *>(secondBody)) ||
+               (dynamic_cast<Circle *>(firstBody) && dynamic_cast<EdgeStructure *>(secondBody))) {
+        // One body is a circle and one is a edgeStructure
+        return detectEdgeStructureAndCircleCollision(c_collisionEvent);
     } else if ((dynamic_cast<Circle *>(firstBody) && dynamic_cast<Circle *>(secondBody))) {
         // Both bodies are circles
         return detectCircleCollision(c_collisionEvent);
@@ -187,9 +187,9 @@ bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
     }
 }
 
-polygonSeparationData_type CollisionDetector::calculateMinPolygonSeparation(Polygon & i_body1, Polygon & i_body2) const {
+edgeStructureSeparationData_type CollisionDetector::calculateMinEdgeStructureSeparation(EdgeStructure & i_body1, EdgeStructure & i_body2) const {
 
-    polygonSeparationData_type sepData;
+    edgeStructureSeparationData_type sepData;
     int normalIndex = 0;
 
     std::vector<int> preliminaryCollIndexVec;
@@ -222,25 +222,25 @@ polygonSeparationData_type CollisionDetector::calculateMinPolygonSeparation(Poly
 
         // The maximum minSep value for all normal vectors (for all i values) is the minimal seperation
         if (minSep > sepData.separation) {
+            
             sepData.separation = minSep;
             preliminaryCollIndexVec2 = preliminaryCollIndexVec;
             normalIndex = i;
             sepData.normal = normal;
         }
     }
-
     sepData.indexVec = preliminaryCollIndexVec2; // output
     // std::cout << collData.indexVec.size() << ", ";
     return sepData;
 }
 
-circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(Polygon & i_polygon, Circle & i_circle) const {
+circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(EdgeStructure & i_edgeStructure, Circle & i_circle) const {
     float radius = i_circle.getRadius();
     circleSeparationData_type separationData;
 
     // Modified SAT algorithm
-    for (int i = 0; i < i_polygon.getPointCount(); i++) {
-        sf::Vector2f testPoint = i_polygon.getGlobalPoint(i);
+    for (int i = 0; i < i_edgeStructure.getPointCount(); i++) {
+        sf::Vector2f testPoint = i_edgeStructure.getGlobalPoint(i);
         sf::Vector2f relativeCirclePosition = sfu::subtractVectors(i_circle.getPosition(), testPoint);
 
         float newCornerSeparation = sfu::getVectorLength(relativeCirclePosition) - radius;
@@ -249,7 +249,7 @@ circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(Polygo
             separationData.pointIndex = i;
         }
 
-        sf::Vector2f testNormal = i_polygon.getGlobalNormal(i);
+        sf::Vector2f testNormal = i_edgeStructure.getGlobalNormal(i);
         sf::Vector2f pointConnector = sfu::subtractVectors(i_circle.getPosition(), testPoint);
         // std::cout << testPoint.x << ", " << testPoint.y << "\n";
         float newEdgeSeparation = sfu::scalarProduct(testNormal, pointConnector) - radius;

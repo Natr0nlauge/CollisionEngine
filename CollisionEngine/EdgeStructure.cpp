@@ -1,0 +1,122 @@
+#include "EdgeStructure.hpp"
+#include "sfml_utility.hpp"
+
+EdgeStructure::EdgeStructure(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) : RigidBody(i_inverseMass) {
+    m_points = i_vertices;
+    calculateArea();
+    setOrigin(sf::Vector2f(0.0f, 0.0f));
+
+    // Redefine all the vertices, so the center of mass is at {0,0}
+    sf::Vector2f com = calculateCenterOfMass();
+    for (size_t i = 0; i < getPointCount(); ++i) {
+        sf::Vector2f & current = m_points[i];
+        current.x -= com.x;
+        current.y -= com.y;
+    }
+    m_inverseMomentOfInertia = calculateInverseMomentOfInertia();
+}
+
+EdgeStructure::~EdgeStructure() {}
+
+std::vector<sf::Vector2f> EdgeStructure::getPoints() {
+    return m_points;
+}
+
+sf::Vector2f EdgeStructure::getGlobalPoint(int i_index) {
+    sf::Vector2f transformedPoint = transformPointToGlobal(m_points[i_index]);
+    return transformedPoint;
+}
+
+sf::Vector2f EdgeStructure::getGlobalNormal(int i_index) {
+    sf::Vector2f normal;
+    normal = transformVectorToGlobal(getNormal(i_index));
+
+    return normal;
+}
+
+
+
+// Calculate polygon are using shoelace formula
+float EdgeStructure::calculateSignedArea() {
+    size_t numberOfVertices = m_points.size();
+
+    if (numberOfVertices < 3) {
+        return 0.0f; // A polygon must have at least 3 vertices
+    }
+    float area = 0.0f;
+
+    for (size_t i = 0; i < numberOfVertices; i++) {
+        // Current vertex
+        const sf::Vector2f & current = m_points[i];
+        // Next vertex (wrapping around at the end)
+        const sf::Vector2f & next = m_points[(i + 1) % numberOfVertices];
+
+        // Add cross-product to the area sum
+        area += current.x * next.y - current.y * next.x;
+    }
+
+    // std::cout << area / 2.0f;
+    return area / 2.0f;
+}
+
+void EdgeStructure::calculateArea() {
+    m_area = std::abs(calculateSignedArea());
+}
+
+float EdgeStructure::calculateInverseMomentOfInertia() {
+    if (m_points.size() < 3) {
+        return 0.0f; // A polygon needs at least 3 points
+    }
+    float numerator = 0.0f;
+    float denominator = 0.0f;
+    float inverseDensity = calculateInverseDensity();
+    float inverseMass = getInverseMass();
+    sf::Vector2f centroid = calculateCenterOfMass();
+
+    std::size_t n = m_points.size();
+    for (int i = 0; i < n; ++i) {
+        int j = (i + 1) % n; // Next vertex index (wrap around)
+        float xi = m_points[i].x - centroid.x;
+        float yi = m_points[i].y - centroid.y;
+        float xj = m_points[j].x - centroid.x;
+        float yj = m_points[j].y - centroid.y;
+
+        double commonTerm = std::abs(xi * yj - xj * yi);
+        numerator += (xi * xi + xi * xj + xj * xj + yi * yi + yi * yj + yj * yj) * commonTerm;
+        denominator += commonTerm;
+    }
+
+    float moi = numerator / (denominator * 6.0f);
+    float invMoi = inverseMass / std::abs(moi);
+    // moi = std::abs(moi) * density / 12.0f; // Divide by 12 and include density
+    // std::cout << moi << "\n";
+    return invMoi;
+}
+
+// Calculate Center of Mass (Centroid)
+sf::Vector2f EdgeStructure::calculateCenterOfMass() {
+    size_t numberOfVertices = m_points.size();
+    if (numberOfVertices < 3) {
+        return sf::Vector2f(0.0f, 0.0f); // A polygon must have at least 3 vertices
+    }
+
+    float signedArea = calculateSignedArea();
+    float cx = 0.0f, cy = 0.0f;
+
+    for (size_t i = 0; i < numberOfVertices; ++i) {
+        const sf::Vector2f & current = m_points[i];
+        const sf::Vector2f & next = m_points[(i + 1) % numberOfVertices];
+
+        float crossProduct = current.x * next.y - next.x * current.y;
+        cx += (current.x + next.x) * crossProduct;
+        cy += (current.y + next.y) * crossProduct;
+    }
+
+    cx /= (6.0f * signedArea);
+    cy /= (6.0f * signedArea);
+
+    // return { cx, cy };
+    // std::cout << cx << ", " << cy << "\n";
+    return sf::Vector2f(cx, cy);
+}
+

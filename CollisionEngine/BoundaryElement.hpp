@@ -12,7 +12,7 @@ class BoundaryElement : public EdgeStructure {
     // Public methods
     sf::Vertex * getVertexArray() ;
     pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override;
-    sf::Vector2f getNormal(int i_index) override;
+    int getNormalCount() override;
 
   private:
     sf::Vertex m_vertexArray[2]; // Start and end point

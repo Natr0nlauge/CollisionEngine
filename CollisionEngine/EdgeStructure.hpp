@@ -18,7 +18,8 @@ class EdgeStructure : public RigidBody{
 
     // Getters
     std::vector<sf::Vector2f> getPoints();
-    virtual sf::Vector2f getNormal(int i_index) = 0;
+    sf::Vector2f getNormal(int i_index);
+    virtual int getNormalCount() = 0;
     sf::Vector2f getGlobalPoint(int i_index);
     sf::Vector2f getGlobalNormal(int i_index);
     virtual pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) = 0;

@@ -196,7 +196,7 @@ edgeStructureSeparationData_type CollisionDetector::calculateMinEdgeStructureSep
     std::vector<int> preliminaryCollIndexVec2;
 
     // Loop through all vertices for Body1 and get normal vector
-    for (int i = 0; i < i_body1.getPointCount(); i++) {
+    for (int i = 0; i < i_body1.getNormalCount(); i++) {
         sf::Vector2f normal = i_body1.getGlobalNormal(i);
         float minSep = std::numeric_limits<float>::max();
 
@@ -239,7 +239,7 @@ circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(EdgeSt
     circleSeparationData_type separationData;
 
     // Modified SAT algorithm
-    for (int i = 0; i < i_edgeStructure.getPointCount(); i++) {
+    for (int i = 0; i < i_edgeStructure.getNormalCount(); i++) {
         sf::Vector2f testPoint = i_edgeStructure.getGlobalPoint(i);
         sf::Vector2f relativeCirclePosition = sfu::subtractVectors(i_circle.getPosition(), testPoint);
 

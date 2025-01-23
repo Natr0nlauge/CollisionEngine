@@ -21,12 +21,12 @@
   
   
   <ItemGroup>
-	  <ClCompile Include="main.cpp" />
     <ClCompile Include="BoundaryElement.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="EdgeStructure.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2f.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="RigidBody.cpp" />

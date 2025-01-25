@@ -2,7 +2,7 @@
 #include "sfml_utility.hpp"
 
 Circle::Circle(float i_inverseMass, float i_radius, int i_resolution) : m_radius(i_radius), m_resolution(i_resolution), RigidBody(i_inverseMass) {
-    calculateArea();
+    calculateAndSetArea();
     calculatePoints();
     // setOrigin(calculateCenterOfMass());
     setOrigin(sf::Vector2f(0.0f, 0.0f));
@@ -15,7 +15,7 @@ float Circle::getRadius() const {
     return m_radius;
 }
 
-void Circle::calculateArea() {
+void Circle::calculateAndSetArea() {
     m_area = sfu::PI * m_radius * m_radius;
 }
 

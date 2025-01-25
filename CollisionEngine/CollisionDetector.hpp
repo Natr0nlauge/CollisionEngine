@@ -47,11 +47,11 @@ class CollisionDetector {
     circleSeparationData_type calculateMinCircleSeparation(EdgeStructure & i_edgeStructure, Circle & i_circle) const;
     sf::Vector2f findCenterOfContact(edgeStructureSeparationData_type & i_sepData1, edgeStructureSeparationData_type & i_sepData2, EdgeStructure & i_body1,
             EdgeStructure & i_body2);
-    bool detectEdgeStructureCollision(CollisionEvent & c_collisionEvent);
-    bool detectEdgeStructureAndCircleCollision(CollisionEvent & c_collisionEvent);
-    bool detectCircleCollision(CollisionEvent & c_collisionEvent);
-
-    
+    collisionGeometry_type determineCollisionGeometry(EdgeStructure * firstBody, EdgeStructure * secondBody);
+    collisionGeometry_type determineCollisionGeometry(EdgeStructure * firstBody, Circle * secondBody);
+    collisionGeometry_type determineCollisionGeometry(Circle * firstBody, EdgeStructure * secondBody);
+    collisionGeometry_type determineCollisionGeometry(Circle * firstBody, Circle * secondBody);
+    collisionGeometry_type determineEdgeAndCircleGeometry(EdgeStructure * firstBody, Circle * secondBody);
 
     // Private member variables
     const float MIN_SEP_EPSILON = 0.01; // This makes "Central collisions" possible

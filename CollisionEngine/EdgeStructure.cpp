@@ -1,9 +1,10 @@
 #include "EdgeStructure.hpp"
 #include "sfml_utility.hpp"
 
+// Constructor
 EdgeStructure::EdgeStructure(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) : RigidBody(i_inverseMass) {
     m_points = i_vertices;
-    calculateArea();
+    calculateAndSetArea();
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 
     // Redefine all the vertices, so the center of mass is at {0,0}
@@ -16,6 +17,7 @@ EdgeStructure::EdgeStructure(float i_inverseMass, std::vector<sf::Vector2f> i_ve
     m_inverseMomentOfInertia = calculateInverseMomentOfInertia();
 }
 
+// Return a normal in body coordinates according to the index
 sf::Vector2f EdgeStructure::getNormal(int i_index) {
     // TODO use utility functions
     sf::Vector2f edge;
@@ -30,17 +32,21 @@ sf::Vector2f EdgeStructure::getNormal(int i_index) {
     return normal;
 }
 
+// Destructor
 EdgeStructure::~EdgeStructure() {}
 
+// Returns all points of the body
 std::vector<sf::Vector2f> EdgeStructure::getPoints() {
     return m_points;
 }
 
+// Returns a point according to the index in global coordinates
 sf::Vector2f EdgeStructure::getGlobalPoint(int i_index) {
     sf::Vector2f transformedPoint = transformPointToGlobal(m_points[i_index]);
     return transformedPoint;
 }
 
+// Returns a normal vector according to the index in global coordinates
 sf::Vector2f EdgeStructure::getGlobalNormal(int i_index) {
     sf::Vector2f normal;
     normal = transformVectorToGlobal(getNormal(i_index));
@@ -69,11 +75,10 @@ float EdgeStructure::calculateSignedArea() {
         area += current.x * next.y - current.y * next.x;
     }
 
-    // std::cout << area / 2.0f;
     return area / 2.0f;
 }
 
-void EdgeStructure::calculateArea() {
+void EdgeStructure::calculateAndSetArea() {
     m_area = std::abs(calculateSignedArea());
 }
 
@@ -86,8 +91,8 @@ float EdgeStructure::calculateInverseMomentOfInertia() {
     float inverseDensity = calculateInverseDensity();
     float inverseMass = getInverseMass();
     sf::Vector2f centroid = calculateCenterOfMass();
-
     std::size_t n = m_points.size();
+
     for (int i = 0; i < n; ++i) {
         int j = (i + 1) % n; // Next vertex index (wrap around)
         float xi = m_points[i].x - centroid.x;
@@ -102,8 +107,7 @@ float EdgeStructure::calculateInverseMomentOfInertia() {
 
     float moi = numerator / (denominator * 6.0f);
     float invMoi = inverseMass / std::abs(moi);
-    // moi = std::abs(moi) * density / 12.0f; // Divide by 12 and include density
-    // std::cout << moi << "\n";
+
     return invMoi;
 }
 
@@ -129,8 +133,6 @@ sf::Vector2f EdgeStructure::calculateCenterOfMass() {
     cx /= (6.0f * signedArea);
     cy /= (6.0f * signedArea);
 
-    // return { cx, cy };
-    // std::cout << cx << ", " << cy << "\n";
     return sf::Vector2f(cx, cy);
 }
 

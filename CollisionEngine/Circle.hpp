@@ -13,7 +13,7 @@ class Circle : public RigidBody {
 
   private:
     // Override virtual methods
-    void calculateArea() override;
+    void calculateAndSetArea() override;
     float calculateInverseMomentOfInertia() override;
     sf::Vector2f calculateCenterOfMass() override;
     void calculatePoints();

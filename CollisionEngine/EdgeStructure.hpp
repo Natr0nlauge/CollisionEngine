@@ -29,7 +29,7 @@ class EdgeStructure : public RigidBody{
     float calculateSignedArea();
 
     // Override virtual methods
-    void calculateArea() override;
+    void calculateAndSetArea() override;
     float calculateInverseMomentOfInertia() override;
     sf::Vector2f calculateCenterOfMass() override;
 };

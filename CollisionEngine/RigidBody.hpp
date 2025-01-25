@@ -33,7 +33,7 @@ class RigidBody : public sf::Shape {
     
 
     // Pure virtual methods
-    virtual void calculateArea() = 0;
+    virtual void calculateAndSetArea() = 0;
     virtual float calculateInverseMomentOfInertia() = 0;
     virtual sf::Vector2f calculateCenterOfMass() = 0;
 

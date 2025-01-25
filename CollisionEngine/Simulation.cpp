@@ -23,7 +23,6 @@ Simulation & Simulation::getInstance() {
 Simulation::Simulation() {}
 
 Simulation::~Simulation() {
-
     cleanupMember(m_collisionPartners);
     cleanupMember(m_pointMarkers);
     cleanupMember(m_axisMarkers);
@@ -129,12 +128,12 @@ void Simulation::update() {
                 // std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " <<
                 // collEvent.normal2.y << "\n"; collisionPartners[i]->setOutlineColor(sf::Color::Blue);
                 // collisionPartners[j]->setOutlineColor(sf::Color::Blue);
-                m_pointMarkers[0]->setPosition(collEvent.m_collisionLocation);
-                m_axisMarkers[0]->setPosition(collEvent.m_collisionLocation);
-                m_axisMarkers[1]->setPosition(collEvent.m_collisionLocation);
+                m_pointMarkers[0]->setPosition(collEvent.getCollisionGeometry().location);
+                m_axisMarkers[0]->setPosition(collEvent.getCollisionGeometry().location);
+                m_axisMarkers[1]->setPosition(collEvent.getCollisionGeometry().location);
                 // std::cout << "Position in Simulation: " << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
-                m_axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.m_contactNormals[0]));
-                m_axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.m_contactNormals[0]));
+                m_axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.getCollisionGeometry().normals[0]));
+                m_axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.getCollisionGeometry().normals[0]));
                 collEvent.resolve();
             }
         }

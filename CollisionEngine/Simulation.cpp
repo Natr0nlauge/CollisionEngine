@@ -4,12 +4,20 @@
 #include "stdlib.h"
 #include "sfml_utility.hpp"
 
-const float PLAYER_VELOCITY = 500.0f;        // pixels per second
+const float PLAYER_VELOCITY = 500.0f;
 const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
 
 std::unique_ptr<Simulation> Simulation::s_instance = nullptr; // pointer to Singleton instance
 std::mutex Simulation::mtx;
 
+/**
+ * @brief Retrieves the singleton instance of the class.
+ *
+ * This method provides access to the single instance of the Singleton class.
+ * If the instance does not already exist, it is created.
+ *
+ * @return A reference to the Simulation.
+ */
 Simulation & Simulation::getInstance() {
     if (s_instance == nullptr) {
         std::lock_guard<std::mutex> lock(mtx);
@@ -20,12 +28,20 @@ Simulation & Simulation::getInstance() {
     return *s_instance;
 }
 
+/**
+ * @brief Constructor.
+ */
 Simulation::Simulation() {}
 
+/**
+ * @brief Destructor.
+ */
 Simulation::~Simulation() {
+    // Clean up all the members to avoid memory leaks
     cleanupMember(m_collisionPartners);
-    cleanupMember(m_pointMarkers);
-    cleanupMember(m_axisMarkers);
+    delete m_collisionLocationMarker;
+    delete m_collisionNormalMarkers[0];
+    delete m_collisionNormalMarkers[1];
 
     // Properly close the render window
     if (m_window.isOpen()) {
@@ -33,132 +49,229 @@ Simulation::~Simulation() {
     }
 }
 
+/**
+ * @brief Cleans up and clears a vector of dynamically allocated objects.
+ *
+ * This method deletes all dynamically allocated objects in the given vector
+ * and clears the vector to release any remaining memory it holds.
+ *
+ * @tparam T The type of the objects stored in the vector.
+ * @param member A reference to the vector containing pointers to objects of type T.
+ */
 template <typename T> inline void Simulation::cleanupMember(std::vector<T *> & member) {
     for (T * element : member) {
-        delete element; // TODO this throws an exception when deleting borderElements
+        delete element;
     }
     member.clear();
 }
 
+/**
+ * @brief Opens the window and starts running the simulation.
+ *
+ * This initiates the Simulation and opens the window to display it.
+ *
+ * It stays active until the window is closed and handles timing of the frames. The handleEvents() and update() methods are called every
+ * frame.
+ *
+ */
 void Simulation::run() {
 
+    initCollisionMarkers();
+    initWindow();
     m_clock.restart();
 
     while (m_window.isOpen()) {
-        // Use crappy polling algorithm because sf::Clock doesn't support anything else
+        // Wait until it's time for the next frame
         while (m_clock.getElapsedTime().asSeconds() < m_dT) {} // wait until m_dT is elapsed
+        // Process frame
         handleEvents();
         update();
+        // Restart clock
         m_clock.restart();
-        // m_dT = clock.restart().asSeconds();
     }
 }
 
+/**
+ * @brief Add a new body to the simulation.
+ *
+ * @param i_collisionPartner A pointer to the object that needs to be added.
+ */
 void Simulation::addCollisionPartner(RigidBody * i_collisionPartner) {
     m_collisionPartners.push_back(i_collisionPartner);
-    
+    m_players.push_back(i_collisionPartner);
+    i_collisionPartner->setOutlineColor(sf::Color::Red);
+    i_collisionPartner->setFillColor(sf::Color::Black);
+    i_collisionPartner->setOutlineThickness(-2.0f);
 }
 
+/**
+ * @brief Add a new player to the simulation.
+ *
+ * @param i_player A pointer to the player that needs to be added.
+ */
 void Simulation::addPlayer(RigidBody * i_player) {
     m_players.push_back(i_player);
-    i_player->setOutlineColor(sf::Color::Red);
-    i_player->setFillColor(sf::Color::Black);
-    i_player->setOutlineThickness(-2.0f);
     addCollisionPartner(i_player);
 }
 
+/**
+ * @brief Removes a body from the simulation.
+ *
+ * @param i_index The index of the body that needs to be deleted.
+ */
 void Simulation::deleteCollisionPartner(int i_index) {
+    // Retrieve body pointer
     RigidBody * colParToDelete = m_collisionPartners[i_index];
+    // Delete body
     delete colParToDelete;
+    // Remove pointer from vector
     m_collisionPartners.erase(m_collisionPartners.begin() + i_index);
 }
 
+/**
+ * @brief Removes a body from the simulation.
+ *
+ * @param i_bodyToDelete Pointer to the body that needs to be deleted.
+ */
+void Simulation::deleteCollisionPartner(RigidBody * i_bodyToDelete) {
+    for (int i = 0; i < m_collisionPartners.size(); i++) {
+        // First check if the body is even part of the simulation
+        if (m_collisionPartners[i] == i_bodyToDelete) {
+            // Delete body
+            delete m_collisionPartners[i];
+            // Remove pointer from vector
+            m_collisionPartners.erase(m_collisionPartners.begin() + i);
+        }
+    }
+}
+
+/**
+ * @brief Opens the simulation window and defines basic settings.
+ *
+ * @param i_viewWidth The desired width of the window in pixels.
+ *
+ * @param i_viewHeight The desired height of the window in pixels.
+ *
+ * @param i_frameRate The desired frame rate in Hz.
+ */
 void Simulation::initWindow(float i_viewWidth, float i_viewHeight, float i_frameRate) {
+    // Simulation needs to have at least one pixel
+    if (i_viewWidth < 1) {
+        i_viewWidth = DEFAULT_VIEW_WIDTH;
+    }
+    if (i_viewHeight < 1) {
+        i_viewHeight = DEFAULT_VIEW_HEIGHT;
+    }
+    // Frame rate needs to be positive
+    if (i_frameRate <= 0) {
+        i_frameRate = DEFAULT_FRAME_RATE;
+    }
+    // Open window
     m_window.create(sf::VideoMode(i_viewWidth, 512), "SFML 2D collision Simulation",
             sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
+    // Initialize view and set it to the center of the window
     m_view = sf::View(sf::Vector2f(i_viewWidth / 2, i_viewHeight / 2), sf::Vector2f(i_viewWidth, i_viewHeight));
+    // Set time increment
     m_dT = 1 / i_frameRate;
 }
 
-// prepare Bodies
-void Simulation::initBodies(std::vector<RigidBody*>i_collisionPartners) {
+/**
+ * @brief Sets the collision geometry indicators properties.
+ */
+void Simulation::initCollisionMarkers() {
 
-    // std::vector<sf::Vector2f> marker1 = { sf::Vector2f(5.0f, -5.0f), sf::Vector2f(-5.0f, -5.0f), sf::Vector2f(-5.0f, 5.0f),
-    // sf::Vector2f(5.0f, 5.0f)   };
-    m_pointMarkers.push_back(new sf::RectangleShape({10.0f, 10.0f}));
-    m_axisMarkers.push_back(new sf::RectangleShape({50.0f, 0.0f}));
-    m_axisMarkers.push_back(new sf::RectangleShape({0.0f, 50.0f}));
+    m_collisionLocationMarker->setOrigin({5.0f, 5.0f});
+    m_collisionLocationMarker->setOutlineColor(sf::Color::Red);
+    m_collisionLocationMarker->setFillColor(sf::Color::Black);
+    m_collisionLocationMarker->setOutlineThickness(-2.0f);
 
-    for (RigidBody * rBody : i_collisionPartners) {
-        addCollisionPartner(rBody);
-        rBody->setOutlineColor(sf::Color::Red);
-        rBody->setFillColor(sf::Color::Black);
-        rBody->setOutlineThickness(-2.0f);
-    }
-
-    for (sf::RectangleShape * marker : m_pointMarkers) {
-        marker->setOrigin({5.0f, 5.0f});
-        marker->setOutlineColor(sf::Color::Red);
-        marker->setFillColor(sf::Color::Black);
-        marker->setOutlineThickness(-2.0f);
-    }
-
-    for (sf::RectangleShape * marker : m_axisMarkers) {
+    for (sf::RectangleShape * marker : m_collisionNormalMarkers) {
         marker->setOutlineColor(sf::Color::Red);
         marker->setFillColor(sf::Color::Black);
         marker->setOutlineThickness(-1.0f);
     }
 }
 
-void Simulation::initBoundaries(std::vector<BoundaryElement *> i_boundaryElements) {
-    for (BoundaryElement * element : i_boundaryElements) {
-        addCollisionPartner(element);
-        m_boundaryElements = i_boundaryElements;
-    }
+/**
+ * @brief Add a new boundary element to the simulation.
+ *
+ * @param i_player A pointer to the boundary element that needs to be added.
+ */
+void Simulation::addBoundaryElement(BoundaryElement * i_boundaryElement) {
+    // addCollisionPartner(static_cast<RigidBody *>(i_boundaryElement));
+    m_boundaryElements.push_back(i_boundaryElement);
 }
 
+/**
+ * @brief Is called every frame. Calls methods to check for collisions and resolve them. Updates body positions.
+ *
+ * This method generates CollisionEvents for all possible combinations of bodies. If a collision is actually detected, it is resolved. If
+ * the window has been resized, the view is updated accordingly. The change in position and rotation is applied and displayed for all
+ * bodies.
+ *
+ * @param i_player A pointer to the boundary element that needs to be added.
+ */
 void Simulation::update() {
     m_window.setView(m_view); // update view
     m_window.clear();         // remove old Objects
+    // Iterate through all bodies
     for (int i = 0; i < m_collisionPartners.size(); i++) {
+        // Iterate through all potential partners (only lower indices are used to avoid the same collision being processed twice)
         for (int j = 0; j < i; j++) {
-            // collision detection
-            CollisionEvent collEvent(m_collisionPartners[j], m_collisionPartners[i]);
-            if (m_cd.detectCollision(collEvent)) {
-                // std::cout << collEvent.normal1.x << ", " << collEvent.normal1.y << ", "  << collEvent.normal2.x << ", " <<
-                // collEvent.normal2.y << "\n"; collisionPartners[i]->setOutlineColor(sf::Color::Blue);
-                // collisionPartners[j]->setOutlineColor(sf::Color::Blue);
-                m_pointMarkers[0]->setPosition(collEvent.getCollisionGeometry().location);
-                m_axisMarkers[0]->setPosition(collEvent.getCollisionGeometry().location);
-                m_axisMarkers[1]->setPosition(collEvent.getCollisionGeometry().location);
-                // std::cout << "Position in Simulation: " << collEvent.collLoc1.x << ", " << collEvent.collLoc1.y << "\n";
-                m_axisMarkers[0]->setRotation(sfu::getVectorDirection(collEvent.getCollisionGeometry().normals[0]));
-                m_axisMarkers[1]->setRotation(sfu::getVectorDirection(collEvent.getCollisionGeometry().normals[0]));
-                collEvent.resolve();
-            }
+            CollisionEvent collEvent = m_cd.generateCollisionEvent(m_collisionPartners[j], m_collisionPartners[i]);
+            evaluateCollisionEvent(collEvent);
         }
-        m_window.draw(*m_collisionPartners[i]);
+        // Iterate through all boundaryElements
+        for (int j = 0; j < m_boundaryElements.size(); j++) {
+            CollisionEvent collEvent = m_cd.generateCollisionEvent(m_boundaryElements[j], m_collisionPartners[i]);
+            evaluateCollisionEvent(collEvent);
+        }
+        // Update and display bodies
         m_collisionPartners[i]->updatePositionAndAngle(m_dT);
+        m_window.draw(*m_collisionPartners[i]);
+        
     }
-    for (sf::RectangleShape * marker : m_pointMarkers) {
+
+    // Update and display collision geometry markers
+    m_window.draw(*m_collisionLocationMarker);
+
+    for (sf::RectangleShape * marker : m_collisionNormalMarkers) {
         m_window.draw(*marker);
     }
-    for (sf::RectangleShape * marker : m_axisMarkers) {
-        m_window.draw(*marker);
-    }
+
+    // Update and display boundaryElements
     for (BoundaryElement * element : m_boundaryElements) {
         sf::Vertex * vertexArray = element->getVertexArray();
         // Copy the content into a local array
         sf::Vertex localVertexArray[2];
         localVertexArray[0] = vertexArray[0];
         localVertexArray[1] = vertexArray[1];
-        m_window.draw(localVertexArray , 2, sf::Lines);
+        m_window.draw(localVertexArray, 2, sf::Lines);
     }
 
-    m_window.display(); // render the frame
+    // Render the frame
+    m_window.display();
 }
 
-// handle user input etc.
+/**
+ * @brief Checks if the CollisionEvent actually indicates a collision. Calls the resolve() method, Updates position and angle of the
+ * collision geometry markers.
+ *
+ * @param i_collisionEvent The CollisionEvent to evaluate.
+ */
+void Simulation::evaluateCollisionEvent(CollisionEvent & i_collisionEvent) {
+    if (i_collisionEvent.getMinSeparation() < 0) {
+        collisionGeometry_type collisionGeometry = i_collisionEvent.getCollisionGeometry();
+        m_collisionLocationMarker->setPosition(collisionGeometry.location);
+        m_collisionNormalMarkers[0]->setPosition(collisionGeometry.location);
+        m_collisionNormalMarkers[1]->setPosition(collisionGeometry.location);
+        m_collisionNormalMarkers[0]->setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
+        m_collisionNormalMarkers[1]->setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
+        i_collisionEvent.resolve();
+    }
+}
+
+// TODO add proper control mechanism for players
 void Simulation::handleEvents() {
     sf::Event event;
     while (m_window.pollEvent(event)) {

@@ -7,7 +7,8 @@ const float RESTITUTION = 1.0f; // depends on material; 1.0 for collisions witho
 const int BODIES_PER_COLLISION = 2;
 
 // Constructor
-CollisionEvent::CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2) : m_collisionPartners{i_rb1, i_rb2} {}
+CollisionEvent::CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const collisionGeometry_type & i_cg)
+    : m_collisionPartners{i_rb1, i_rb2}, m_collisionGeometry(i_cg) {}
 
 CollisionEvent::~CollisionEvent() {}
 
@@ -20,8 +21,6 @@ void CollisionEvent::resolve() {
             computeRelativePosition(m_collisionGeometry.location, m_collisionPartners[1]->getPosition())};
 
     float contactVel = calculateContactVelocity(relativePositions);
-
-    std::cout << contactVel << "\n";
 
     if (contactVel > 0) { // Avoid bodies getting stuck inside each other
         float desiredDeltaVel = -contactVel * (1 + RESTITUTION);
@@ -42,9 +41,13 @@ collisionGeometry_type CollisionEvent::getCollisionGeometry() const {
     return m_collisionGeometry;
 }
 
-void CollisionEvent::setCollisionGeometry(collisionGeometry_type i_collisionGeometry) {
-    m_collisionGeometry = i_collisionGeometry;
+float CollisionEvent::getMinSeparation() { //  TODO change name to minSeparation everywhere
+    return m_collisionGeometry.minSeparation;
 }
+
+//void CollisionEvent::setCollisionGeometry(collisionGeometry_type i_collisionGeometry) {
+//    m_collisionGeometry = i_collisionGeometry;
+//}
 
 sf::Vector2f CollisionEvent::computeRelativePosition(sf::Vector2f i_collLoc, sf::Vector2f i_bodyPosition) {
     return sfu::subtractVectors(i_collLoc, i_bodyPosition);

@@ -8,7 +8,7 @@
 // Includes some data about the separation
 struct edgeStructureSeparationData_type {
     float separation = std::numeric_limits<float>::lowest();
-    std::vector<int> indexVec; // TODO this might not be ideal
+    std::vector<int> indexVec;
     sf::Vector2f normal;
 };
 
@@ -30,7 +30,7 @@ class CollisionDetector {
     ~CollisionDetector();
 
     // Public methods
-    bool detectCollision(CollisionEvent & c_collisionEvent);
+    CollisionEvent generateCollisionEvent(RigidBody * i_firstBody, RigidBody * i_secondBody);
 
   private:
     // Singleton implementation
@@ -47,11 +47,11 @@ class CollisionDetector {
     circleSeparationData_type calculateMinCircleSeparation(EdgeStructure & i_edgeStructure, Circle & i_circle) const;
     sf::Vector2f findCenterOfContact(edgeStructureSeparationData_type & i_sepData1, edgeStructureSeparationData_type & i_sepData2, EdgeStructure & i_body1,
             EdgeStructure & i_body2);
-    collisionGeometry_type determineCollisionGeometry(EdgeStructure * firstBody, EdgeStructure * secondBody);
-    collisionGeometry_type determineCollisionGeometry(EdgeStructure * firstBody, Circle * secondBody);
-    collisionGeometry_type determineCollisionGeometry(Circle * firstBody, EdgeStructure * secondBody);
-    collisionGeometry_type determineCollisionGeometry(Circle * firstBody, Circle * secondBody);
-    collisionGeometry_type determineEdgeAndCircleGeometry(EdgeStructure * firstBody, Circle * secondBody);
+    collisionGeometry_type determineCollisionGeometry(EdgeStructure * i_firstBody, EdgeStructure * i_secondBody);
+    collisionGeometry_type determineCollisionGeometry(EdgeStructure * i_firstBody, Circle * i_secondBody);
+    collisionGeometry_type determineCollisionGeometry(Circle * i_firstBody, EdgeStructure * i_secondBody);
+    collisionGeometry_type determineCollisionGeometry(Circle * i_firstBody, Circle * i_secondBody);
+    collisionGeometry_type determineEdgeAndCircleGeometry(EdgeStructure * i_firstBody, Circle * i_secondBody);
 
     // Private member variables
     const float MIN_SEP_EPSILON = 0.01; // This makes "Central collisions" possible

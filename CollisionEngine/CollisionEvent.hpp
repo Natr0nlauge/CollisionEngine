@@ -4,7 +4,7 @@
 
 // holds
 struct collisionGeometry_type {
-    float separation = std::numeric_limits<float>::lowest();
+    float minSeparation = std::numeric_limits<float>::lowest(); 
     sf::Vector2f location = sf::Vector2f();                          // In global coordinates
     sf::Vector2f normals[2] = {sf::Vector2f(), sf::Vector2f()}; // In global coordinates
 };
@@ -13,7 +13,7 @@ class CollisionEvent {
 
   public:
     // Constructor
-    CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2);
+    CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const collisionGeometry_type & i_cg);
 
     // Destructor
     ~CollisionEvent();
@@ -22,7 +22,8 @@ class CollisionEvent {
     void resolve();
     RigidBody * getCollisionPartner(int i_index) const;
     collisionGeometry_type getCollisionGeometry() const;
-    void setCollisionGeometry(collisionGeometry_type i_collisionGeometry);
+    float getMinSeparation();
+    //void setCollisionGeometry(collisionGeometry_type i_collisionGeometry);
 
   private:
     // Private methods

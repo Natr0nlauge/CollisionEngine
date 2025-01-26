@@ -16,14 +16,14 @@ class Simulation {
     ~Simulation();
 
     // Public methods
-    void initBodies(std::vector<RigidBody *> i_collisionPartners);
-    void initBoundaries(std::vector<BoundaryElement *> i_boundaryElements);
+    void addBoundaryElement(BoundaryElement * i_boundaryElement);
     void initWindow(float i_viewWidth = DEFAULT_VIEW_WIDTH, float i_viewHeight = DEFAULT_VIEW_HEIGHT,
             float i_frameRate = DEFAULT_FRAME_RATE);
     void run();
     void addCollisionPartner(RigidBody * i_collisionPartner);
     void addPlayer(RigidBody * i_player);
     void deleteCollisionPartner(int i_index);
+    void deleteCollisionPartner(RigidBody * i_bodyToDelete);
 
   private:
     // Singleton implementation
@@ -37,19 +37,21 @@ class Simulation {
 
     // Private methods
     void update();
+    void evaluateCollisionEvent(CollisionEvent & i_collisionEvent);
     void handleEvents();
+    void initCollisionMarkers();
     template <typename T> void cleanupMember(std::vector<T*>& member);
 
     // Member variables
     sf::Clock m_clock;
     std::vector<RigidBody *> m_collisionPartners;
     std::vector<RigidBody *> m_players;
-    std::vector<sf::RectangleShape *> m_pointMarkers;
-    std::vector<sf::RectangleShape *> m_axisMarkers;
+    sf::RectangleShape * m_collisionLocationMarker = new sf::RectangleShape({10.0f, 10.0f});
+    sf::RectangleShape * m_collisionNormalMarkers[2] = {new sf::RectangleShape({50.0f, 0.0f}), new sf::RectangleShape({0.0f, 50.0f})};
     std::vector<BoundaryElement *> m_boundaryElements;
     CollisionDetector & m_cd = CollisionDetector::getInstance();
     sf::View m_view;
-    float m_dT = 1/DEFAULT_FRAME_RATE; // in seconds
+    float m_dT = 1/DEFAULT_FRAME_RATE; // time per frame in seconds
     sf::RenderWindow m_window;
     static constexpr float DEFAULT_VIEW_WIDTH = 512.0f;
     static constexpr float DEFAULT_VIEW_HEIGHT = 512.0f; // Window initial size

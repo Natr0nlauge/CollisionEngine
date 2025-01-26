@@ -30,7 +30,6 @@ sf::Vector2f CollisionDetector::findCenterOfContact(edgeStructureSeparationData_
 }
 
 // Detect if two EdgeStructures are colliding and write collision data to a c_collisionEvent
-// TODO: USE OVERLOADS FOR THESE, give only 2 body pointers as arguments, return collisionGeometry_type
 collisionGeometry_type CollisionDetector::determineCollisionGeometry(EdgeStructure * firstBody, EdgeStructure * secondBody) {
     collisionGeometry_type collisionGeometry;
 
@@ -42,20 +41,20 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(EdgeStructu
     // if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
     if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
         // Two values in each vector indicate an edge-to-edge collision
-        collisionGeometry.separation = collData2.separation;
+        collisionGeometry.minSeparation = collData2.separation;
         collisionGeometry.location = findCenterOfContact(collData1, collData2, *firstBody, *secondBody);
         collisionGeometry.normals[0] = collData2.normal;
         collisionGeometry.normals[1] = collData1.normal;
     } else if (collData2.separation < collData1.separation) {
         // Vertex of body 1 hits edge of body 2
-        collisionGeometry.separation = collData1.separation;
+        collisionGeometry.minSeparation = collData1.separation;
         collisionGeometry.location = firstBody->getGlobalPoint(collData1.indexVec[0]);
         collisionGeometry.normals[0] = sfu::scaleVector(collData1.normal, -1.0f);
         collisionGeometry.normals[1] = sfu::scaleVector(collData1.normal, 1.0f);
         // assignNormal(c_collisionEvent, collData1);
     } else /*if (collData2.separation > collData1.separation)*/ {
         // Vertex of body 2 hits edge of body 1
-        collisionGeometry.separation = collData2.separation;
+        collisionGeometry.minSeparation = collData2.separation;
         collisionGeometry.location = secondBody->getGlobalPoint(collData2.indexVec[0]);
         collisionGeometry.normals[0] = sfu::scaleVector(collData2.normal, 1.0f);
         collisionGeometry.normals[1] = sfu::scaleVector(collData2.normal, -1.0f);
@@ -90,9 +89,7 @@ collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(EdgeStr
     float edgeSeparation = circleSeparationData.edgeSeparation;
     int pointIndex = circleSeparationData.pointIndex;
     int normalIndex = circleSeparationData.normalIndex;
-    // TODO change this, nobody understands this
-    sf::Vector2f * firstNormalPointer = &(collisionGeometry.normals[0]);
-    sf::Vector2f * secondNormalPointer = &(collisionGeometry.normals[1]);
+    sf::Vector2f normal = sf::Vector2f();
 
     // std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
     if (circleSeparationData.edgeSeparation < cornerSeparation) {
@@ -104,7 +101,7 @@ collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(EdgeStr
         float collisionSeparation = theEdgeStructure->calculateMinPointSeparation(assumedCollisionLocation).separation;
 
         if (collisionSeparation < 0) {
-            *firstNormalPointer = assumedCollisionNormal;
+            normal = assumedCollisionNormal;
             collisionGeometry.location = assumedCollisionLocation;
             separation = edgeSeparation;
         } else {
@@ -115,16 +112,16 @@ collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(EdgeStr
     if (edgeSeparation >= cornerSeparation) {
         separation = cornerSeparation;
         collisionGeometry.location = theEdgeStructure->getGlobalPoint(pointIndex);
-        sf::Vector2f normal = sfu::subtractVectors(theCircle->getPosition(), collisionGeometry.location);
-        *firstNormalPointer = sfu::normalizeVector(normal);
+        normal = sfu::subtractVectors(theCircle->getPosition(), collisionGeometry.location);
     }
-    //std::cout << separation << "\n";
-    collisionGeometry.separation = separation;
 
-    *secondNormalPointer = sfu::scaleVector(*firstNormalPointer, -1.0f);
+    collisionGeometry.minSeparation = separation;
+    normal = sfu::normalizeVector(normal);
+    collisionGeometry.normals[0] = normal;
+    collisionGeometry.normals[1] = sfu::scaleVector(normal, -1.0f);
 
     return collisionGeometry;
-} // end of if (theEdgeStructure != NULL && theCircle != NULL)
+}
 
 // Detect if two Circles are colliding and write collision data to a c_collisionEvent
 collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, Circle * secondBody) {
@@ -134,7 +131,7 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * fi
     sf::Vector2f relativePosition = sfu::subtractVectors(firstBody->getPosition(), secondBody->getPosition());
 
     float offset = sfu::getVectorLength(relativePosition);
-    collisionGeometry.separation = offset - firstBody->getRadius() - secondBody->getRadius();
+    collisionGeometry.minSeparation = offset - firstBody->getRadius() - secondBody->getRadius();
 
     collisionGeometry.normals[1] = sfu::normalizeVector(relativePosition);
     collisionGeometry.normals[0] = sfu::scaleVector(collisionGeometry.normals[1], -1);
@@ -161,34 +158,31 @@ CollisionDetector::CollisionDetector() {}
 CollisionDetector::~CollisionDetector() {}
 
 //  Detects a collision between two edgeStructures and writes results to a collisionEvent
-bool CollisionDetector::detectCollision(CollisionEvent & c_collisionEvent) {
-    RigidBody * firstBody = c_collisionEvent.getCollisionPartner(0);
-    RigidBody * secondBody = c_collisionEvent.getCollisionPartner(1);
+CollisionEvent CollisionDetector::generateCollisionEvent(RigidBody * i_firstBody, RigidBody * i_secondBody) {
 
     // Find out what the first body is
 
     collisionGeometry_type collisionGeometry;
 
-    if (EdgeStructure * firstBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(firstBody)) {
-        if (EdgeStructure * secondBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(secondBody)) {
+    if (EdgeStructure * firstBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(i_firstBody)) {
+        if (EdgeStructure * secondBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(i_secondBody)) {
             // Both bodies are EdgeStructures
             collisionGeometry = determineCollisionGeometry(firstBodyAsEdgeStructure, secondBodyAsEdgeStructure);
-        } else if (Circle * secondBodyAsCircle = dynamic_cast<Circle *>(secondBody)) {
+        } else if (Circle * secondBodyAsCircle = dynamic_cast<Circle *>(i_secondBody)) {
             // Body one is EdgeStructure, body two is Circle
             collisionGeometry = determineCollisionGeometry(firstBodyAsEdgeStructure, secondBodyAsCircle);
         }
-    } else if (Circle * firstBodyAsCircle = dynamic_cast<Circle *>(firstBody)) {
-        if (EdgeStructure * secondBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(secondBody)) {
+    } else if (Circle * firstBodyAsCircle = dynamic_cast<Circle *>(i_firstBody)) {
+        if (EdgeStructure * secondBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(i_secondBody)) {
             // Body one is Circle, body two is EdgeStructure
             collisionGeometry = determineCollisionGeometry(firstBodyAsCircle, secondBodyAsEdgeStructure);
-        } else if (Circle * secondBodyAsCircle = dynamic_cast<Circle *>(secondBody)) {
+        } else if (Circle * secondBodyAsCircle = dynamic_cast<Circle *>(i_secondBody)) {
             // Both bodies are Circles
             collisionGeometry = determineCollisionGeometry(firstBodyAsCircle, secondBodyAsCircle);
         }
     }
-    c_collisionEvent.setCollisionGeometry(collisionGeometry);
 
-    return collisionGeometry.separation < 0;
+    return CollisionEvent(i_firstBody, i_secondBody, collisionGeometry);
 }
 
 edgeStructureSeparationData_type CollisionDetector::calculateMinEdgeStructureSeparation(EdgeStructure & i_body1,

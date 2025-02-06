@@ -36,7 +36,6 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(EdgeStructu
     // Do the actual calculations
     edgeStructureSeparationData_type collData2 = calculateMinEdgeStructureSeparation(*firstBody, *secondBody);
     edgeStructureSeparationData_type collData1 = calculateMinEdgeStructureSeparation(*secondBody, *firstBody);
-
     //  If one of the separation values is greater than 0, the bodies are not colliding
     // if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
     if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
@@ -59,7 +58,6 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(EdgeStructu
         collisionGeometry.normals[0] = sfu::scaleVector(collData2.normal, 1.0f);
         collisionGeometry.normals[1] = sfu::scaleVector(collData2.normal, -1.0f);
     }
-    //}
 
     return collisionGeometry;
 }

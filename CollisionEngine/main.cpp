@@ -19,8 +19,9 @@ int main() {
     Simulation & simRef = Simulation::getInstance();
     std::vector<sf::Vector2f> exampleVertices = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -50.0f), sf::Vector2f(-25.0f, 25.0f),
             sf::Vector2f(-20.0f, 30.0f), sf::Vector2f(25.0f, 25.0f)};
-    // Polygon* playerPtr = new Polygon(0.1, exampleVertices);
-    Circle * playerPtr = new Circle(0.1);
+    Polygon* polygonPtr = new Polygon(0.1f, exampleVertices);
+    //Circle * circlePtr = new Circle(0.0f);
+    PlayerController * playerPtr = new PlayerController(polygonPtr);
     simRef.addPlayer(playerPtr);
 
     std::vector<sf::Vector2f> exampleVertices2 = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-25.0f, 25.0f),
@@ -34,15 +35,21 @@ int main() {
     Polygon * testPolygon = new Polygon(0.1, exampleVertices2);
     collisionPartners.push_back(testPolygon);
     testPolygon->setPosition({100.0f, 400.0f});
-    testPolygon->setVelocity(sf::Vector2f(0, -50));
+    testPolygon->setVelocity(sf::Vector2f(0, 0));
     testPolygon->setRotation(90.0f);
     testPolygon->setAngularVelocity(-50);
 
-    playerPtr->setRotation(180.0f);
-    playerPtr->setPosition(340.0f, 200.0f);
-    playerPtr->setVelocity(sf::Vector2f(0, 0.0f));
-    // collisionPartners[0]->setVelocity(sf::Vector2f(0.0f, -40.0f));
-    playerPtr->setAngularVelocity(0);
+    Polygon * testPolygon2 = new Polygon(0.1);
+    collisionPartners.push_back(testPolygon2);
+    testPolygon2->setPosition({300.0f, 400.0f});
+    testPolygon2->setVelocity(sf::Vector2f(0, 0));
+    testPolygon2->setRotation(90.0f);
+    testPolygon2->setAngularVelocity(-50);
+
+    playerPtr->getPlayerBody()->setRotation(180.0f);
+    playerPtr->getPlayerBody()->setPosition(340.0f, 50.0f);
+    playerPtr->getPlayerBody()->setVelocity(sf::Vector2f(0, -10.0f));
+    playerPtr->getPlayerBody()->setAngularVelocity(0);
 
     boundaryElements.push_back(new BoundaryElement(550));
     boundaryElements[0]->setPosition(256, 0);

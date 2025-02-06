@@ -3,6 +3,7 @@
 #include "EdgeStructure.hpp"
 #include "CollisionDetector.hpp"
 #include "BoundaryElement.hpp"
+#include "PlayerController.hpp"
 #include <vector>
 #include <mutex>
 #include <memory>
@@ -21,7 +22,7 @@ class Simulation {
             float i_frameRate = DEFAULT_FRAME_RATE);
     void run();
     void addCollisionPartner(RigidBody * i_collisionPartner);
-    void addPlayer(RigidBody * i_player);
+    void addPlayer(PlayerController * i_playerController);
     void deleteCollisionPartner(int i_index);
     void deleteCollisionPartner(RigidBody * i_bodyToDelete);
 
@@ -45,7 +46,7 @@ class Simulation {
     // Member variables
     sf::Clock m_clock;
     std::vector<RigidBody *> m_collisionPartners;
-    std::vector<RigidBody *> m_players;
+    std::vector<PlayerController *> m_players;
     sf::RectangleShape * m_collisionLocationMarker = new sf::RectangleShape({10.0f, 10.0f});
     sf::RectangleShape * m_collisionNormalMarkers[2] = {new sf::RectangleShape({50.0f, 0.0f}), new sf::RectangleShape({0.0f, 50.0f})};
     std::vector<BoundaryElement *> m_boundaryElements;

@@ -28,6 +28,7 @@
     <ClCompile Include="EdgeStructure.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2f.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="sfml_utility.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="CollisionEvent.hpp" />
     <ClInclude Include="EdgeStructure.hpp" />
     <ClInclude Include="Matrix2f.hpp" />
+    <ClInclude Include="PlayerController.hpp" />
     <ClInclude Include="Polygon.hpp" />
     <ClInclude Include="RigidBody.hpp" />
     <ClInclude Include="sfml_utility.hpp" />

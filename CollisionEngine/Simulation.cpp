@@ -4,8 +4,8 @@
 #include "stdlib.h"
 #include "sfml_utility.hpp"
 
-const float PLAYER_VELOCITY = 500.0f;
-const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
+//const float PLAYER_VELOCITY = 500.0f;
+//const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
 
 std::unique_ptr<Simulation> Simulation::s_instance = nullptr; // pointer to Singleton instance
 std::mutex Simulation::mtx;
@@ -39,6 +39,7 @@ Simulation::Simulation() {}
 Simulation::~Simulation() {
     // Clean up all the members to avoid memory leaks
     cleanupMember(m_collisionPartners);
+    cleanupMember(m_players);
     delete m_collisionLocationMarker;
     delete m_collisionNormalMarkers[0];
     delete m_collisionNormalMarkers[1];
@@ -98,7 +99,6 @@ void Simulation::run() {
  */
 void Simulation::addCollisionPartner(RigidBody * i_collisionPartner) {
     m_collisionPartners.push_back(i_collisionPartner);
-    m_players.push_back(i_collisionPartner);
     i_collisionPartner->setOutlineColor(sf::Color::Red);
     i_collisionPartner->setFillColor(sf::Color::Black);
     i_collisionPartner->setOutlineThickness(-2.0f);
@@ -109,9 +109,8 @@ void Simulation::addCollisionPartner(RigidBody * i_collisionPartner) {
  *
  * @param i_player A pointer to the player that needs to be added.
  */
-void Simulation::addPlayer(RigidBody * i_player) {
-    m_players.push_back(i_player);
-    addCollisionPartner(i_player);
+void Simulation::addPlayer(PlayerController * i_playerController) {
+    m_players.push_back(i_playerController);
 }
 
 /**
@@ -176,7 +175,7 @@ void Simulation::initWindow(float i_viewWidth, float i_viewHeight, float i_frame
 }
 
 /**
- * @brief Sets the collision geometry indicators properties.
+ * @brief Sets the collision geometry indicators' properties.
  */
 void Simulation::initCollisionMarkers() {
 
@@ -214,22 +213,44 @@ void Simulation::addBoundaryElement(BoundaryElement * i_boundaryElement) {
 void Simulation::update() {
     m_window.setView(m_view); // update view
     m_window.clear();         // remove old Objects
+    // Create a new vector to hold the combined contents
+    std::vector<RigidBody *> playerBodies;
+
+    for (PlayerController* player : m_players) {
+        playerBodies.push_back(player->getPlayerBody());
+    }
+
+    std::vector<RigidBody *> allBodies;
+
+    // Reserve memory to improve performance
+    allBodies.reserve(m_collisionPartners.size() + m_players.size());
+
+    // Copy the elements of vec1 and vec2 into the new vector
+    allBodies.insert(allBodies.end(), m_collisionPartners.begin(), m_collisionPartners.end());
+    allBodies.insert(allBodies.end(), playerBodies.begin(), playerBodies.end());
     // Iterate through all bodies
-    for (int i = 0; i < m_collisionPartners.size(); i++) {
+    for (int i = 0; i < allBodies.size(); i++) {
         // Iterate through all potential partners (only lower indices are used to avoid the same collision being processed twice)
         for (int j = 0; j < i; j++) {
-            CollisionEvent collEvent = m_cd.generateCollisionEvent(m_collisionPartners[j], m_collisionPartners[i]);
+            CollisionEvent collEvent = m_cd.generateCollisionEvent(allBodies[j], allBodies[i]);
             evaluateCollisionEvent(collEvent);
         }
         // Iterate through all boundaryElements
         for (int j = 0; j < m_boundaryElements.size(); j++) {
-            CollisionEvent collEvent = m_cd.generateCollisionEvent(m_boundaryElements[j], m_collisionPartners[i]);
+            CollisionEvent collEvent = m_cd.generateCollisionEvent(m_boundaryElements[j], allBodies[i]);
             evaluateCollisionEvent(collEvent);
         }
         // Update and display bodies
-        m_collisionPartners[i]->updatePositionAndAngle(m_dT);
-        m_window.draw(*m_collisionPartners[i]);
-        
+    }
+
+    for (RigidBody * body : m_collisionPartners) {
+        body->updatePositionAndAngle(m_dT);
+        m_window.draw(*body);
+    }
+
+    for (PlayerController * player : m_players) {
+        player->update(m_dT);
+        m_window.draw(*(player->getPlayerBody()));
     }
 
     // Update and display collision geometry markers
@@ -289,33 +310,33 @@ void Simulation::handleEvents() {
         }
 
         // keyboard control
-        float movIncr = m_dT * PLAYER_VELOCITY;
+        /*float movIncr = m_dT * PLAYER_VELOCITY;
         float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-            m_collisionPartners[0]->move(-movIncr, 0.0f);
+            m_players[0]->getPlayerBody()->move(-movIncr, 0.0f);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-            m_collisionPartners[0]->move(movIncr, 0.0f);
+            m_players[0]->getPlayerBody()->move(movIncr, 0.0f);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            m_collisionPartners[0]->move(0.0f, movIncr);
+            m_players[0]->getPlayerBody()->move(0.0f, movIncr);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-            m_collisionPartners[0]->move(0.0f, -movIncr);
+            m_players[0]->getPlayerBody()->move(0.0f, -movIncr);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-            m_collisionPartners[0]->rotate(angIncr);
+            m_players[0]->getPlayerBody()->rotate(angIncr);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
-            m_collisionPartners[0]->rotate(-angIncr);
+            m_players[0]->getPlayerBody()->rotate(-angIncr);
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {}
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {}*/
 
         // mouse control
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-            m_collisionPartners[0]->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+            m_players[0]->getPlayerBody()->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
         }
     }
 }

@@ -7,8 +7,8 @@
 class Polygon : public EdgeStructure {
   public:
     // Constructor
-    Polygon(float i_inverseMass = 0.1, std::vector<sf::Vector2f> i_vertices = {sf::Vector2f(25.0f, 25.0f), sf::Vector2f(-25.0f, 25.0f),
-                                               sf::Vector2f(-50.0f, 0.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(25.0f, -25.0f)});
+    Polygon(float i_inverseMass = 0.1, std::vector<sf::Vector2f> i_vertices = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),
+                                               sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)});
 
     // Destructor
     ~Polygon();

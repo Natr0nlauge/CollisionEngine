@@ -35,6 +35,14 @@ float RigidBody::getAngularVelocity() const {
     return m_angularVelocity;
 }
 
+float RigidBody::getRestitutionCoefficient() {
+    return m_restitutionCoefficient;
+}
+
+float RigidBody::getFrictionCoefficient() {
+    return m_frictionCoefficient;
+}
+
 void RigidBody::setVelocity(sf::Vector2f i_newVel) {
     m_velocity = i_newVel;
 }
@@ -44,9 +52,19 @@ void RigidBody::setAngularVelocity(float i_newAngVel) {
     m_angularVelocity = i_newAngVel;
 }
 
+void RigidBody::setRestitutionCoefficient(float i_restitutionCoefficient) {
+    m_restitutionCoefficient = i_restitutionCoefficient;
+}
+
+void RigidBody::setFrictionCoefficient(float i_frictionCoefficient) {
+    m_frictionCoefficient = i_frictionCoefficient;
+}
+
 void RigidBody::updatePositionAndAngle(float i_dT) {
     move(m_velocity.x * i_dT, m_velocity.y * i_dT);
     rotate(m_angularVelocity * i_dT);
+    m_velocity = sfu::scaleVector(m_velocity, 1.0f - m_frictionCoefficient);
+    m_angularVelocity = m_angularVelocity * (1.0f - m_frictionCoefficient);
 }
 
 // Local to global

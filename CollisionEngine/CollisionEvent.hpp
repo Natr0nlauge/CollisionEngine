@@ -22,7 +22,7 @@ class CollisionEvent {
     void resolve();
     RigidBody * getCollisionPartner(int i_index) const;
     collisionGeometry_type getCollisionGeometry() const;
-    float getMinSeparation();
+    float getMinSeparation() const;
     //void setCollisionGeometry(collisionGeometry_type i_collisionGeometry);
 
   private:

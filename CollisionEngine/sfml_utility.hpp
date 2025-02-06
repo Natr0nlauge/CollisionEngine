@@ -26,9 +26,10 @@ float scalarProduct(sf::Vector2f i_vec1, sf::Vector2f i_vec2);
 
 float pseudoCrossProduct(sf::Vector2f i_vec1, sf::Vector2f i_vec2);
 
-sf::Vector2f pseudoCrossProduct2(float i_length1, sf::Vector2f i_vec2);
+sf::Vector2f pseudoCrossProduct(float i_length1, sf::Vector2f i_vec2);
 
 sf::Vector2f rotateVector(sf::Vector2f i_vector, float i_angle);
 
 sf::Vector2f transformPoint(sf::Vector2f i_vector, sf::Vector2f i_origin, float i_angle);
+
 } // namespace sfu

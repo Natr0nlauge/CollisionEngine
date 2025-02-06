@@ -2,6 +2,8 @@
 #include "CollisionDetector.hpp"
 #include <array>
 
+
+
 float sfu::computeMedian(const std::array<float, 4> & i_arr) {
     // Make a copy of the array because we need to sort it
     std::array<float, 4> sortedArr = i_arr;
@@ -57,7 +59,7 @@ float sfu::pseudoCrossProduct(sf::Vector2f i_vec1, sf::Vector2f i_vec2) {
     return i_vec1.x * i_vec2.y - i_vec1.y * i_vec2.x;
 }
 
-sf::Vector2f sfu::pseudoCrossProduct2(float i_length1, sf::Vector2f i_vec2) {
+sf::Vector2f sfu::pseudoCrossProduct(float i_length1, sf::Vector2f i_vec2) {
     return sf::Vector2f(-i_length1 * i_vec2.y, i_length1 * i_vec2.x);
 }
 
@@ -69,3 +71,6 @@ sf::Vector2f sfu::rotateVector(sf::Vector2f i_vector, float i_angle) {
 sf::Vector2f sfu::transformPoint(sf::Vector2f i_vector, sf::Vector2f i_origin, float i_angle) {
     return sfu::addVectors(rotateVector(i_vector, i_angle), i_origin);
 }
+
+
+

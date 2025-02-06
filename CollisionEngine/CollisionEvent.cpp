@@ -2,8 +2,6 @@
 #include "sfml_utility.hpp"
 #include <iostream>
 
-const float RESTITUTION = 1.0f; // depends on material; 1.0 for collisions without losses
-
 const int BODIES_PER_COLLISION = 2;
 
 // Constructor
@@ -23,10 +21,27 @@ void CollisionEvent::resolve() {
     float contactVel = calculateContactVelocity(relativePositions);
 
     if (contactVel > 0) { // Avoid bodies getting stuck inside each other
-        float desiredDeltaVel = -contactVel * (1 + RESTITUTION);
+        float restitutionCoefficient =
+                m_collisionPartners[0]->getRestitutionCoefficient() * m_collisionPartners[1]->getRestitutionCoefficient();
 
-        float deltaVelPerUnitImpulse = calculateDeltaVelPerUnitImpulse(relativePositions);
+        float desiredDeltaVel = -contactVel * (1 + restitutionCoefficient);
 
+        float deltaVelPerUnitImpulse = 1.0f; // arbitrary value !=0
+
+        try {
+            deltaVelPerUnitImpulse = calculateDeltaVelPerUnitImpulse(relativePositions);
+        } catch (const std::runtime_error & e) {
+            // TODO use subfunction
+            std::cerr << e.what() << "-> Forcing the bodies away from each other." << "\n";
+            for (RigidBody* colPar : m_collisionPartners) {
+                sf::Vector2f vel = colPar->getVelocity();
+                float angVel = colPar->getAngularVelocity();
+                sf::Vector2f newVel = sfu::scaleVector(vel, -1.0f);
+                float newAngVel = -1.0f;
+                colPar->setVelocity(newVel);
+                colPar->setAngularVelocity(newAngVel);
+            }
+        }
         float impulseContactX = desiredDeltaVel / deltaVelPerUnitImpulse;
 
         handleCollision(relativePositions, impulseContactX, contactTransformationAngle);
@@ -41,13 +56,13 @@ collisionGeometry_type CollisionEvent::getCollisionGeometry() const {
     return m_collisionGeometry;
 }
 
-float CollisionEvent::getMinSeparation() { //  TODO change name to minSeparation everywhere
+float CollisionEvent::getMinSeparation() const { //  TODO change name to minSeparation everywhere
     return m_collisionGeometry.minSeparation;
 }
 
-//void CollisionEvent::setCollisionGeometry(collisionGeometry_type i_collisionGeometry) {
-//    m_collisionGeometry = i_collisionGeometry;
-//}
+// void CollisionEvent::setCollisionGeometry(collisionGeometry_type i_collisionGeometry) {
+//     m_collisionGeometry = i_collisionGeometry;
+// }
 
 sf::Vector2f CollisionEvent::computeRelativePosition(sf::Vector2f i_collLoc, sf::Vector2f i_bodyPosition) {
     return sfu::subtractVectors(i_collLoc, i_bodyPosition);
@@ -60,7 +75,7 @@ float CollisionEvent::calculateContactVelocity(sf::Vector2f * i_relativePosition
     for (int i = 0; i < BODIES_PER_COLLISION; i++) {
         float angVel = m_collisionPartners[i]->getAngularVelocity() * sfu::PI / 180;
         sf::Vector2f tranVel = m_collisionPartners[i]->getVelocity();
-        sf::Vector2f closingVel = sfu::pseudoCrossProduct2(angVel, i_relativePositions[i]);
+        sf::Vector2f closingVel = sfu::pseudoCrossProduct(angVel, i_relativePositions[i]);
         closingVel = sfu::addVectors(closingVel, tranVel);
         projectedClosingVelocity += sfu::scalarProduct(closingVel, m_collisionGeometry.normals[i]);
     }
@@ -76,11 +91,13 @@ float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f * i_relativeP
     for (int i = 0; i < BODIES_PER_COLLISION; i++) {
         float torquePerUnitImpulse = sfu::pseudoCrossProduct(i_relativePositions[i], m_collisionGeometry.normals[i]);
         float angVelPerUnitImpulse = m_collisionPartners[i]->getInverseMomentOfInertia() * torquePerUnitImpulse;
-        sf::Vector2f velocityPerUnitImpulse1 = sfu::pseudoCrossProduct2(angVelPerUnitImpulse, i_relativePositions[i]);
+        sf::Vector2f velocityPerUnitImpulse1 = sfu::pseudoCrossProduct(angVelPerUnitImpulse, i_relativePositions[i]);
         deltaVel += sfu::scalarProduct(velocityPerUnitImpulse1, m_collisionGeometry.normals[i]);
         deltaVel += m_collisionPartners[i]->getInverseMass();
     }
-
+    if (deltaVel <= 0) {
+        throw std::runtime_error("The collision is impossible! Maybe two bodies with inverseMass = 0 have collided?");
+    }
     return deltaVel;
 }
 
@@ -101,6 +118,7 @@ void CollisionEvent::handleCollision(sf::Vector2f * i_relativePosition, float i_
     // std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
 }
 
+// TODO put in RigidBody
 void CollisionEvent::applyImpulse(RigidBody * c_collisionPartner, sf::Vector2f i_relativePosition, sf::Vector2f i_impulse) {
 
     sf::Vector2f velocityChange = sfu::scaleVector(i_impulse, c_collisionPartner->getInverseMass());

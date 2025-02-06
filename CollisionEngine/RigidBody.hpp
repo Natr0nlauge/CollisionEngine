@@ -12,10 +12,14 @@ class RigidBody : public sf::Shape {
     float getInverseMomentOfInertia() const;
     sf::Vector2f getVelocity() const;
     float getAngularVelocity() const;
+    float getRestitutionCoefficient();
+    float getFrictionCoefficient();
 
     // Setters
     void setVelocity(sf::Vector2f i_newVel);
     void setAngularVelocity(float i_newAngVel);
+    void setRestitutionCoefficient(float i_restitutionCoefficient);
+    void setFrictionCoefficient(float i_frictionCoefficient);
 
     // Public methods
     void updatePositionAndAngle(float i_dT);
@@ -23,6 +27,8 @@ class RigidBody : public sf::Shape {
     // Override inherited methods
     std::size_t getPointCount() const override;
     sf::Vector2f getPoint(std::size_t index) const override;
+
+    
 
   protected:
     // Utility methods
@@ -43,5 +49,7 @@ class RigidBody : public sf::Shape {
     float m_area = 0.0f; // area of 0.0f indicates that it is not yet calculated (this should be avoided)
     sf::Vector2f m_velocity = sf::Vector2f(0.0f, 0.0f);
     float m_angularVelocity = 0.0f;
+    float m_restitutionCoefficient = 1.0f;
+    float m_frictionCoefficient = 0.005f;
     std::vector<sf::Vector2f> m_points;
 };

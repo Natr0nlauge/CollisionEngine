@@ -113,21 +113,7 @@ void CollisionEvent::handleCollision(sf::Vector2f * i_relativePosition, float i_
 
     for (int i = 0; i < BODIES_PER_COLLISION; i++) {
 
-        applyImpulse(m_collisionPartners[i], i_relativePosition[i], impulse[i]);
+        m_collisionPartners[i]->applyImpulse(i_relativePosition[i], impulse[i]);
     }
     // std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
-}
-
-// TODO put in RigidBody
-void CollisionEvent::applyImpulse(RigidBody * c_collisionPartner, sf::Vector2f i_relativePosition, sf::Vector2f i_impulse) {
-
-    sf::Vector2f velocityChange = sfu::scaleVector(i_impulse, c_collisionPartner->getInverseMass());
-
-    float impulsiveTorque = sfu::pseudoCrossProduct(i_relativePosition, i_impulse);
-    float angularVelocityChange = c_collisionPartner->getInverseMomentOfInertia() * impulsiveTorque;
-
-    sf::Vector2f newVel = sfu::addVectors(c_collisionPartner->getVelocity(), velocityChange);
-    float newAngVel = c_collisionPartner->getAngularVelocity() + angularVelocityChange * 180 / sfu::PI;
-    c_collisionPartner->setVelocity(newVel);
-    c_collisionPartner->setAngularVelocity(newAngVel);
 }

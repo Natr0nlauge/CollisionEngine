@@ -23,6 +23,7 @@ class RigidBody : public sf::Shape {
 
     // Public methods
     void updatePositionAndAngle(float i_dT);
+    void applyImpulse(sf::Vector2f i_relativePosition, sf::Vector2f i_impulse);
 
     // Override inherited methods
     std::size_t getPointCount() const override;

@@ -1,0 +1,168 @@
+\doxysection{Simulation Class Reference}
+\hypertarget{class_simulation}{}\label{class_simulation}\index{Simulation@{Simulation}}
+
+
+{\ttfamily \#include $<$Simulation.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_simulation_a80fad3f57dfaf195a36f7bc49bc88279}{\texorpdfstring{$\sim$}{\string~}\+Simulation}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simulation_addf48743416b716a91b04a88b22a0e27}{add\+Boundary\+Element}} (\mbox{\hyperlink{class_boundary_element}{Boundary\+Element}} \texorpdfstring{$\ast$}{*}i\+\_\+boundary\+Element)
+\begin{DoxyCompactList}\small\item\em Add a new boundary element to the simulation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simulation_a84878eafad636b91fa491ac77331017e}{init\+Window}} (float i\+\_\+view\+Width=DEFAULT\+\_\+\+VIEW\+\_\+\+WIDTH, float i\+\_\+view\+Height=DEFAULT\+\_\+\+VIEW\+\_\+\+HEIGHT, float i\+\_\+frame\+Rate=DEFAULT\+\_\+\+FRAME\+\_\+\+RATE)
+\begin{DoxyCompactList}\small\item\em Opens the simulation window and defines basic settings. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simulation_ae5c367f87c0b5dc9740bc6d00e44e72c}{run}} ()
+\begin{DoxyCompactList}\small\item\em Opens the window and starts running the simulation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simulation_a29635ac084979016e85dbebc92b2ad81}{add\+Collision\+Partner}} (\mbox{\hyperlink{class_rigid_body}{Rigid\+Body}} \texorpdfstring{$\ast$}{*}i\+\_\+collision\+Partner)
+\begin{DoxyCompactList}\small\item\em Add a new body to the simulation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simulation_aa411c38fc678b65c547d2081c9c59ec3}{add\+Player}} (\mbox{\hyperlink{class_player_controller}{Player\+Controller}} \texorpdfstring{$\ast$}{*}i\+\_\+player\+Controller)
+\begin{DoxyCompactList}\small\item\em Add a new player to the simulation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simulation_afc2a5620f950a14393e3f8a9e8d3c098}{delete\+Collision\+Partner}} (int i\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Removes a body from the simulation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simulation_a98c8ad5e6b1e93e62a051ec68b77bf3a}{delete\+Collision\+Partner}} (\mbox{\hyperlink{class_rigid_body}{Rigid\+Body}} \texorpdfstring{$\ast$}{*}i\+\_\+body\+To\+Delete)
+\begin{DoxyCompactList}\small\item\em Removes a body from the simulation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_simulation}{Simulation}} \& \mbox{\hyperlink{class_simulation_a7b05c9662b46483be6de082c3a068cf9}{get\+Instance}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves the singleton instance of the class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_simulation_a80fad3f57dfaf195a36f7bc49bc88279}\index{Simulation@{Simulation}!````~Simulation@{\texorpdfstring{$\sim$}{\string~}Simulation}}
+\index{````~Simulation@{\texorpdfstring{$\sim$}{\string~}Simulation}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Simulation()}{\string~Simulation()}}
+{\footnotesize\ttfamily \label{class_simulation_a80fad3f57dfaf195a36f7bc49bc88279} 
+Simulation\+::\texorpdfstring{$\sim$}{\string~}\+Simulation (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_simulation_addf48743416b716a91b04a88b22a0e27}\index{Simulation@{Simulation}!addBoundaryElement@{addBoundaryElement}}
+\index{addBoundaryElement@{addBoundaryElement}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{addBoundaryElement()}{addBoundaryElement()}}
+{\footnotesize\ttfamily \label{class_simulation_addf48743416b716a91b04a88b22a0e27} 
+void Simulation\+::add\+Boundary\+Element (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_boundary_element}{Boundary\+Element}} \texorpdfstring{$\ast$}{*}}]{i\+\_\+boundary\+Element}{}\end{DoxyParamCaption})}
+
+
+
+Add a new boundary element to the simulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i\+\_\+player} & A pointer to the boundary element that needs to be added. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_simulation_a29635ac084979016e85dbebc92b2ad81}\index{Simulation@{Simulation}!addCollisionPartner@{addCollisionPartner}}
+\index{addCollisionPartner@{addCollisionPartner}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{addCollisionPartner()}{addCollisionPartner()}}
+{\footnotesize\ttfamily \label{class_simulation_a29635ac084979016e85dbebc92b2ad81} 
+void Simulation\+::add\+Collision\+Partner (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rigid_body}{Rigid\+Body}} \texorpdfstring{$\ast$}{*}}]{i\+\_\+collision\+Partner}{}\end{DoxyParamCaption})}
+
+
+
+Add a new body to the simulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i\+\_\+collision\+Partner} & A pointer to the object that needs to be added. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_simulation_aa411c38fc678b65c547d2081c9c59ec3}\index{Simulation@{Simulation}!addPlayer@{addPlayer}}
+\index{addPlayer@{addPlayer}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{addPlayer()}{addPlayer()}}
+{\footnotesize\ttfamily \label{class_simulation_aa411c38fc678b65c547d2081c9c59ec3} 
+void Simulation\+::add\+Player (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player_controller}{Player\+Controller}} \texorpdfstring{$\ast$}{*}}]{i\+\_\+player\+Controller}{}\end{DoxyParamCaption})}
+
+
+
+Add a new player to the simulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i\+\_\+player} & A pointer to the player that needs to be added. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_simulation_afc2a5620f950a14393e3f8a9e8d3c098}\index{Simulation@{Simulation}!deleteCollisionPartner@{deleteCollisionPartner}}
+\index{deleteCollisionPartner@{deleteCollisionPartner}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{deleteCollisionPartner()}{deleteCollisionPartner()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_simulation_afc2a5620f950a14393e3f8a9e8d3c098} 
+void Simulation\+::delete\+Collision\+Partner (\begin{DoxyParamCaption}\item[{int}]{i\+\_\+index}{}\end{DoxyParamCaption})}
+
+
+
+Removes a body from the simulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i\+\_\+index} & The index of the body that needs to be deleted. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_simulation_a98c8ad5e6b1e93e62a051ec68b77bf3a}\index{Simulation@{Simulation}!deleteCollisionPartner@{deleteCollisionPartner}}
+\index{deleteCollisionPartner@{deleteCollisionPartner}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{deleteCollisionPartner()}{deleteCollisionPartner()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_simulation_a98c8ad5e6b1e93e62a051ec68b77bf3a} 
+void Simulation\+::delete\+Collision\+Partner (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rigid_body}{Rigid\+Body}} \texorpdfstring{$\ast$}{*}}]{i\+\_\+body\+To\+Delete}{}\end{DoxyParamCaption})}
+
+
+
+Removes a body from the simulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i\+\_\+body\+To\+Delete} & Pointer to the body that needs to be deleted. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_simulation_a7b05c9662b46483be6de082c3a068cf9}\index{Simulation@{Simulation}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily \label{class_simulation_a7b05c9662b46483be6de082c3a068cf9} 
+\mbox{\hyperlink{class_simulation}{Simulation}} \& Simulation\+::get\+Instance (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Retrieves the singleton instance of the class. 
+
+This method provides access to the single instance of the Singleton class. If the instance does not already exist, it is created.
+
+\begin{DoxyReturn}{Returns}
+A reference to the \doxylink{class_simulation}{Simulation}. 
+\end{DoxyReturn}
+\Hypertarget{class_simulation_a84878eafad636b91fa491ac77331017e}\index{Simulation@{Simulation}!initWindow@{initWindow}}
+\index{initWindow@{initWindow}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{initWindow()}{initWindow()}}
+{\footnotesize\ttfamily \label{class_simulation_a84878eafad636b91fa491ac77331017e} 
+void Simulation\+::init\+Window (\begin{DoxyParamCaption}\item[{float}]{i\+\_\+view\+Width}{ = {\ttfamily DEFAULT\+\_\+VIEW\+\_\+WIDTH}, }\item[{float}]{i\+\_\+view\+Height}{ = {\ttfamily DEFAULT\+\_\+VIEW\+\_\+HEIGHT}, }\item[{float}]{i\+\_\+frame\+Rate}{ = {\ttfamily DEFAULT\+\_\+FRAME\+\_\+RATE}}\end{DoxyParamCaption})}
+
+
+
+Opens the simulation window and defines basic settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i\+\_\+view\+Width} & The desired width of the window in pixels.\\
+\hline
+{\em i\+\_\+view\+Height} & The desired height of the window in pixels.\\
+\hline
+{\em i\+\_\+frame\+Rate} & The desired frame rate in Hz. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_simulation_ae5c367f87c0b5dc9740bc6d00e44e72c}\index{Simulation@{Simulation}!run@{run}}
+\index{run@{run}!Simulation@{Simulation}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily \label{class_simulation_ae5c367f87c0b5dc9740bc6d00e44e72c} 
+void Simulation\+::run (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Opens the window and starts running the simulation. 
+
+This initiates the \doxylink{class_simulation}{Simulation} and opens the window to display it.
+
+It stays active until the window is closed and handles timing of the frames. The handle\+Events() and update() methods are called every frame. 

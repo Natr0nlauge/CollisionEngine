@@ -45,6 +45,8 @@ class Simulation {
 
     // Member variables
     sf::Clock m_clock;
+    //std::vector<std::unique_ptr<RigidBody>> m_collisionPartners;
+    //std::vector<std::unique_ptr<PlayerController>> m_players;
     std::vector<RigidBody *> m_collisionPartners;
     std::vector<PlayerController *> m_players;
     sf::RectangleShape * m_collisionLocationMarker = new sf::RectangleShape({10.0f, 10.0f});

@@ -67,6 +67,19 @@ void RigidBody::updatePositionAndAngle(float i_dT) {
     m_angularVelocity = m_angularVelocity * (1.0f - m_frictionCoefficient);
 }
 
+void RigidBody::applyImpulse(sf::Vector2f i_relativePosition, sf::Vector2f i_impulse) {
+
+    sf::Vector2f velocityChange = sfu::scaleVector(i_impulse, m_inverseMass);
+
+    float impulsiveTorque = sfu::pseudoCrossProduct(i_relativePosition, i_impulse);
+    float angularVelocityChange = m_inverseMomentOfInertia * impulsiveTorque;
+
+    sf::Vector2f newVel = sfu::addVectors(m_velocity, velocityChange);
+    float newAngVel = m_angularVelocity + angularVelocityChange * 180 / sfu::PI;
+    setVelocity(newVel);
+    setAngularVelocity(newAngVel);
+}
+
 // Local to global
 sf::Vector2f RigidBody::transformPointToGlobal(sf::Vector2f i_localPoint) {
     // Body position will be the new origin

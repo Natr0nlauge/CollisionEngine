@@ -31,7 +31,6 @@ class CollisionEvent {
     float calculateContactVelocity(sf::Vector2f * i_relativePositions) const;
     float calculateDeltaVelPerUnitImpulse(sf::Vector2f * i_relativePositions) const;
     void handleCollision(sf::Vector2f * i_relativePosition, float i_impulseContactX, float i_contactTransformationAngle);
-    void applyImpulse(RigidBody * c_collisionPartner, sf::Vector2f i_relativePosition, sf::Vector2f i_impulse);
 
     // Private members
     RigidBody * m_collisionPartners[2];

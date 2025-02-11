@@ -1,0 +1,41 @@
+\doxysection{Edge\+Structure.\+hpp}
+\hypertarget{_edge_structure_8hpp_source}{}\label{_edge_structure_8hpp_source}\index{CollisionEngine/EdgeStructure.hpp@{CollisionEngine/EdgeStructure.hpp}}
+\mbox{\hyperlink{_edge_structure_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rigid_body_8hpp}{RigidBody.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpoint_separation_data__type}{pointSeparationData\_type}}\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structpoint_separation_data__type_ad8a0fcf0ce1c6523b13602e28a9264f9}{separation}}\ =\ std::numeric\_limits<float>::lowest();}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpoint_separation_data__type_a2a01767ee197ec53314702dddf71f325}{index}}\ =\ -\/1;}
+\DoxyCodeLine{00008\ \ \ \ \ sf::Vector2f\ \mbox{\hyperlink{structpoint_separation_data__type_a1960c9349a9bacb805e673da7fe6c7f9}{normal}};}
+\DoxyCodeLine{00009\ \};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_edge_structure_a828355130e5ef12629eaf04613e2f68b}{EdgeStructure}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_rigid_body_a2c25abbc0718647b47d5b573937374c6}{RigidBody}}\{}
+\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ Constructor}}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_edge_structure_a828355130e5ef12629eaf04613e2f68b}{EdgeStructure}}(\textcolor{keywordtype}{float}\ i\_inverseMass,\ std::vector<sf::Vector2f>\ i\_vertices);}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ Destructor}}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_edge_structure_ade2f63f52db726e9634501d8445ec5f6}{\string~EdgeStructure}}();}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{comment}{//\ Getters}}
+\DoxyCodeLine{00020\ \ \ \ \ std::vector<sf::Vector2f>\ \mbox{\hyperlink{class_edge_structure_a7eca362fb24b6d2d3b01285d558f3329}{getPoints}}();}
+\DoxyCodeLine{00021\ \ \ \ \ sf::Vector2f\ \mbox{\hyperlink{class_edge_structure_a3bcbc97ac6a7c2c881f375d5f50e1f8b}{getNormal}}(\textcolor{keywordtype}{int}\ i\_index);}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_edge_structure_a3b80cfd60b3c3c1814fb0a0f31a1384b}{getNormalCount}}()\ =\ 0;}
+\DoxyCodeLine{00023\ \ \ \ \ sf::Vector2f\ \mbox{\hyperlink{class_edge_structure_a9cf9b54b3d6d401d3e450095f8ede40d}{getGlobalPoint}}(\textcolor{keywordtype}{int}\ i\_index);}
+\DoxyCodeLine{00024\ \ \ \ \ sf::Vector2f\ \mbox{\hyperlink{class_edge_structure_a2bb5160037ed6866c6cbfa89f7d40236}{getGlobalNormal}}(\textcolor{keywordtype}{int}\ i\_index);}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{structpoint_separation_data__type}{pointSeparationData\_type}}\ \mbox{\hyperlink{class_edge_structure_a4b8c0c238dfca549c1745970b1808804}{calculateMinPointSeparation}}(sf::Vector2f\ i\_point)\ =\ 0;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{comment}{//\ Utility\ methods}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_edge_structure_aaa525a7a27239bd823d44763ee407a8d}{calculateSignedArea}}();}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ Override\ virtual\ methods}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_edge_structure_ac5225861aa2f77650b1a7a0df945e97f}{calculateAndSetArea}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_edge_structure_ae43fbf81110290b8aeedf1a857a933c1}{calculateInverseMomentOfInertia}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00034\ \ \ \ \ sf::Vector2f\ \mbox{\hyperlink{class_edge_structure_a181d42576f9c36fd3fcaf44d9fa5f0fa}{calculateCenterOfMass}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00035\ \};}
+
+\end{DoxyCode}

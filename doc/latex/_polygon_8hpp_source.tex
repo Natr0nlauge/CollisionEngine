@@ -1,0 +1,25 @@
+\doxysection{Polygon.\+hpp}
+\hypertarget{_polygon_8hpp_source}{}\label{_polygon_8hpp_source}\index{CollisionEngine/Polygon.hpp@{CollisionEngine/Polygon.hpp}}
+\mbox{\hyperlink{_polygon_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_edge_structure_8hpp}{EdgeStructure.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_polygon_abb73ec1c71c1d824791ffd1cb2156e40}{Polygon}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_edge_structure_a828355130e5ef12629eaf04613e2f68b}{EdgeStructure}}\ \{}
+\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{comment}{//\ Constructor}}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_polygon_abb73ec1c71c1d824791ffd1cb2156e40}{Polygon}}(\textcolor{keywordtype}{float}\ i\_inverseMass\ =\ 0.1,\ std::vector<sf::Vector2f>\ i\_vertices\ =\ \{sf::Vector2f(25.0f,\ -\/25.0f),\ sf::Vector2f(-\/25.0f,\ -\/25.0f),}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sf::Vector2f(-\/25.0f,\ 25.0f),\ sf::Vector2f(25.0f,\ 25.0f)\});}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ Destructor}}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_polygon_ace39c67107966db12e13a183f496c3b0}{\string~Polygon}}();}
+\DoxyCodeLine{00015\ \ \ \ \ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ Public\ methods}}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structpoint_separation_data__type}{pointSeparationData\_type}}\ \mbox{\hyperlink{class_polygon_a5c391494f6be710fdf4ff9a881879cf0}{calculateMinPointSeparation}}(sf::Vector2f\ i\_point)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_polygon_aa0d9d2747b378271aa22f91d7c28813a}{getNormalCount}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00019\ \};}
+
+\end{DoxyCode}

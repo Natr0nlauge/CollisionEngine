@@ -4,8 +4,8 @@
 #include "stdlib.h"
 #include "sfml_utility.hpp"
 
-//const float PLAYER_VELOCITY = 500.0f;
-//const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
+// const float PLAYER_VELOCITY = 500.0f;
+// const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
 
 std::unique_ptr<Simulation> Simulation::s_instance = nullptr; // pointer to Singleton instance
 std::mutex Simulation::mtx;
@@ -69,11 +69,8 @@ template <typename T> inline void Simulation::cleanupMember(std::vector<T *> & m
 /**
  * @brief Opens the window and starts running the simulation.
  *
- * This initiates the Simulation and opens the window to display it.
- *
- * It stays active until the window is closed and handles timing of the frames. The handleEvents() and update() methods are called every
- * frame.
- *
+ * This method should be called by the user. It starts the clock and opens the window for displaying everything. While the Window is open,
+ * the clock is used to handle the timing of the Simulation frames. The handleEvents() and update() methods are called every frame.
  */
 void Simulation::run() {
 
@@ -95,6 +92,8 @@ void Simulation::run() {
 /**
  * @brief Add a new body to the simulation.
  *
+ * The body is pushed back to m_collisionPartners and the appearance is set.
+ * 
  * @param i_collisionPartner A pointer to the object that needs to be added.
  */
 void Simulation::addCollisionPartner(RigidBody * i_collisionPartner) {
@@ -216,7 +215,7 @@ void Simulation::update() {
     // Create a new vector to hold the combined contents
     std::vector<RigidBody *> playerBodies;
 
-    for (PlayerController* player : m_players) {
+    for (PlayerController * player : m_players) {
         playerBodies.push_back(player->getPlayerBody());
     }
 

@@ -1,0 +1,32 @@
+\doxysection{Circle.\+hpp}
+\hypertarget{_circle_8hpp_source}{}\label{_circle_8hpp_source}\index{CollisionEngine/Circle.hpp@{CollisionEngine/Circle.hpp}}
+\mbox{\hyperlink{_circle_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rigid_body_8hpp}{RigidBody.hpp}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_circle_ab4a54afa91bcfbeead71030e625540ab}{Circle}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_rigid_body_a2c25abbc0718647b47d5b573937374c6}{RigidBody}}\ \{}
+\DoxyCodeLine{00006\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{comment}{//\ Constructor\ and\ destructor}}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{class_circle_ab4a54afa91bcfbeead71030e625540ab}{Circle}}(\textcolor{keywordtype}{float}\ i\_inverseMass\ =\ 0.1,\ \textcolor{keywordtype}{float}\ i\_radius\ =\ 25.0f,\ \textcolor{keywordtype}{int}\ i\_resolution\ =\ 12);}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{class_circle_ae3f30436e645d73e368e8ee55f8d1650}{\string~Circle}}();}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{comment}{//\ Getters}}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_circle_a95b7dc25d2e9b1e40a189cd83386a12e}{getRadius}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ Override\ virtual\ methods}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ calculateAndSetArea()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{float}\ calculateInverseMomentOfInertia()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00018\ \ \ \ \ sf::Vector2f\ calculateCenterOfMass()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ calculatePoints();}
+\DoxyCodeLine{00020\ \ \ \ \ sf::Vector2f\ calculatePoint(\textcolor{keywordtype}{float}\ angle)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Private\ member\ variables:}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_radius;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//\ std::vector<sf::Vector2f>\ m\_points;}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_resolution;}
+\DoxyCodeLine{00026\ \};}
+
+\end{DoxyCode}

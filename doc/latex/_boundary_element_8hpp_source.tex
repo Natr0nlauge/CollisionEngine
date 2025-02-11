@@ -1,0 +1,26 @@
+\doxysection{Boundary\+Element.\+hpp}
+\hypertarget{_boundary_element_8hpp_source}{}\label{_boundary_element_8hpp_source}\index{CollisionEngine/BoundaryElement.hpp@{CollisionEngine/BoundaryElement.hpp}}
+\mbox{\hyperlink{_boundary_element_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_polygon_8hpp}{Polygon.hpp}}"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_boundary_element_ab76b7f07bbb3eb3b3791a109180f9fc9}{BoundaryElement}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_edge_structure_a828355130e5ef12629eaf04613e2f68b}{EdgeStructure}}\ \{}
+\DoxyCodeLine{00005\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{comment}{//\ Constructor}}
+\DoxyCodeLine{00007\ \ \ \ \ \mbox{\hyperlink{class_boundary_element_ab76b7f07bbb3eb3b3791a109180f9fc9}{BoundaryElement}}(\textcolor{keywordtype}{float}\ i\_length);}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{comment}{//\ Destructor}}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_boundary_element_ab939422a62d61ee73089c5ea1089707e}{\string~BoundaryElement}}();}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ Public\ methods}}
+\DoxyCodeLine{00013\ \ \ \ \ sf::Vertex\ *\ \mbox{\hyperlink{class_boundary_element_addd0948707538219a972a5ba1c67310d}{getVertexArray}}()\ ;}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{structpoint_separation_data__type}{pointSeparationData\_type}}\ \mbox{\hyperlink{class_boundary_element_a707011f150e1ca044e450ed68b88aa06}{calculateMinPointSeparation}}(sf::Vector2f\ i\_point)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_boundary_element_a537ee36dbacabf6ee185ec4d445182b5}{getNormalCount}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ sf::Vertex\ m\_vertexArray[2];\ \textcolor{comment}{//\ Start\ and\ end\ point}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_length;}
+\DoxyCodeLine{00020\ \};}
+
+\end{DoxyCode}

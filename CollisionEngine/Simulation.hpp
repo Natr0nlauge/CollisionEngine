@@ -5,6 +5,7 @@
 #include "BoundaryElement.hpp"
 #include "PlayerController.hpp"
 #include <vector>
+#include <array>
 #include <mutex>
 #include <memory>
 
@@ -41,24 +42,23 @@ class Simulation {
     void evaluateCollisionEvent(CollisionEvent & i_collisionEvent);
     void handleEvents();
     void initCollisionMarkers();
-    template <typename T> void cleanupMember(std::vector<T*>& member);
+    template <typename T> void cleanupMember(std::vector<T *> & member);
 
     // Member variables
     sf::Clock m_clock;
-    //std::vector<std::unique_ptr<RigidBody>> m_collisionPartners;
-    //std::vector<std::unique_ptr<PlayerController>> m_players;
+    // std::vector<std::unique_ptr<RigidBody>> m_collisionPartners;
+    // std::vector<std::unique_ptr<PlayerController>> m_players;
     std::vector<RigidBody *> m_collisionPartners;
     std::vector<PlayerController *> m_players;
-    sf::RectangleShape * m_collisionLocationMarker = new sf::RectangleShape({10.0f, 10.0f});
-    sf::RectangleShape * m_collisionNormalMarkers[2] = {new sf::RectangleShape({50.0f, 0.0f}), new sf::RectangleShape({0.0f, 50.0f})};
+    sf::RectangleShape m_collisionLocationMarker{sf::RectangleShape({10.0f, 10.0f})};
+    std::array<sf::RectangleShape, 2> m_collisionNormalMarkers{sf::RectangleShape(sf::Vector2f(50.0f, 1.0f)),
+            sf::RectangleShape(sf::Vector2f(1.0f, 50.0f))};
     std::vector<BoundaryElement *> m_boundaryElements;
     CollisionDetector & m_cd = CollisionDetector::getInstance();
     sf::View m_view;
-    float m_dT = 1/DEFAULT_FRAME_RATE; // time per frame in seconds
+    float m_dT = 1 / DEFAULT_FRAME_RATE; // time per frame in seconds
     sf::RenderWindow m_window;
     static constexpr float DEFAULT_VIEW_WIDTH = 512.0f;
     static constexpr float DEFAULT_VIEW_HEIGHT = 512.0f; // Window initial size
     static constexpr float DEFAULT_FRAME_RATE = 120.0f;
 };
-
-

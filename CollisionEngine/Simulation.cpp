@@ -40,9 +40,6 @@ Simulation::~Simulation() {
     // Clean up all the members to avoid memory leaks
     cleanupMember(m_collisionPartners);
     cleanupMember(m_players);
-    delete m_collisionLocationMarker;
-    delete m_collisionNormalMarkers[0];
-    delete m_collisionNormalMarkers[1];
 
     // Properly close the render window
     if (m_window.isOpen()) {
@@ -93,7 +90,7 @@ void Simulation::run() {
  * @brief Add a new body to the simulation.
  *
  * The body is pushed back to m_collisionPartners and the appearance is set.
- * 
+ *
  * @param i_collisionPartner A pointer to the object that needs to be added.
  */
 void Simulation::addCollisionPartner(RigidBody * i_collisionPartner) {
@@ -178,15 +175,15 @@ void Simulation::initWindow(float i_viewWidth, float i_viewHeight, float i_frame
  */
 void Simulation::initCollisionMarkers() {
 
-    m_collisionLocationMarker->setOrigin({5.0f, 5.0f});
-    m_collisionLocationMarker->setOutlineColor(sf::Color::Red);
-    m_collisionLocationMarker->setFillColor(sf::Color::Black);
-    m_collisionLocationMarker->setOutlineThickness(-2.0f);
+    m_collisionLocationMarker.setOrigin({5.0f, 5.0f});
+    m_collisionLocationMarker.setOutlineColor(sf::Color::Red);
+    m_collisionLocationMarker.setFillColor(sf::Color::Black);
+    m_collisionLocationMarker.setOutlineThickness(-2.0f);
 
-    for (sf::RectangleShape * marker : m_collisionNormalMarkers) {
-        marker->setOutlineColor(sf::Color::Red);
-        marker->setFillColor(sf::Color::Black);
-        marker->setOutlineThickness(-1.0f);
+    for (sf::RectangleShape & marker : m_collisionNormalMarkers) {
+        marker.setOutlineColor(sf::Color::Red);
+        marker.setFillColor(sf::Color::Black);
+        marker.setOutlineThickness(1.0f);
     }
 }
 
@@ -201,9 +198,10 @@ void Simulation::addBoundaryElement(BoundaryElement * i_boundaryElement) {
 }
 
 /**
- * @brief Is called every frame. Calls methods to check for collisions and resolve them. Updates body positions.
+ * @brief Updates the window, bodies and collisions.
  *
- * This method generates CollisionEvents for all possible combinations of bodies. If a collision is actually detected, it is resolved. If
+ * This method is called every frame. Checks for collisions and resolves them by calling other methods. Updates body positions. Generates
+ * CollisionEvents for all possible combinations of bodies. If a collision is detected, it is resolved. If
  * the window has been resized, the view is updated accordingly. The change in position and rotation is applied and displayed for all
  * bodies.
  *
@@ -253,10 +251,10 @@ void Simulation::update() {
     }
 
     // Update and display collision geometry markers
-    m_window.draw(*m_collisionLocationMarker);
+    m_window.draw(m_collisionLocationMarker);
 
-    for (sf::RectangleShape * marker : m_collisionNormalMarkers) {
-        m_window.draw(*marker);
+    for (sf::RectangleShape & marker : m_collisionNormalMarkers) {
+        m_window.draw(marker);
     }
 
     // Update and display boundaryElements
@@ -282,11 +280,11 @@ void Simulation::update() {
 void Simulation::evaluateCollisionEvent(CollisionEvent & i_collisionEvent) {
     if (i_collisionEvent.getMinSeparation() < 0) {
         collisionGeometry_type collisionGeometry = i_collisionEvent.getCollisionGeometry();
-        m_collisionLocationMarker->setPosition(collisionGeometry.location);
-        m_collisionNormalMarkers[0]->setPosition(collisionGeometry.location);
-        m_collisionNormalMarkers[1]->setPosition(collisionGeometry.location);
-        m_collisionNormalMarkers[0]->setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
-        m_collisionNormalMarkers[1]->setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
+        m_collisionLocationMarker.setPosition(collisionGeometry.location);
+        m_collisionNormalMarkers[0].setPosition(collisionGeometry.location);
+        m_collisionNormalMarkers[1].setPosition(collisionGeometry.location);
+        m_collisionNormalMarkers[0].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
+        m_collisionNormalMarkers[1].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
         i_collisionEvent.resolve();
     }
 }
@@ -307,30 +305,6 @@ void Simulation::handleEvents() {
             m_view.setCenter(m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f); // adapt view center
             break;
         }
-
-        // keyboard control
-        /*float movIncr = m_dT * PLAYER_VELOCITY;
-        float angIncr = m_dT * PLAYER_ANGULAR_VELOCITY;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-            m_players[0]->getPlayerBody()->move(-movIncr, 0.0f);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-            m_players[0]->getPlayerBody()->move(movIncr, 0.0f);
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            m_players[0]->getPlayerBody()->move(0.0f, movIncr);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-            m_players[0]->getPlayerBody()->move(0.0f, -movIncr);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E)) {
-            m_players[0]->getPlayerBody()->rotate(angIncr);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q)) {
-            m_players[0]->getPlayerBody()->rotate(-angIncr);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {}*/
 
         // mouse control
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {

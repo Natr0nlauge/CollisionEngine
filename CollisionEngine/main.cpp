@@ -3,14 +3,6 @@
 
 #include "Simulation.hpp"
 
-// TODO: fix all the warnings
-
-// TODO: implement proper tests
-
-// TODO: use doxygen
-
-// TODO: Replace simulation border with a seperate class
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main() {
     // Example program

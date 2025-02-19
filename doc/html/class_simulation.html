@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -111,12 +118,14 @@ $(function(){initNavTree('class_simulation.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
+<p>A singleton class that manages the physics simulation, rendering, and event handling.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_simulation_8hpp_source.html">Simulation.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a80fad3f57dfaf195a36f7bc49bc88279" id="r_a80fad3f57dfaf195a36f7bc49bc88279"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80fad3f57dfaf195a36f7bc49bc88279">~Simulation</a> ()</td></tr>
-<tr class="memdesc:a80fad3f57dfaf195a36f7bc49bc88279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="separator:a80fad3f57dfaf195a36f7bc49bc88279"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addf48743416b716a91b04a88b22a0e27" id="r_addf48743416b716a91b04a88b22a0e27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#addf48743416b716a91b04a88b22a0e27">addBoundaryElement</a> (<a class="el" href="class_boundary_element.html">BoundaryElement</a> *i_boundaryElement)</td></tr>
 <tr class="memdesc:addf48743416b716a91b04a88b22a0e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new boundary element to the simulation.  <br /></td></tr>
@@ -146,7 +155,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7b05c9662b46483be6de082c3a068cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the singleton instance of the class.  <br /></td></tr>
 <tr class="separator:a7b05c9662b46483be6de082c3a068cf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A singleton class that manages the physics simulation, rendering, and event handling. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a80fad3f57dfaf195a36f7bc49bc88279" name="a80fad3f57dfaf195a36f7bc49bc88279"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a80fad3f57dfaf195a36f7bc49bc88279">&#9670;&#160;</a></span>~Simulation()</h2>
 
@@ -161,8 +172,6 @@ Static Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Destructor. </p>
 
 </div>
 </div>
@@ -208,6 +217,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Add a new body to the simulation. </p>
+<p>The body is pushed back to m_collisionPartners and the appearance is set.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">i_collisionPartner</td><td>A pointer to the object that needs to be added. </td></tr>
@@ -316,8 +326,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retrieves the singleton instance of the class. </p>
-<p>This method provides access to the single instance of the Singleton class. If the instance does not already exist, it is created.</p>
-<dl class="section return"><dt>Returns</dt><dd>A reference to the <a class="el" href="class_simulation.html">Simulation</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the <a class="el" href="class_simulation.html" title="A singleton class that manages the physics simulation, rendering, and event handling.">Simulation</a>. </dd></dl>
 
 </div>
 </div>
@@ -346,6 +355,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Opens the simulation window and defines basic settings. </p>
+<p>Can be used to define initial size and frame rate of the window. The size can be changed later on by resizing the window.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">i_viewWidth</td><td>The desired width of the window in pixels.</td></tr>
@@ -373,8 +383,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Opens the window and starts running the simulation. </p>
-<p>This initiates the <a class="el" href="class_simulation.html">Simulation</a> and opens the window to display it.</p>
-<p>It stays active until the window is closed and handles timing of the frames. The handleEvents() and update() methods are called every frame. </p>
+<p>This method is called to launch the simulation. It starts the clock and opens the window for displaying everything. While the Window is open, the clock is used to handle the timing of the <a class="el" href="class_simulation.html" title="A singleton class that manages the physics simulation, rendering, and event handling.">Simulation</a> frames. The handleEvents() and update() methods are called every frame. </p>
 
 </div>
 </div>

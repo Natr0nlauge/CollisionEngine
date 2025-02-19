@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -110,18 +117,28 @@ $(function(){initNavTree('structcollision_geometry__type.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 
+<p>Holds all gemetrical parameters necessary for resolving the collision.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_collision_event_8hpp_source.html">CollisionEvent.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a2be2b22664b9a9d0762fb87976edd46e" id="r_a2be2b22664b9a9d0762fb87976edd46e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2be2b22664b9a9d0762fb87976edd46e">minSeparation</a> = std::numeric_limits&lt;float&gt;::lowest()</td></tr>
+<tr class="memdesc:a2be2b22664b9a9d0762fb87976edd46e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The separation of two bodies according to SAT algorithm (this is not necessesarily the actual minimum distance!)  <br /></td></tr>
 <tr class="separator:a2be2b22664b9a9d0762fb87976edd46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae240041e30359731c54a65b9bc6282ab" id="r_ae240041e30359731c54a65b9bc6282ab"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae240041e30359731c54a65b9bc6282ab">location</a> = sf::Vector2f()</td></tr>
+<tr class="memdesc:ae240041e30359731c54a65b9bc6282ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collision location in global coordinates. If there is no collision, this is {0,0}.  <br /></td></tr>
 <tr class="separator:ae240041e30359731c54a65b9bc6282ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3845a1b3cd119055eb2abd0ecbfd0b89" id="r_a3845a1b3cd119055eb2abd0ecbfd0b89"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3845a1b3cd119055eb2abd0ecbfd0b89">normals</a> [2] = {sf::Vector2f(), sf::Vector2f()}</td></tr>
+<tr class="memdesc:a3845a1b3cd119055eb2abd0ecbfd0b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the normalized collision normal vectors. Note that normals[0] is just normals[1] multiplied by -1.  <br /></td></tr>
 <tr class="separator:a3845a1b3cd119055eb2abd0ecbfd0b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Holds all gemetrical parameters necessary for resolving the collision. </p>
+<p>This struct contains the separation, collision location in global coordinates</p>
+<dl class="section note"><dt>Note</dt><dd>It is only considered a collision, if minSeparation&lt;=0. </dd></dl>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ae240041e30359731c54a65b9bc6282ab" name="ae240041e30359731c54a65b9bc6282ab"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae240041e30359731c54a65b9bc6282ab">&#9670;&#160;</a></span>location</h2>
 
@@ -133,6 +150,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Collision location in global coordinates. If there is no collision, this is {0,0}. </p>
 
 </div>
 </div>
@@ -148,6 +167,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The separation of two bodies according to SAT algorithm (this is not necessesarily the actual minimum distance!) </p>
+
 </div>
 </div>
 <a id="a3845a1b3cd119055eb2abd0ecbfd0b89" name="a3845a1b3cd119055eb2abd0ecbfd0b89"></a>
@@ -161,6 +182,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Contains the normalized collision normal vectors. Note that normals[0] is just normals[1] multiplied by -1. </p>
 
 </div>
 </div>

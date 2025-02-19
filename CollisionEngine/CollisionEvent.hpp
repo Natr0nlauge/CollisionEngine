@@ -1,18 +1,31 @@
 #pragma once
 #include "RigidBody.hpp"
 #include <algorithm>
+#include <array>
 
-// holds
+/**
+ * @brief Holds all gemetrical parameters necessary for resolving the collision.
+ *
+ * This struct contains the separation, collision location in global coordinates
+ *
+ * @note It is only considered a collision, if minSeparation<=0.
+ */
 struct collisionGeometry_type {
-    float minSeparation = std::numeric_limits<float>::lowest(); 
-    sf::Vector2f location = sf::Vector2f();                          // In global coordinates
+    /// The separation of two bodies according to SAT algorithm (this is not necessesarily the actual minimum distance!)
+    float minSeparation = std::numeric_limits<float>::lowest();
+    /// Collision location in global coordinates. If there is no collision, this is {0,0}
+    sf::Vector2f location = sf::Vector2f();
+    /// Contains the normalized collision normal vectors. Note that normals[0] is just normals[1] multiplied by -1.
     sf::Vector2f normals[2] = {sf::Vector2f(), sf::Vector2f()}; // In global coordinates
 };
 
+/**
+ * @class CollisionEvent
+ * @brief Holds all needed data for modeling a collision and provides methods for resolving it.
+ */
 class CollisionEvent {
 
   public:
-    // Constructor
     CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const collisionGeometry_type & i_cg);
 
     // Destructor
@@ -20,19 +33,17 @@ class CollisionEvent {
 
     // Public methods
     void resolve();
-    RigidBody * getCollisionPartner(int i_index) const;
     collisionGeometry_type getCollisionGeometry() const;
     float getMinSeparation() const;
-    //void setCollisionGeometry(collisionGeometry_type i_collisionGeometry);
 
   private:
     // Private methods
     sf::Vector2f computeRelativePosition(sf::Vector2f i_collLoc, sf::Vector2f i_bodyPosition);
-    float calculateContactVelocity(sf::Vector2f * i_relativePositions) const;
-    float calculateDeltaVelPerUnitImpulse(sf::Vector2f * i_relativePositions) const;
-    void handleCollision(sf::Vector2f * i_relativePosition, float i_impulseContactX, float i_contactTransformationAngle);
+    float calculateContactSpeed(std::array<sf::Vector2f, 2> i_relativePositions) const;
+    float calculateDeltaVelPerUnitImpulse(std::array<sf::Vector2f, 2> i_relativePositions) const;
+    void handleImpulse(std::array<sf::Vector2f, 2> i_relativePosition, float i_impulseContactX, float i_contactTransformationAngle);
 
     // Private members
-    RigidBody * m_collisionPartners[2];
+    std::array<RigidBody *, 2> m_collisionPartners = {nullptr, nullptr};
     collisionGeometry_type m_collisionGeometry;
 };

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rigidbody_0',['RigidBody',['../class_rigid_body.html',1,'']]]
+  ['simulation_0',['Simulation',['../class_simulation.html',1,'']]]
 ];

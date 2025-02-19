@@ -18,14 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  
-  
   <ItemGroup>
     <ClCompile Include="BoundaryElement.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionEvent.cpp" />
-    <ClCompile Include="EdgeStructure.cpp" />
+    <ClCompile Include="VertexBasedBody.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2f.cpp" />
     <ClCompile Include="PlayerController.cpp" />
@@ -39,7 +37,7 @@
     <ClInclude Include="Circle.hpp" />
     <ClInclude Include="CollisionDetector.hpp" />
     <ClInclude Include="CollisionEvent.hpp" />
-    <ClInclude Include="EdgeStructure.hpp" />
+    <ClInclude Include="VertexBasedBody.hpp" />
     <ClInclude Include="Matrix2f.hpp" />
     <ClInclude Include="PlayerController.hpp" />
     <ClInclude Include="Polygon.hpp" />

@@ -8,8 +8,6 @@ var dir_a34aaf1ab7bddf32d37e4cbf6701fdca =
     [ "CollisionDetector.hpp", "_collision_detector_8hpp.html", "_collision_detector_8hpp" ],
     [ "CollisionEvent.cpp", "_collision_event_8cpp.html", "_collision_event_8cpp" ],
     [ "CollisionEvent.hpp", "_collision_event_8hpp.html", "_collision_event_8hpp" ],
-    [ "EdgeStructure.cpp", "_edge_structure_8cpp.html", null ],
-    [ "EdgeStructure.hpp", "_edge_structure_8hpp.html", "_edge_structure_8hpp" ],
     [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
     [ "Matrix2f.cpp", "_matrix2f_8cpp.html", null ],
     [ "Matrix2f.hpp", "_matrix2f_8hpp.html", "_matrix2f_8hpp" ],
@@ -17,10 +15,12 @@ var dir_a34aaf1ab7bddf32d37e4cbf6701fdca =
     [ "PlayerController.hpp", "_player_controller_8hpp.html", "_player_controller_8hpp" ],
     [ "Polygon.cpp", "_polygon_8cpp.html", null ],
     [ "Polygon.hpp", "_polygon_8hpp.html", "_polygon_8hpp" ],
-    [ "RigidBody.cpp", "_rigid_body_8cpp.html", "_rigid_body_8cpp" ],
+    [ "RigidBody.cpp", "_rigid_body_8cpp.html", null ],
     [ "RigidBody.hpp", "_rigid_body_8hpp.html", "_rigid_body_8hpp" ],
     [ "sfml_utility.cpp", "sfml__utility_8cpp.html", null ],
     [ "sfml_utility.hpp", "sfml__utility_8hpp.html", "sfml__utility_8hpp" ],
     [ "Simulation.cpp", "_simulation_8cpp.html", null ],
-    [ "Simulation.hpp", "_simulation_8hpp.html", "_simulation_8hpp" ]
+    [ "Simulation.hpp", "_simulation_8hpp.html", "_simulation_8hpp" ],
+    [ "VertexBasedBody.cpp", "_vertex_based_body_8cpp.html", null ],
+    [ "VertexBasedBody.hpp", "_vertex_based_body_8hpp.html", "_vertex_based_body_8hpp" ]
 ];

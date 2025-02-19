@@ -1,0 +1,5 @@
+\_form#0:$(x_1,y_1)$
+\_form#1:$(x_2,y_2)$
+\_form#2:$\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$
+\_form#3:\LaTeX
+\_form#4:\TeX

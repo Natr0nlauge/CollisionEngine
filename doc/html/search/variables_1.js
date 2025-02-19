@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cornerseparation_0',['cornerSeparation',['../structcircle_separation_data__type.html#ae48753224d04a092e87cd27547dbf186',1,'circleSeparationData_type']]]
+  ['cornerseparation_0',['cornerSeparation',['../structcircle_separation__type.html#a7aaa82329f1429d3666875990ef58c87',1,'circleSeparation_type']]]
 ];

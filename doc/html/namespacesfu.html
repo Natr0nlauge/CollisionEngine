@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -110,39 +117,53 @@ $(function(){initNavTree('namespacesfu.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">sfu Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Some utility function to interact with sf::Vector2f.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsfu_1_1_matrix2f.html">Matrix2f</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A matrix compatible with sf::Vector2f.  <a href="classsfu_1_1_matrix2f.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad696b7cd991504655b96a5b1b30eb459" id="r_ad696b7cd991504655b96a5b1b30eb459"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad696b7cd991504655b96a5b1b30eb459">computeMedian</a> (const std::array&lt; float, 4 &gt; &amp;i_arr)</td></tr>
-<tr class="separator:ad696b7cd991504655b96a5b1b30eb459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37ca9fe32c1cceddc5efc377f19555d5" id="r_a37ca9fe32c1cceddc5efc377f19555d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsfu_1_1_matrix2f.html">sfu::Matrix2f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37ca9fe32c1cceddc5efc377f19555d5">getRotationMatrix</a> (float angle)</td></tr>
+<tr class="memdesc:a37ca9fe32c1cceddc5efc377f19555d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the 2D direct cosine matrix.  <br /></td></tr>
 <tr class="separator:a37ca9fe32c1cceddc5efc377f19555d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac79792c8f29cce1c5bbd45ba82d5d31a" id="r_ac79792c8f29cce1c5bbd45ba82d5d31a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac79792c8f29cce1c5bbd45ba82d5d31a">getVectorLength</a> (sf::Vector2f i_vector)</td></tr>
+<tr class="memdesc:ac79792c8f29cce1c5bbd45ba82d5d31a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the length of a 2D vector.  <br /></td></tr>
 <tr class="separator:ac79792c8f29cce1c5bbd45ba82d5d31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c1e5904f2d7e4dc968c81f1a8b1c6af" id="r_a1c1e5904f2d7e4dc968c81f1a8b1c6af"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c1e5904f2d7e4dc968c81f1a8b1c6af">getVectorDirection</a> (sf::Vector2f i_vector)</td></tr>
+<tr class="memdesc:a1c1e5904f2d7e4dc968c81f1a8b1c6af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the direction of a 2D vector.  <br /></td></tr>
 <tr class="separator:a1c1e5904f2d7e4dc968c81f1a8b1c6af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad04bb2fe3c2f922dd8b8a04929f4912e" id="r_ad04bb2fe3c2f922dd8b8a04929f4912e"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad04bb2fe3c2f922dd8b8a04929f4912e">scaleVector</a> (sf::Vector2f i_vector, float factor)</td></tr>
+<tr class="memdesc:ad04bb2fe3c2f922dd8b8a04929f4912e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply a 2D vector with a scalar value.  <br /></td></tr>
 <tr class="separator:ad04bb2fe3c2f922dd8b8a04929f4912e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e9eda2f2537a0542070f1915087c3ba" id="r_a9e9eda2f2537a0542070f1915087c3ba"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e9eda2f2537a0542070f1915087c3ba">normalizeVector</a> (sf::Vector2f i_vector)</td></tr>
+<tr class="memdesc:a9e9eda2f2537a0542070f1915087c3ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize a 2D vector to unit length.  <br /></td></tr>
 <tr class="separator:a9e9eda2f2537a0542070f1915087c3ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a185ef2717c71d6e1819b0a2eaf8882fa" id="r_a185ef2717c71d6e1819b0a2eaf8882fa"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a185ef2717c71d6e1819b0a2eaf8882fa">addVectors</a> (sf::Vector2f i_vec1, sf::Vector2f i_vec2)</td></tr>
+<tr class="memdesc:a185ef2717c71d6e1819b0a2eaf8882fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add two 2D vectors.  <br /></td></tr>
 <tr class="separator:a185ef2717c71d6e1819b0a2eaf8882fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55067a5ef8021379428ae17787810f24" id="r_a55067a5ef8021379428ae17787810f24"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55067a5ef8021379428ae17787810f24">subtractVectors</a> (sf::Vector2f vec1, sf::Vector2f vec2)</td></tr>
+<tr class="memdesc:a55067a5ef8021379428ae17787810f24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtract two 2D vectors.  <br /></td></tr>
 <tr class="separator:a55067a5ef8021379428ae17787810f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7550a764c244c7726a0e14cf33393498" id="r_a7550a764c244c7726a0e14cf33393498"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7550a764c244c7726a0e14cf33393498">scalarProduct</a> (sf::Vector2f i_vec1, sf::Vector2f i_vec2)</td></tr>
+<tr class="memdesc:a7550a764c244c7726a0e14cf33393498"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the scalar product of two 2D vectors.  <br /></td></tr>
 <tr class="separator:a7550a764c244c7726a0e14cf33393498"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbdfb5e04f018ab18a5d5eedccd5b884" id="r_acbdfb5e04f018ab18a5d5eedccd5b884"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbdfb5e04f018ab18a5d5eedccd5b884">pseudoCrossProduct</a> (sf::Vector2f i_vec1, sf::Vector2f i_vec2)</td></tr>
+<tr class="memdesc:acbdfb5e04f018ab18a5d5eedccd5b884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the pseudo cross product for two vectors.  <br /></td></tr>
 <tr class="separator:acbdfb5e04f018ab18a5d5eedccd5b884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e5fd86838525a748ef714578f982ff3" id="r_a0e5fd86838525a748ef714578f982ff3"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e5fd86838525a748ef714578f982ff3">pseudoCrossProduct</a> (float i_length1, sf::Vector2f i_vec2)</td></tr>
+<tr class="memdesc:a0e5fd86838525a748ef714578f982ff3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the pseudo cross product for two vectors.  <br /></td></tr>
 <tr class="separator:a0e5fd86838525a748ef714578f982ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a317916576e109f52b18eaa2d6cffca77" id="r_a317916576e109f52b18eaa2d6cffca77"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a317916576e109f52b18eaa2d6cffca77">rotateVector</a> (sf::Vector2f i_vector, float i_angle)</td></tr>
+<tr class="memdesc:a317916576e109f52b18eaa2d6cffca77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotate a vector using multiplication with a DCM.  <br /></td></tr>
 <tr class="separator:a317916576e109f52b18eaa2d6cffca77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69e3696244ac707249dddde836031143" id="r_a69e3696244ac707249dddde836031143"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69e3696244ac707249dddde836031143">transformPoint</a> (sf::Vector2f i_vector, sf::Vector2f i_origin, float i_angle)</td></tr>
+<tr class="memdesc:a69e3696244ac707249dddde836031143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a point to a different coordinate system.  <br /></td></tr>
 <tr class="separator:a69e3696244ac707249dddde836031143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -150,7 +171,9 @@ Variables</h2></td></tr>
 <tr class="memitem:af1f15f0d00336650852626e494b3d879" id="r_af1f15f0d00336650852626e494b3d879"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1f15f0d00336650852626e494b3d879">PI</a> = 3.14159265358979323846</td></tr>
 <tr class="separator:af1f15f0d00336650852626e494b3d879"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Some utility function to interact with sf::Vector2f. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a185ef2717c71d6e1819b0a2eaf8882fa" name="a185ef2717c71d6e1819b0a2eaf8882fa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a185ef2717c71d6e1819b0a2eaf8882fa">&#9670;&#160;</a></span>addVectors()</h2>
 
@@ -170,22 +193,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="ad696b7cd991504655b96a5b1b30eb459" name="ad696b7cd991504655b96a5b1b30eb459"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad696b7cd991504655b96a5b1b30eb459">&#9670;&#160;</a></span>computeMedian()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">float sfu::computeMedian </td>
-          <td>(</td>
-          <td class="paramtype">const std::array&lt; float, 4 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>i_arr</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Add two 2D vectors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vec1</td><td>The first vector. </td></tr>
+    <tr><td class="paramname">i_vec2</td><td>The second vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resulting vector. </dd></dl>
 
 </div>
 </div>
@@ -198,11 +214,20 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classsfu_1_1_matrix2f.html">sfu::Matrix2f</a> sfu::getRotationMatrix </td>
           <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>angle</em></span></td><td>)</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_angle</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Construct the 2D direct cosine matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_angle</td><td>The angle in degrees. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The rotation matrix. </dd></dl>
 
 </div>
 </div>
@@ -221,6 +246,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Calculate the direction of a 2D vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The angle in degrees. </dd></dl>
+
 </div>
 </div>
 <a id="ac79792c8f29cce1c5bbd45ba82d5d31a" name="ac79792c8f29cce1c5bbd45ba82d5d31a"></a>
@@ -238,6 +272,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Calculate the length of a 2D vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The length in pixels. </dd></dl>
+
 </div>
 </div>
 <a id="a9e9eda2f2537a0542070f1915087c3ba" name="a9e9eda2f2537a0542070f1915087c3ba"></a>
@@ -254,6 +297,15 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Normalize a 2D vector to unit length. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The normalized vector. </dd></dl>
 
 </div>
 </div>
@@ -276,6 +328,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Calculate the pseudo cross product for two vectors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_length1</td><td>The z-Component of the first vector. </td></tr>
+    <tr><td class="paramname">i_vec2</td><td>The second vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resulting vector. </dd></dl>
+
 </div>
 </div>
 <a id="acbdfb5e04f018ab18a5d5eedccd5b884" name="acbdfb5e04f018ab18a5d5eedccd5b884"></a>
@@ -296,6 +358,16 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculate the pseudo cross product for two vectors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vec1</td><td>The first vector. </td></tr>
+    <tr><td class="paramname">i_vec2</td><td>The second vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The z-Component of the resulting vector. </dd></dl>
 
 </div>
 </div>
@@ -318,6 +390,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Rotate a vector using multiplication with a DCM. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The vector to rotate. </td></tr>
+    <tr><td class="paramname">i_angle</td><td>The rotation angle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The rotated vector. </dd></dl>
+
 </div>
 </div>
 <a id="a7550a764c244c7726a0e14cf33393498" name="a7550a764c244c7726a0e14cf33393498"></a>
@@ -338,6 +420,16 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculate the scalar product of two 2D vectors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vec1</td><td>The first vector. </td></tr>
+    <tr><td class="paramname">i_vec2</td><td>The second vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The scalar product. </dd></dl>
 
 </div>
 </div>
@@ -360,6 +452,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Multiply a 2D vector with a scalar value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The vector. </td></tr>
+    <tr><td class="paramname">factor</td><td>The factor to multiply the vector with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The scaled vector. </dd></dl>
+
 </div>
 </div>
 <a id="a55067a5ef8021379428ae17787810f24" name="a55067a5ef8021379428ae17787810f24"></a>
@@ -371,15 +473,25 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">sf::Vector2f sfu::subtractVectors </td>
           <td>(</td>
-          <td class="paramtype">sf::Vector2f</td>          <td class="paramname"><span class="paramname"><em>vec1</em></span>, </td>
+          <td class="paramtype">sf::Vector2f</td>          <td class="paramname"><span class="paramname"><em>i_vec1</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">sf::Vector2f</td>          <td class="paramname"><span class="paramname"><em>vec2</em></span>&#160;)</td>
+          <td class="paramtype">sf::Vector2f</td>          <td class="paramname"><span class="paramname"><em>i_vec2</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Subtract two 2D vectors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vec1</td><td>The first vector. </td></tr>
+    <tr><td class="paramname">i_vec2</td><td>The second vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resulting vector. </dd></dl>
 
 </div>
 </div>
@@ -406,6 +518,17 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Transform a point to a different coordinate system. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The coordinates of the point to transform. </td></tr>
+    <tr><td class="paramname">i_origin</td><td>The origin of the new coordinate system given in coordinates of the old coordinate system. </td></tr>
+    <tr><td class="paramname">i_angle</td><td>The angle of the new coordinate system relative to the old coordinate system. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates of the transformed point. </dd></dl>
 
 </div>
 </div>

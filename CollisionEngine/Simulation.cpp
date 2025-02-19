@@ -4,17 +4,11 @@
 #include "stdlib.h"
 #include "sfml_utility.hpp"
 
-// const float PLAYER_VELOCITY = 500.0f;
-// const float PLAYER_ANGULAR_VELOCITY = 22.5f; // degrees per second
-
 std::unique_ptr<Simulation> Simulation::s_instance = nullptr; // pointer to Singleton instance
 std::mutex Simulation::mtx;
 
 /**
  * @brief Retrieves the singleton instance of the class.
- *
- * This method provides access to the single instance of the Singleton class.
- * If the instance does not already exist, it is created.
  *
  * @return A reference to the Simulation.
  */
@@ -28,14 +22,8 @@ Simulation & Simulation::getInstance() {
     return *s_instance;
 }
 
-/**
- * @brief Constructor.
- */
 Simulation::Simulation() {}
 
-/**
- * @brief Destructor.
- */
 Simulation::~Simulation() {
     // Clean up all the members to avoid memory leaks
     cleanupMember(m_collisionPartners);
@@ -50,9 +38,6 @@ Simulation::~Simulation() {
 /**
  * @brief Cleans up and clears a vector of dynamically allocated objects.
  *
- * This method deletes all dynamically allocated objects in the given vector
- * and clears the vector to release any remaining memory it holds.
- *
  * @tparam T The type of the objects stored in the vector.
  * @param member A reference to the vector containing pointers to objects of type T.
  */
@@ -66,23 +51,20 @@ template <typename T> inline void Simulation::cleanupMember(std::vector<T *> & m
 /**
  * @brief Opens the window and starts running the simulation.
  *
- * This method should be called by the user. It starts the clock and opens the window for displaying everything. While the Window is open,
+ * This method is called to launch the simulation. It starts the clock and opens the window for displaying everything. While the Window is open,
  * the clock is used to handle the timing of the Simulation frames. The handleEvents() and update() methods are called every frame.
  */
 void Simulation::run() {
 
     initCollisionMarkers();
-    initWindow();
     m_clock.restart();
 
     while (m_window.isOpen()) {
         // Wait until it's time for the next frame
         while (m_clock.getElapsedTime().asSeconds() < m_dT) {} // wait until m_dT is elapsed
-        // Process frame
-        handleEvents();
         update();
-        // Restart clock
         m_clock.restart();
+        handleEvents(); // HandleEvents is last because it calls the destructor if the window is closed
     }
 }
 
@@ -142,6 +124,8 @@ void Simulation::deleteCollisionPartner(RigidBody * i_bodyToDelete) {
 
 /**
  * @brief Opens the simulation window and defines basic settings.
+ * 
+ * Can be used to define initial size and frame rate of the window. The size can be changed later on by resizing the window.
  *
  * @param i_viewWidth The desired width of the window in pixels.
  *
@@ -193,7 +177,6 @@ void Simulation::initCollisionMarkers() {
  * @param i_player A pointer to the boundary element that needs to be added.
  */
 void Simulation::addBoundaryElement(BoundaryElement * i_boundaryElement) {
-    // addCollisionPartner(static_cast<RigidBody *>(i_boundaryElement));
     m_boundaryElements.push_back(i_boundaryElement);
 }
 
@@ -201,9 +184,8 @@ void Simulation::addBoundaryElement(BoundaryElement * i_boundaryElement) {
  * @brief Updates the window, bodies and collisions.
  *
  * This method is called every frame. Checks for collisions and resolves them by calling other methods. Updates body positions. Generates
- * CollisionEvents for all possible combinations of bodies. If a collision is detected, it is resolved. If
- * the window has been resized, the view is updated accordingly. The change in position and rotation is applied and displayed for all
- * bodies.
+ * CollisionEvents for all possible combinations of bodies. If a collision is detected, it is resolved. If the window has been resized, the
+ * view is updated accordingly. The change in position and rotation is applied and displayed for all bodies.
  *
  * @param i_player A pointer to the boundary element that needs to be added.
  */
@@ -241,7 +223,7 @@ void Simulation::update() {
     }
 
     for (RigidBody * body : m_collisionPartners) {
-        body->updatePositionAndAngle(m_dT);
+        body->updateBody(m_dT);
         m_window.draw(*body);
     }
 
@@ -272,7 +254,7 @@ void Simulation::update() {
 }
 
 /**
- * @brief Checks if the CollisionEvent actually indicates a collision. Calls the resolve() method, Updates position and angle of the
+ * @brief Checks if the CollisionEvent actually indicates a collision. Calls the resolve() method, updates position and angle of the
  * collision geometry markers.
  *
  * @param i_collisionEvent The CollisionEvent to evaluate.
@@ -289,7 +271,9 @@ void Simulation::evaluateCollisionEvent(CollisionEvent & i_collisionEvent) {
     }
 }
 
-// TODO add proper control mechanism for players
+/**
+ * @brief Handle resizing and closing of the window by the user.
+ */
 void Simulation::handleEvents() {
     sf::Event event;
     while (m_window.pollEvent(event)) {
@@ -300,7 +284,6 @@ void Simulation::handleEvents() {
             Simulation::~Simulation(); // destroy Simulation; close window
             break;
         case sf::Event::Resized: // change window size and adapt view
-            // std::cout << "New window width: " << event.size.width << ", New window height: " << event.size.height << std::endl;
             m_view.setSize(m_window.getSize().x, m_window.getSize().y);                 // adapt view size
             m_view.setCenter(m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f); // adapt view center
             break;

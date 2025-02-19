@@ -1,6 +1,6 @@
 #pragma once
 #include "sfml/Graphics.hpp"
-#include "EdgeStructure.hpp"
+#include "VertexBasedBody.hpp"
 #include "CollisionDetector.hpp"
 #include "BoundaryElement.hpp"
 #include "PlayerController.hpp"
@@ -9,6 +9,10 @@
 #include <mutex>
 #include <memory>
 
+/**
+ * @class Simulation
+ * @brief A singleton class that manages the physics simulation, rendering, and event handling.
+ */
 class Simulation {
   public:
     // Singleton accessor
@@ -33,7 +37,7 @@ class Simulation {
     static std::mutex mtx;
     Simulation();
 
-    // Deleted copy constructor and assignment operator
+    // Delete copy constructor and assignment operator
     Simulation(const Simulation &) = delete;
     Simulation & operator=(const Simulation &) = delete;
 
@@ -46,19 +50,25 @@ class Simulation {
 
     // Member variables
     sf::Clock m_clock;
-    // std::vector<std::unique_ptr<RigidBody>> m_collisionPartners;
-    // std::vector<std::unique_ptr<PlayerController>> m_players;
+    /// Vector of pointers to the bodies managed by the Simulation
     std::vector<RigidBody *> m_collisionPartners;
     std::vector<PlayerController *> m_players;
+    // These shapes serve to visualize collision geometry
     sf::RectangleShape m_collisionLocationMarker{sf::RectangleShape({10.0f, 10.0f})};
     std::array<sf::RectangleShape, 2> m_collisionNormalMarkers{sf::RectangleShape(sf::Vector2f(50.0f, 1.0f)),
             sf::RectangleShape(sf::Vector2f(1.0f, 50.0f))};
+    /// BoundaryElements get their own vector to avoid (nonsensical) collisions between them
     std::vector<BoundaryElement *> m_boundaryElements;
+    /// Collision Detector instance
     CollisionDetector & m_cd = CollisionDetector::getInstance();
     sf::View m_view;
-    float m_dT = 1 / DEFAULT_FRAME_RATE; // time per frame in seconds
     sf::RenderWindow m_window;
+    /// Time per frame in seconds.
+    float m_dT = 1 / DEFAULT_FRAME_RATE;
+    /// In pixels.
     static constexpr float DEFAULT_VIEW_WIDTH = 512.0f;
-    static constexpr float DEFAULT_VIEW_HEIGHT = 512.0f; // Window initial size
+    /// In pixels.
+    static constexpr float DEFAULT_VIEW_HEIGHT = 512.0f; 
+    /// In Hz.
     static constexpr float DEFAULT_FRAME_RATE = 120.0f;
 };

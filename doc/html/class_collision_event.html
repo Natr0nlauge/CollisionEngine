@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -110,6 +117,9 @@ $(function(){initNavTree('class_collision_event.html',''); initResizable(true); 
 </div><!--header-->
 <div class="contents">
 
+<p>Holds all needed data for modeling a collision and provides methods for resolving it.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_collision_event_8hpp_source.html">CollisionEvent.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -119,15 +129,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a123a9d1c0d102be1761267f4764f2fb7" id="r_a123a9d1c0d102be1761267f4764f2fb7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a123a9d1c0d102be1761267f4764f2fb7">~CollisionEvent</a> ()</td></tr>
 <tr class="separator:a123a9d1c0d102be1761267f4764f2fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08e4f7df78f006aebabe369a3d9d2163" id="r_a08e4f7df78f006aebabe369a3d9d2163"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08e4f7df78f006aebabe369a3d9d2163">resolve</a> ()</td></tr>
+<tr class="memdesc:a08e4f7df78f006aebabe369a3d9d2163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve the collision and apply the translational and rotational velocities to the respective bodies.  <br /></td></tr>
 <tr class="separator:a08e4f7df78f006aebabe369a3d9d2163"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a017e0039a831bd68d8caa244a03ad01f" id="r_a017e0039a831bd68d8caa244a03ad01f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_rigid_body.html">RigidBody</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a017e0039a831bd68d8caa244a03ad01f">getCollisionPartner</a> (int i_index) const</td></tr>
-<tr class="separator:a017e0039a831bd68d8caa244a03ad01f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab375fa15d81fe2ca3122ffd528b56cd3" id="r_ab375fa15d81fe2ca3122ffd528b56cd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcollision_geometry__type.html">collisionGeometry_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab375fa15d81fe2ca3122ffd528b56cd3">getCollisionGeometry</a> () const</td></tr>
 <tr class="separator:ab375fa15d81fe2ca3122ffd528b56cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16cf80543e0b8a3d2e7b893c2eb6f400" id="r_a16cf80543e0b8a3d2e7b893c2eb6f400"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16cf80543e0b8a3d2e7b893c2eb6f400">getMinSeparation</a> () const</td></tr>
 <tr class="separator:a16cf80543e0b8a3d2e7b893c2eb6f400"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Holds all needed data for modeling a collision and provides methods for resolving it. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ace14e67fbca58ea046f8aa7679018ebc" name="ace14e67fbca58ea046f8aa7679018ebc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace14e67fbca58ea046f8aa7679018ebc">&#9670;&#160;</a></span>CollisionEvent()</h2>
 
@@ -189,23 +200,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a017e0039a831bd68d8caa244a03ad01f" name="a017e0039a831bd68d8caa244a03ad01f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a017e0039a831bd68d8caa244a03ad01f">&#9670;&#160;</a></span>getCollisionPartner()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_rigid_body.html">RigidBody</a> * CollisionEvent::getCollisionPartner </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i_index</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a16cf80543e0b8a3d2e7b893c2eb6f400" name="a16cf80543e0b8a3d2e7b893c2eb6f400"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a16cf80543e0b8a3d2e7b893c2eb6f400">&#9670;&#160;</a></span>getMinSeparation()</h2>
 
@@ -237,6 +231,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Resolve the collision and apply the translational and rotational velocities to the respective bodies. </p>
 
 </div>
 </div>

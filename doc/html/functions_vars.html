@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -104,26 +111,26 @@ $(function(){initNavTree('functions_vars.html',''); initResizable(true); });
 
 <div class="contents">
 <div class="textblock">Here is a list of all variables with links to the classes they belong to:</div><ul>
-<li>cornerSeparation&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#ae48753224d04a092e87cd27547dbf186">circleSeparationData_type</a></li>
-<li>edgeSeparation&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#a650f5c058fc0e33cf0ae006456ec7b5c">circleSeparationData_type</a></li>
+<li>cornerSeparation&#160;:&#160;<a class="el" href="structcircle_separation__type.html#a7aaa82329f1429d3666875990ef58c87">circleSeparation_type</a></li>
+<li>edgeSeparation&#160;:&#160;<a class="el" href="structcircle_separation__type.html#ab86699a01cfc5d9346836adc3ca6bb08">circleSeparation_type</a></li>
 <li>index&#160;:&#160;<a class="el" href="structpoint_separation_data__type.html#a2a01767ee197ec53314702dddf71f325">pointSeparationData_type</a></li>
-<li>indexVec&#160;:&#160;<a class="el" href="structedge_structure_separation_data__type.html#af2c50ce7240e4aa9e3a81ab734425d96">edgeStructureSeparationData_type</a></li>
+<li>indexVec&#160;:&#160;<a class="el" href="struct_vertex_based_body_separation__type.html#aba5e069831e7477a750e2eb457d8bdd3">VertexBasedBodySeparation_type</a></li>
 <li>location&#160;:&#160;<a class="el" href="structcollision_geometry__type.html#ae240041e30359731c54a65b9bc6282ab">collisionGeometry_type</a></li>
 <li>m&#160;:&#160;<a class="el" href="classsfu_1_1_matrix2f.html#a004c311747ae86cb59c93ad93d16fc92">sfu::Matrix2f</a></li>
 <li>m_angularVelocity&#160;:&#160;<a class="el" href="class_rigid_body.html#ac34c93debfecfe4d6409b95392637e3a">RigidBody</a></li>
 <li>m_area&#160;:&#160;<a class="el" href="class_rigid_body.html#adfb760b77153a4187ad0565423ad267b">RigidBody</a></li>
-<li>m_frictionCoefficient&#160;:&#160;<a class="el" href="class_rigid_body.html#a54a1e3456712fcec8f1444f9c49cd012">RigidBody</a></li>
 <li>m_inverseMass&#160;:&#160;<a class="el" href="class_rigid_body.html#a65a16343dbe0af74b62fc6442b4ae154">RigidBody</a></li>
 <li>m_inverseMomentOfInertia&#160;:&#160;<a class="el" href="class_rigid_body.html#ac7cd5ee326260472f63d7fe64e30da0c">RigidBody</a></li>
 <li>m_points&#160;:&#160;<a class="el" href="class_rigid_body.html#a96adcb574654df8c3f6e56bb314e0769">RigidBody</a></li>
 <li>m_restitutionCoefficient&#160;:&#160;<a class="el" href="class_rigid_body.html#a54714ea34de4e5e05e065b5ccf09a83b">RigidBody</a></li>
+<li>m_timeNormalizedFrictionCoefficient&#160;:&#160;<a class="el" href="class_rigid_body.html#a8b6db2b95240773ba7e5895272cea00f">RigidBody</a></li>
 <li>m_velocity&#160;:&#160;<a class="el" href="class_rigid_body.html#acbd67c8cdbea716cdba44e34106b837d">RigidBody</a></li>
 <li>minSeparation&#160;:&#160;<a class="el" href="structcollision_geometry__type.html#a2be2b22664b9a9d0762fb87976edd46e">collisionGeometry_type</a></li>
-<li>normal&#160;:&#160;<a class="el" href="structedge_structure_separation_data__type.html#a9706e3725ef6749d6d2dda82f48c6de9">edgeStructureSeparationData_type</a>, <a class="el" href="structpoint_separation_data__type.html#a1960c9349a9bacb805e673da7fe6c7f9">pointSeparationData_type</a></li>
-<li>normalIndex&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#a6779024ae0b8a04f12df1319e3b974e9">circleSeparationData_type</a></li>
+<li>normal&#160;:&#160;<a class="el" href="structpoint_separation_data__type.html#a1960c9349a9bacb805e673da7fe6c7f9">pointSeparationData_type</a>, <a class="el" href="struct_vertex_based_body_separation__type.html#a1d6f2d4e4187f0acfd17b5ff97ea6d7a">VertexBasedBodySeparation_type</a></li>
+<li>normalIndex&#160;:&#160;<a class="el" href="structcircle_separation__type.html#aa30f834e550bb845ae579119a90070b5">circleSeparation_type</a></li>
 <li>normals&#160;:&#160;<a class="el" href="structcollision_geometry__type.html#a3845a1b3cd119055eb2abd0ecbfd0b89">collisionGeometry_type</a></li>
-<li>pointIndex&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#a984bafb9e0b63903014468db593b67a8">circleSeparationData_type</a></li>
-<li>separation&#160;:&#160;<a class="el" href="structedge_structure_separation_data__type.html#aad5a065c5348bcf283793f9af14a1f1c">edgeStructureSeparationData_type</a>, <a class="el" href="structpoint_separation_data__type.html#ad8a0fcf0ce1c6523b13602e28a9264f9">pointSeparationData_type</a></li>
+<li>pointIndex&#160;:&#160;<a class="el" href="structcircle_separation__type.html#a027770b95a9fd0bed7bedaf590b25d0d">circleSeparation_type</a></li>
+<li>separation&#160;:&#160;<a class="el" href="structpoint_separation_data__type.html#ad8a0fcf0ce1c6523b13602e28a9264f9">pointSeparationData_type</a>, <a class="el" href="struct_vertex_based_body_separation__type.html#a6f41c4e1274b9b076e956e595613c15f">VertexBasedBodySeparation_type</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

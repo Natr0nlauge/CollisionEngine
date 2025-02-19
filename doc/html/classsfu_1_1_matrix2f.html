@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -111,6 +118,9 @@ $(function(){initNavTree('classsfu_1_1_matrix2f.html',''); initResizable(true); 
 </div><!--header-->
 <div class="contents">
 
+<p>A matrix compatible with sf::Vector2f.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_matrix2f_8hpp_source.html">Matrix2f.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -120,6 +130,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a55e5a7b6b98d74fca4f0fef91b387b13" id="r_a55e5a7b6b98d74fca4f0fef91b387b13"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55e5a7b6b98d74fca4f0fef91b387b13">Matrix2f</a> (float m11, float m12, float m21, float m22)</td></tr>
 <tr class="separator:a55e5a7b6b98d74fca4f0fef91b387b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7e251733f09f1e128cc2647f6dfb07f" id="r_ad7e251733f09f1e128cc2647f6dfb07f"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7e251733f09f1e128cc2647f6dfb07f">multiply</a> (sf::Vector2f i_vector) const</td></tr>
+<tr class="memdesc:ad7e251733f09f1e128cc2647f6dfb07f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply the matrix with a vector.  <br /></td></tr>
 <tr class="separator:ad7e251733f09f1e128cc2647f6dfb07f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -127,7 +138,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a004c311747ae86cb59c93ad93d16fc92" id="r_a004c311747ae86cb59c93ad93d16fc92"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a004c311747ae86cb59c93ad93d16fc92">m</a> [2][2]</td></tr>
 <tr class="separator:a004c311747ae86cb59c93ad93d16fc92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A matrix compatible with sf::Vector2f. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a13bd496c92ca9b5a158e5a4086970113" name="a13bd496c92ca9b5a158e5a4086970113"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a13bd496c92ca9b5a158e5a4086970113">&#9670;&#160;</a></span>Matrix2f() <span class="overload">[1/2]</span></h2>
 
@@ -191,6 +204,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Multiply the matrix with a vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The vector to multiply with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resulting vector. </dd></dl>
 
 </div>
 </div>

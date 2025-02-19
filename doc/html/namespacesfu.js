@@ -2,7 +2,6 @@ var namespacesfu =
 [
     [ "Matrix2f", "classsfu_1_1_matrix2f.html", "classsfu_1_1_matrix2f" ],
     [ "addVectors", "namespacesfu.html#a185ef2717c71d6e1819b0a2eaf8882fa", null ],
-    [ "computeMedian", "namespacesfu.html#ad696b7cd991504655b96a5b1b30eb459", null ],
     [ "getRotationMatrix", "namespacesfu.html#a37ca9fe32c1cceddc5efc377f19555d5", null ],
     [ "getVectorDirection", "namespacesfu.html#a1c1e5904f2d7e4dc968c81f1a8b1c6af", null ],
     [ "getVectorLength", "namespacesfu.html#ac79792c8f29cce1c5bbd45ba82d5d31a", null ],

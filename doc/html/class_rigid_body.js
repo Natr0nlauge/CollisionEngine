@@ -2,6 +2,7 @@ var class_rigid_body =
 [
     [ "RigidBody", "class_rigid_body.html#a2c25abbc0718647b47d5b573937374c6", null ],
     [ "~RigidBody", "class_rigid_body.html#a4eade6e08e5a78c56822d2f42322c915", null ],
+    [ "applyImpulse", "class_rigid_body.html#ab417f01a889f35a0ea044cab30927fb2", null ],
     [ "calculateAndSetArea", "class_rigid_body.html#a73dbf64a8dd0f997287e16d7d9d31666", null ],
     [ "calculateCenterOfMass", "class_rigid_body.html#ac50474d48aefae643dba75da2f7a1a5e", null ],
     [ "calculateInverseDensity", "class_rigid_body.html#a6f7a22d84ad7166f29811c4620ce8210", null ],
@@ -20,13 +21,13 @@ var class_rigid_body =
     [ "setVelocity", "class_rigid_body.html#a2cb968c55fbb25ec8a417aa6d3977ddb", null ],
     [ "transformPointToGlobal", "class_rigid_body.html#aa6df4b69f7b53be008aff0e47294317d", null ],
     [ "transformVectorToGlobal", "class_rigid_body.html#a6a647d4584180f3ec630c8534029f5d3", null ],
-    [ "updatePositionAndAngle", "class_rigid_body.html#a55e7d2bafa3fb3c315671c649d12be28", null ],
+    [ "updateBody", "class_rigid_body.html#a75659c36bd1307cd3db2eb486012fd97", null ],
     [ "m_angularVelocity", "class_rigid_body.html#ac34c93debfecfe4d6409b95392637e3a", null ],
     [ "m_area", "class_rigid_body.html#adfb760b77153a4187ad0565423ad267b", null ],
-    [ "m_frictionCoefficient", "class_rigid_body.html#a54a1e3456712fcec8f1444f9c49cd012", null ],
     [ "m_inverseMass", "class_rigid_body.html#a65a16343dbe0af74b62fc6442b4ae154", null ],
     [ "m_inverseMomentOfInertia", "class_rigid_body.html#ac7cd5ee326260472f63d7fe64e30da0c", null ],
     [ "m_points", "class_rigid_body.html#a96adcb574654df8c3f6e56bb314e0769", null ],
     [ "m_restitutionCoefficient", "class_rigid_body.html#a54714ea34de4e5e05e065b5ccf09a83b", null ],
+    [ "m_timeNormalizedFrictionCoefficient", "class_rigid_body.html#a8b6db2b95240773ba7e5895272cea00f", null ],
     [ "m_velocity", "class_rigid_body.html#acbd67c8cdbea716cdba44e34106b837d", null ]
 ];

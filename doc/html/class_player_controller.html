@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -110,11 +117,15 @@ $(function(){initNavTree('class_player_controller.html',''); initResizable(true)
 </div><!--header-->
 <div class="contents">
 
+<p>Enables the bodies in the simulation to be controlled by the user.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_player_controller_8hpp_source.html">PlayerController.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2ad1eded2ea261601e5b9396d6f23f41" id="r_a2ad1eded2ea261601e5b9396d6f23f41"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ad1eded2ea261601e5b9396d6f23f41">PlayerController</a> (<a class="el" href="class_rigid_body.html">RigidBody</a> *i_playerBody)</td></tr>
+<tr class="memdesc:a2ad1eded2ea261601e5b9396d6f23f41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="separator:a2ad1eded2ea261601e5b9396d6f23f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27b597bc2dbe06e2464dea6cdb3fac96" id="r_a27b597bc2dbe06e2464dea6cdb3fac96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27b597bc2dbe06e2464dea6cdb3fac96">~PlayerController</a> ()</td></tr>
 <tr class="separator:a27b597bc2dbe06e2464dea6cdb3fac96"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,9 +142,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a096567989e195d6440e0270e9ea5a42e" id="r_a096567989e195d6440e0270e9ea5a42e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_rigid_body.html">RigidBody</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a096567989e195d6440e0270e9ea5a42e">getPlayerBody</a> ()</td></tr>
 <tr class="separator:a096567989e195d6440e0270e9ea5a42e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e8201886544d22b6fd956ad3fd821de" id="r_a1e8201886544d22b6fd956ad3fd821de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e8201886544d22b6fd956ad3fd821de">update</a> (float i_dT)</td></tr>
+<tr class="memdesc:a1e8201886544d22b6fd956ad3fd821de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the body controlled by the player. Process the user inputs, call the RigidBody::update() method and make sure the body position is inside the limits.  <br /></td></tr>
 <tr class="separator:a1e8201886544d22b6fd956ad3fd821de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Enables the bodies in the simulation to be controlled by the user. </p>
+<p>This class holds a pointer to the <a class="el" href="class_rigid_body.html" title="Abstract class which describes the physical behaviour of the simulated bodies. This does not include ...">RigidBody</a> that is supposed to be controlled by the player. The same pointer is not included in Simulation::m_collisionPartners. Also holds settings for controlling the body (acceleration, buttons for controls). </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2ad1eded2ea261601e5b9396d6f23f41" name="a2ad1eded2ea261601e5b9396d6f23f41"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ad1eded2ea261601e5b9396d6f23f41">&#9670;&#160;</a></span>PlayerController()</h2>
 
@@ -148,6 +163,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_playerBody</td><td>A pointer to the body to be controlled. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -307,6 +330,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Update the body controlled by the player. Process the user inputs, call the RigidBody::update() method and make sure the body position is inside the limits. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_dT</td><td>Time increment in seconds. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

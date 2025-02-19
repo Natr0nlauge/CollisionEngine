@@ -22,13 +22,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-		<Filter>Source Files</Filter>
-	</ClCompile>
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Circle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Polygon.cpp">
-
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CollisionDetector.cpp">
@@ -46,7 +45,7 @@
     <ClCompile Include="BoundaryElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EdgeStructure.cpp">
+    <ClCompile Include="VertexBasedBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -84,7 +83,7 @@
     <ClInclude Include="BoundaryElement.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EdgeStructure.hpp">
+    <ClInclude Include="VertexBasedBody.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerController.hpp">

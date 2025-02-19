@@ -1,7 +1,10 @@
 #include "PlayerController.hpp"
 #include "sfml_utility.hpp"
 
-
+/**
+ * @brief Constructor
+ * @param i_playerBody A pointer to the body to be controlled.
+ */
 PlayerController::PlayerController(RigidBody * i_playerBody) : m_playerBody(i_playerBody) {
     i_playerBody->setOutlineColor(sf::Color::Red);
     i_playerBody->setFillColor(sf::Color::Black);
@@ -37,11 +40,13 @@ void PlayerController::setHorizontalControls(sf::Keyboard::Key i_left, sf::Keybo
     controls[3] = i_right;
 }
 
-
 RigidBody * PlayerController::getPlayerBody() {
     return m_playerBody;
 }
 
+/**
+ * @brief Makes sure the new player position is inside the limits.
+ */
 void PlayerController::adjustPlayerPosition() {
     sf::Vector2f playerPosition = m_playerBody->getPosition();
 
@@ -59,6 +64,10 @@ void PlayerController::adjustPlayerPosition() {
     m_playerBody->setPosition(playerPosition);
 }
 
+/**
+ * @brief Process the user inputs.
+ * @param i_dT Time increment in seconds.
+ */
 void PlayerController::handlePlayerEvents(float i_dT) {
     // keyboard control
     float velIncr = i_dT * m_acceleration;
@@ -70,23 +79,25 @@ void PlayerController::handlePlayerEvents(float i_dT) {
         velocity = sfu::addVectors(velocity, sf::Vector2f(0.0f, velIncr));
     }
     if (sf::Keyboard::isKeyPressed(controls[2])) {
-        velocity = sfu::addVectors(velocity, sf::Vector2f(-velIncr,0.0f));
+        velocity = sfu::addVectors(velocity, sf::Vector2f(-velIncr, 0.0f));
     }
     if (sf::Keyboard::isKeyPressed(controls[3])) {
         velocity = sfu::addVectors(velocity, sf::Vector2f(velIncr, 0.0f));
-        
     }
     float speed = sfu::getVectorLength(velocity);
     if (speed > m_maximumSpeed) {
-        velocity = sfu::scaleVector(velocity,m_maximumSpeed/speed);
+        velocity = sfu::scaleVector(velocity, m_maximumSpeed / speed);
     }
     m_playerBody->setVelocity(velocity);
 }
 
+/**
+ * @brief Update the body controlled by the player. Process the user inputs, call the RigidBody::update() method and make sure the body
+ * position is inside the limits.
+ * @param i_dT Time increment in seconds.
+ */
 void PlayerController::update(float i_dT) {
     handlePlayerEvents(i_dT);
-    m_playerBody->updatePositionAndAngle(i_dT);
+    m_playerBody->updateBody(i_dT);
     adjustPlayerPosition();
-    
 }
-

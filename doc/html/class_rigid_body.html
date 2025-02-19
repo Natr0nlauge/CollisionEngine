@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -112,6 +119,9 @@ $(function(){initNavTree('class_rigid_body.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
+<p>Abstract class which describes the physical behaviour of the simulated bodies. This does not include the geometry of the bodies, which is implemented in the subclasses.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_rigid_body_8hpp_source.html">RigidBody.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for RigidBody:</div>
@@ -119,10 +129,10 @@ Inheritance diagram for RigidBody:</div>
  <div class="center">
   <img src="class_rigid_body.png" usemap="#RigidBody_map" alt=""/>
   <map id="RigidBody_map" name="RigidBody_map">
-<area href="class_circle.html" alt="Circle" shape="rect" coords="0,112,111,136"/>
-<area href="class_edge_structure.html" alt="EdgeStructure" shape="rect" coords="121,112,232,136"/>
-<area href="class_boundary_element.html" alt="BoundaryElement" shape="rect" coords="60,168,171,192"/>
-<area href="class_polygon.html" alt="Polygon" shape="rect" coords="181,168,292,192"/>
+<area href="class_circle.html" title="Circular RigidBody." alt="Circle" shape="rect" coords="0,112,113,136"/>
+<area href="class_vertex_based_body.html" title="Represents a RigidBody based on vertices with straight edges." alt="VertexBasedBody" shape="rect" coords="123,112,236,136"/>
+<area href="class_boundary_element.html" title="A barrier intended for placing at the outer Boundaries of the simulation area." alt="BoundaryElement" shape="rect" coords="61,168,174,192"/>
+<area href="class_polygon.html" title="(Convex) Polygonal RigidBody." alt="Polygon" shape="rect" coords="184,168,297,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -151,21 +161,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aefc781c01bbb8be2d830519a11605755" id="r_aefc781c01bbb8be2d830519a11605755"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefc781c01bbb8be2d830519a11605755">setRestitutionCoefficient</a> (float i_restitutionCoefficient)</td></tr>
 <tr class="separator:aefc781c01bbb8be2d830519a11605755"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac97f8f1ff7b8fd6b2009b1e1672eff4b" id="r_ac97f8f1ff7b8fd6b2009b1e1672eff4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac97f8f1ff7b8fd6b2009b1e1672eff4b">setFrictionCoefficient</a> (float i_frictionCoefficient)</td></tr>
+<tr class="memdesc:ac97f8f1ff7b8fd6b2009b1e1672eff4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the friction coefficient for body movement (Doesn't influence collisions, only translational and rotational movement.)  <br /></td></tr>
 <tr class="separator:ac97f8f1ff7b8fd6b2009b1e1672eff4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55e7d2bafa3fb3c315671c649d12be28" id="r_a55e7d2bafa3fb3c315671c649d12be28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55e7d2bafa3fb3c315671c649d12be28">updatePositionAndAngle</a> (float i_dT)</td></tr>
-<tr class="separator:a55e7d2bafa3fb3c315671c649d12be28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75659c36bd1307cd3db2eb486012fd97" id="r_a75659c36bd1307cd3db2eb486012fd97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75659c36bd1307cd3db2eb486012fd97">updateBody</a> (float i_dT)</td></tr>
+<tr class="memdesc:a75659c36bd1307cd3db2eb486012fd97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move the body one time step ahead with the current velocity and angular velocity. Updates the position and rotation and applies movement friction.  <br /></td></tr>
+<tr class="separator:a75659c36bd1307cd3db2eb486012fd97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab417f01a889f35a0ea044cab30927fb2" id="r_ab417f01a889f35a0ea044cab30927fb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab417f01a889f35a0ea044cab30927fb2">applyImpulse</a> (sf::Vector2f i_relativePosition, sf::Vector2f i_impulse)</td></tr>
+<tr class="memdesc:ab417f01a889f35a0ea044cab30927fb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply an impulse to the body.  <br /></td></tr>
+<tr class="separator:ab417f01a889f35a0ea044cab30927fb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d9c8b90beb86e5da4ad60d71a886701" id="r_a0d9c8b90beb86e5da4ad60d71a886701"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d9c8b90beb86e5da4ad60d71a886701">getPointCount</a> () const override</td></tr>
 <tr class="separator:a0d9c8b90beb86e5da4ad60d71a886701"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa34d96e31b3d81e00ac54b2f698ef8df" id="r_aa34d96e31b3d81e00ac54b2f698ef8df"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa34d96e31b3d81e00ac54b2f698ef8df">getPoint</a> (std::size_t index) const override</td></tr>
+<tr class="memdesc:aa34d96e31b3d81e00ac54b2f698ef8df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required by SFML to render bodies.  <br /></td></tr>
 <tr class="separator:aa34d96e31b3d81e00ac54b2f698ef8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:aa6df4b69f7b53be008aff0e47294317d" id="r_aa6df4b69f7b53be008aff0e47294317d"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6df4b69f7b53be008aff0e47294317d">transformPointToGlobal</a> (sf::Vector2f i_localPoint)</td></tr>
+<tr class="memdesc:aa6df4b69f7b53be008aff0e47294317d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a point from body coordinates to global coordinates.  <br /></td></tr>
 <tr class="separator:aa6df4b69f7b53be008aff0e47294317d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a647d4584180f3ec630c8534029f5d3" id="r_a6a647d4584180f3ec630c8534029f5d3"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a647d4584180f3ec630c8534029f5d3">transformVectorToGlobal</a> (sf::Vector2f i_localVector)</td></tr>
+<tr class="memdesc:a6a647d4584180f3ec630c8534029f5d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a point from body coordinates to global coordinates.  <br /></td></tr>
 <tr class="separator:a6a647d4584180f3ec630c8534029f5d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f7a22d84ad7166f29811c4620ce8210" id="r_a6f7a22d84ad7166f29811c4620ce8210"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f7a22d84ad7166f29811c4620ce8210">calculateInverseDensity</a> () const</td></tr>
+<tr class="memdesc:a6f7a22d84ad7166f29811c4620ce8210"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the inverse density of the body.  <br /></td></tr>
 <tr class="separator:a6f7a22d84ad7166f29811c4620ce8210"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73dbf64a8dd0f997287e16d7d9d31666" id="r_a73dbf64a8dd0f997287e16d7d9d31666"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73dbf64a8dd0f997287e16d7d9d31666">calculateAndSetArea</a> ()=0</td></tr>
 <tr class="separator:a73dbf64a8dd0f997287e16d7d9d31666"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,19 +200,25 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac7cd5ee326260472f63d7fe64e30da0c" id="r_ac7cd5ee326260472f63d7fe64e30da0c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7cd5ee326260472f63d7fe64e30da0c">m_inverseMomentOfInertia</a> = 0.0f</td></tr>
 <tr class="separator:ac7cd5ee326260472f63d7fe64e30da0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb760b77153a4187ad0565423ad267b" id="r_adfb760b77153a4187ad0565423ad267b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfb760b77153a4187ad0565423ad267b">m_area</a> = 0.0f</td></tr>
+<tr class="memdesc:adfb760b77153a4187ad0565423ad267b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The area covered by the body. Measured in pixel^2.  <br /></td></tr>
 <tr class="separator:adfb760b77153a4187ad0565423ad267b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbd67c8cdbea716cdba44e34106b837d" id="r_acbd67c8cdbea716cdba44e34106b837d"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbd67c8cdbea716cdba44e34106b837d">m_velocity</a> = sf::Vector2f(0.0f, 0.0f)</td></tr>
+<tr class="memdesc:acbd67c8cdbea716cdba44e34106b837d"><td class="mdescLeft">&#160;</td><td class="mdescRight">In pixels per second.  <br /></td></tr>
 <tr class="separator:acbd67c8cdbea716cdba44e34106b837d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac34c93debfecfe4d6409b95392637e3a" id="r_ac34c93debfecfe4d6409b95392637e3a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac34c93debfecfe4d6409b95392637e3a">m_angularVelocity</a> = 0.0f</td></tr>
+<tr class="memdesc:ac34c93debfecfe4d6409b95392637e3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">In degrees per second. Clockwise is positive!  <br /></td></tr>
 <tr class="separator:ac34c93debfecfe4d6409b95392637e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54714ea34de4e5e05e065b5ccf09a83b" id="r_a54714ea34de4e5e05e065b5ccf09a83b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54714ea34de4e5e05e065b5ccf09a83b">m_restitutionCoefficient</a> = 1.0f</td></tr>
 <tr class="separator:a54714ea34de4e5e05e065b5ccf09a83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54a1e3456712fcec8f1444f9c49cd012" id="r_a54a1e3456712fcec8f1444f9c49cd012"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54a1e3456712fcec8f1444f9c49cd012">m_frictionCoefficient</a> = 0.005f</td></tr>
-<tr class="separator:a54a1e3456712fcec8f1444f9c49cd012"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b6db2b95240773ba7e5895272cea00f" id="r_a8b6db2b95240773ba7e5895272cea00f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b6db2b95240773ba7e5895272cea00f">m_timeNormalizedFrictionCoefficient</a> = 0.005f * 120.0f</td></tr>
+<tr class="separator:a8b6db2b95240773ba7e5895272cea00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96adcb574654df8c3f6e56bb314e0769" id="r_a96adcb574654df8c3f6e56bb314e0769"><td class="memItemLeft" align="right" valign="top">std::vector&lt; sf::Vector2f &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96adcb574654df8c3f6e56bb314e0769">m_points</a></td></tr>
+<tr class="memdesc:a96adcb574654df8c3f6e56bb314e0769"><td class="mdescLeft">&#160;</td><td class="mdescRight">The corners of the rendered body. Should be set in subclasses.  <br /></td></tr>
 <tr class="separator:a96adcb574654df8c3f6e56bb314e0769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Abstract class which describes the physical behaviour of the simulated bodies. This does not include the geometry of the bodies, which is implemented in the subclasses. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2c25abbc0718647b47d5b573937374c6" name="a2c25abbc0718647b47d5b573937374c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c25abbc0718647b47d5b573937374c6">&#9670;&#160;</a></span>RigidBody()</h2>
 
@@ -229,6 +254,36 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab417f01a889f35a0ea044cab30927fb2" name="ab417f01a889f35a0ea044cab30927fb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab417f01a889f35a0ea044cab30927fb2">&#9670;&#160;</a></span>applyImpulse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RigidBody::applyImpulse </td>
+          <td>(</td>
+          <td class="paramtype">sf::Vector2f</td>          <td class="paramname"><span class="paramname"><em>i_relativePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">sf::Vector2f</td>          <td class="paramname"><span class="paramname"><em>i_impulse</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Apply an impulse to the body. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_relativePosition</td><td>The position of the impulse relative to the center of gravity. </td></tr>
+    <tr><td class="paramname">i_impulse</td><td>The impulse to apply. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a73dbf64a8dd0f997287e16d7d9d31666" name="a73dbf64a8dd0f997287e16d7d9d31666"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a73dbf64a8dd0f997287e16d7d9d31666">&#9670;&#160;</a></span>calculateAndSetArea()</h2>
 
@@ -252,7 +307,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_edge_structure.html#ac5225861aa2f77650b1a7a0df945e97f">EdgeStructure</a>.</p>
+<p>Implemented in <a class="el" href="class_vertex_based_body.html#a3506c9e6dbec178babe37e93d94ccc57">VertexBasedBody</a>.</p>
 
 </div>
 </div>
@@ -279,7 +334,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_edge_structure.html#a181d42576f9c36fd3fcaf44d9fa5f0fa">EdgeStructure</a>.</p>
+<p>Implemented in <a class="el" href="class_vertex_based_body.html#a872f455295fe0557a31581993367f95a">VertexBasedBody</a>.</p>
 
 </div>
 </div>
@@ -306,6 +361,10 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Calculate the inverse density of the body. </p>
+<dl class="section note"><dt>Note</dt><dd>Calculate area first.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The density. </dd></dl>
+
 </div>
 </div>
 <a id="ae231d51dbc6d416bb1a46f58637b07cd" name="ae231d51dbc6d416bb1a46f58637b07cd"></a>
@@ -331,7 +390,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_edge_structure.html#ae43fbf81110290b8aeedf1a857a933c1">EdgeStructure</a>.</p>
+<p>Implemented in <a class="el" href="class_vertex_based_body.html#a2228cbc78b53fd2c51fdc1ba3be0a6dc">VertexBasedBody</a>.</p>
 
 </div>
 </div>
@@ -415,7 +474,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">sf::Vector2f RigidBody::getPoint </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>i_index</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -425,6 +484,15 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Required by SFML to render bodies. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_index</td><td>The point index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Position of a corner in body coordinates- </dd></dl>
 
 </div>
 </div>
@@ -519,6 +587,14 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set the friction coefficient for body movement (Doesn't influence collisions, only translational and rotational movement.) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_frictionCoefficient</td><td>The friction coefficient. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="aefc781c01bbb8be2d830519a11605755" name="aefc781c01bbb8be2d830519a11605755"></a>
@@ -578,6 +654,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Transform a point from body coordinates to global coordinates. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_localPoint</td><td>The point to transform in body coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The point in global coordinates. </dd></dl>
+
 </div>
 </div>
 <a id="a6a647d4584180f3ec630c8534029f5d3" name="a6a647d4584180f3ec630c8534029f5d3"></a>
@@ -603,22 +688,39 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Transform a point from body coordinates to global coordinates. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_localPoint</td><td>The point to transform in global coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The point in body coordinates. </dd></dl>
+
 </div>
 </div>
-<a id="a55e7d2bafa3fb3c315671c649d12be28" name="a55e7d2bafa3fb3c315671c649d12be28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55e7d2bafa3fb3c315671c649d12be28">&#9670;&#160;</a></span>updatePositionAndAngle()</h2>
+<a id="a75659c36bd1307cd3db2eb486012fd97" name="a75659c36bd1307cd3db2eb486012fd97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75659c36bd1307cd3db2eb486012fd97">&#9670;&#160;</a></span>updateBody()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void RigidBody::updatePositionAndAngle </td>
+          <td class="memname">void RigidBody::updateBody </td>
           <td>(</td>
           <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_dT</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Move the body one time step ahead with the current velocity and angular velocity. Updates the position and rotation and applies movement friction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_dT</td><td>Time increment. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -643,6 +745,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>In degrees per second. Clockwise is positive! </p>
+
 </div>
 </div>
 <a id="adfb760b77153a4187ad0565423ad267b" name="adfb760b77153a4187ad0565423ad267b"></a>
@@ -665,27 +769,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a54a1e3456712fcec8f1444f9c49cd012" name="a54a1e3456712fcec8f1444f9c49cd012"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54a1e3456712fcec8f1444f9c49cd012">&#9670;&#160;</a></span>m_frictionCoefficient</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float RigidBody::m_frictionCoefficient = 0.005f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>The area covered by the body. Measured in pixel^2. </p>
 
 </div>
 </div>
@@ -708,6 +792,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Mass is inverted to save division operations and to easily depict infinite translational inertia (in this case, the variable will be zero). Choose any mass unit. </p>
 
 </div>
 </div>
@@ -730,6 +815,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Moment of inertia is inverted to save division operations and to easily depict infinite rotational inertia (in this case, the variable will be zero). Measured in 1/(mass unit * pixel^2) </p>
 
 </div>
 </div>
@@ -753,6 +839,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>The corners of the rendered body. Should be set in subclasses. </p>
+
 </div>
 </div>
 <a id="a54714ea34de4e5e05e065b5ccf09a83b" name="a54714ea34de4e5e05e065b5ccf09a83b"></a>
@@ -774,6 +862,30 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The restitution coefficient of a collision is determined by taking this variable from both bodies and multiplying them. This is not necessarily realistic. </p>
+
+</div>
+</div>
+<a id="a8b6db2b95240773ba7e5895272cea00f" name="a8b6db2b95240773ba7e5895272cea00f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b6db2b95240773ba7e5895272cea00f">&#9670;&#160;</a></span>m_timeNormalizedFrictionCoefficient</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float RigidBody::m_timeNormalizedFrictionCoefficient = 0.005f * 120.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Friction coefficient divided by the time per frame (This is necessary to frame rate interacting with friction). Only affects movement, not collisions. Measured in 1/s. </p>
 
 </div>
 </div>
@@ -796,6 +908,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>In pixels per second. </p>
 
 </div>
 </div>

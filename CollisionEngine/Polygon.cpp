@@ -2,14 +2,25 @@
 #include "sfml_utility.hpp"
 #include <iostream>
 
-Polygon::Polygon(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) : EdgeStructure(i_inverseMass, i_vertices) {
+/**
+ * @brief Constructor.
+ * @param i_inverseMass The inverse mass of the body. Put in zero for an immovable body.
+ * @param i_vertices A vector holding the coordinates of the Polygon's corners. Define them in counter-clockwise order.
+ * 
+ * @note Polygon has to be convex to make the SAT algorithm work correctly.
+ */
+Polygon::Polygon(float i_inverseMass, std::vector<sf::Vector2f> i_vertices) : VertexBasedBody(i_inverseMass, i_vertices) {
     
 }
 
 Polygon::~Polygon() {}
 
 
-
+/**
+ * @brief Calculates the separation of a single point from the polygon using a simplified SAT algorithm.
+ * @param i_point The point coordinates in global coordinates.
+ * @return Struct holding the separation and associated data.
+ */
 pointSeparationData_type Polygon::calculateMinPointSeparation(sf::Vector2f i_point) {
     pointSeparationData_type separationData;
     sf::Vector2f normal = sf::Vector2f();

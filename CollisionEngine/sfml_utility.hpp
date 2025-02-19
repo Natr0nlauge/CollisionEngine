@@ -3,10 +3,11 @@
 #include "sfml/Graphics.hpp"
 #include "Matrix2f.hpp"
 
+/**
+ * @brief Some utility functions to interact with sf::Vector2f.
+ */
 namespace sfu {
 const float PI = 3.14159265358979323846;
-
-float computeMedian(const std::array<float, 4> & i_arr);
 
 sfu::Matrix2f getRotationMatrix(float angle);
 

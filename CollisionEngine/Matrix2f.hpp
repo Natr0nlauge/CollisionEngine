@@ -3,7 +3,10 @@
 #include "sfml/Graphics.hpp"
 
 namespace sfu {
-
+/**
+* @class Matrix2f
+ * @brief A matrix compatible with sf::Vector2f.
+ */
 class Matrix2f {
   public:
     float m[2][2];

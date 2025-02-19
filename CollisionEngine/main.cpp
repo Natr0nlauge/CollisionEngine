@@ -3,7 +3,6 @@
 
 #include "Simulation.hpp"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main() {
     // Example program
     std::vector<RigidBody *> collisionPartners;
@@ -11,8 +10,8 @@ int main() {
     Simulation & simRef = Simulation::getInstance();
     std::vector<sf::Vector2f> exampleVertices = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -50.0f), sf::Vector2f(-25.0f, 25.0f),
             sf::Vector2f(-20.0f, 30.0f), sf::Vector2f(25.0f, 25.0f)};
-    Polygon* polygonPtr = new Polygon(0.1f, exampleVertices);
-    //Circle * circlePtr = new Circle(0.0f);
+    Polygon * polygonPtr = new Polygon(0.1f, exampleVertices);
+    // Circle * circlePtr = new Circle(0.0f);
     PlayerController * playerPtr = new PlayerController(polygonPtr);
     simRef.addPlayer(playerPtr);
 
@@ -56,7 +55,7 @@ int main() {
     boundaryElements[3]->setPosition(512, 256);
     boundaryElements[3]->setRotation(90);
 
-    for (RigidBody* body : collisionPartners) {
+    for (RigidBody * body : collisionPartners) {
         simRef.addCollisionPartner(body);
     }
 
@@ -64,6 +63,7 @@ int main() {
         simRef.addBoundaryElement(bElem);
     }
 
+    simRef.initWindow();
     simRef.run();
 
     return EXIT_SUCCESS;

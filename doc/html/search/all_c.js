@@ -2,7 +2,7 @@ var searchData=
 [
   ['scalarproduct_0',['scalarProduct',['../namespacesfu.html#a7550a764c244c7726a0e14cf33393498',1,'sfu']]],
   ['scalevector_1',['scaleVector',['../namespacesfu.html#ad04bb2fe3c2f922dd8b8a04929f4912e',1,'sfu']]],
-  ['separation_2',['separation',['../structedge_structure_separation_data__type.html#aad5a065c5348bcf283793f9af14a1f1c',1,'edgeStructureSeparationData_type::separation'],['../structpoint_separation_data__type.html#ad8a0fcf0ce1c6523b13602e28a9264f9',1,'pointSeparationData_type::separation']]],
+  ['separation_2',['separation',['../struct_vertex_based_body_separation__type.html#a6f41c4e1274b9b076e956e595613c15f',1,'VertexBasedBodySeparation_type::separation'],['../structpoint_separation_data__type.html#ad8a0fcf0ce1c6523b13602e28a9264f9',1,'pointSeparationData_type::separation']]],
   ['setacceleration_3',['setAcceleration',['../class_player_controller.html#ac2e379948c15c3d1d8c3ce4a2b57fba3',1,'PlayerController']]],
   ['setangularvelocity_4',['setAngularVelocity',['../class_rigid_body.html#a24c490c56fa089aa5579998002b0bd25',1,'RigidBody']]],
   ['setfrictioncoefficient_5',['setFrictionCoefficient',['../class_rigid_body.html#ac97f8f1ff7b8fd6b2009b1e1672eff4b',1,'RigidBody']]],

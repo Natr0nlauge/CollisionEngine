@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CollisionEngine: CollisionEngine/Polygon.hpp Source File</title>
+<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/CollisionEngine/Polygon.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -108,32 +115,31 @@ $(function(){initNavTree('_polygon_8hpp_source.html',''); initResizable(true); }
 <div class="contents">
 <a href="_polygon_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_edge_structure_8hpp.html">EdgeStructure.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_vertex_based_body_8hpp.html">VertexBasedBody.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="class_polygon.html">    7</a></span><span class="keyword">class </span><a class="code hl_function" href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon</a> : <span class="keyword">public</span> <a class="code hl_function" href="class_edge_structure.html#a828355130e5ef12629eaf04613e2f68b">EdgeStructure</a> {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="comment">// Constructor</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <a class="code hl_function" href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon</a>(<span class="keywordtype">float</span> i_inverseMass = 0.1, std::vector&lt;sf::Vector2f&gt; i_vertices = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>                                               sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)});</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="comment">// Destructor</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <a class="code hl_function" href="class_polygon.html#ace39c67107966db12e13a183f496c3b0">~Polygon</a>();</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="comment">// Public methods</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_struct" href="structpoint_separation_data__type.html">pointSeparationData_type</a> <a class="code hl_function" href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">calculateMinPointSeparation</a>(sf::Vector2f i_point) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">getNormalCount</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>};</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span></div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="class_polygon.html">   12</a></span><span class="keyword">class </span><a class="code hl_function" href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon</a> : <span class="keyword">public</span> <a class="code hl_function" href="class_vertex_based_body.html#a1789e2debde3edcbf5e2de5f5d13873a">VertexBasedBody</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="comment">// Constructor</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_function" href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon</a>(<span class="keywordtype">float</span> i_inverseMass = 0.1, std::vector&lt;sf::Vector2f&gt; i_vertices = {sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f),</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>                                               sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)});</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="comment">// Destructor</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_function" href="class_polygon.html#ace39c67107966db12e13a183f496c3b0">~Polygon</a>();</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="comment">// Public methods</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_struct" href="structpoint_separation_data__type.html">pointSeparationData_type</a> <a class="code hl_function" href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">calculateMinPointSeparation</a>(sf::Vector2f i_point) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">getNormalCount</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
 </div>
-<div class="ttc" id="a_edge_structure_8hpp_html"><div class="ttname"><a href="_edge_structure_8hpp.html">EdgeStructure.hpp</a></div></div>
-<div class="ttc" id="aclass_edge_structure_html_a828355130e5ef12629eaf04613e2f68b"><div class="ttname"><a href="class_edge_structure.html#a828355130e5ef12629eaf04613e2f68b">EdgeStructure::EdgeStructure</a></div><div class="ttdeci">EdgeStructure(float i_inverseMass, std::vector&lt; sf::Vector2f &gt; i_vertices)</div><div class="ttdef"><b>Definition</b> EdgeStructure.cpp:5</div></div>
-<div class="ttc" id="aclass_polygon_html_a5c391494f6be710fdf4ff9a881879cf0"><div class="ttname"><a href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">Polygon::calculateMinPointSeparation</a></div><div class="ttdeci">pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override</div><div class="ttdef"><b>Definition</b> Polygon.cpp:13</div></div>
-<div class="ttc" id="aclass_polygon_html_aa0d9d2747b378271aa22f91d7c28813a"><div class="ttname"><a href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">Polygon::getNormalCount</a></div><div class="ttdeci">int getNormalCount() override</div><div class="ttdef"><b>Definition</b> Polygon.cpp:34</div></div>
-<div class="ttc" id="aclass_polygon_html_abb73ec1c71c1d824791ffd1cb2156e40"><div class="ttname"><a href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon::Polygon</a></div><div class="ttdeci">Polygon(float i_inverseMass=0.1, std::vector&lt; sf::Vector2f &gt; i_vertices={sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)})</div><div class="ttdef"><b>Definition</b> Polygon.cpp:5</div></div>
-<div class="ttc" id="aclass_polygon_html_ace39c67107966db12e13a183f496c3b0"><div class="ttname"><a href="class_polygon.html#ace39c67107966db12e13a183f496c3b0">Polygon::~Polygon</a></div><div class="ttdeci">~Polygon()</div><div class="ttdef"><b>Definition</b> Polygon.cpp:9</div></div>
-<div class="ttc" id="astructpoint_separation_data__type_html"><div class="ttname"><a href="structpoint_separation_data__type.html">pointSeparationData_type</a></div><div class="ttdef"><b>Definition</b> EdgeStructure.hpp:5</div></div>
+<div class="ttc" id="a_vertex_based_body_8hpp_html"><div class="ttname"><a href="_vertex_based_body_8hpp.html">VertexBasedBody.hpp</a></div></div>
+<div class="ttc" id="aclass_polygon_html_a5c391494f6be710fdf4ff9a881879cf0"><div class="ttname"><a href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">Polygon::calculateMinPointSeparation</a></div><div class="ttdeci">pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override</div><div class="ttdoc">Calculates the separation of a single point from the polygon using a simplified SAT algorithm.</div><div class="ttdef"><b>Definition</b> Polygon.cpp:24</div></div>
+<div class="ttc" id="aclass_polygon_html_aa0d9d2747b378271aa22f91d7c28813a"><div class="ttname"><a href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">Polygon::getNormalCount</a></div><div class="ttdeci">int getNormalCount() override</div><div class="ttdef"><b>Definition</b> Polygon.cpp:45</div></div>
+<div class="ttc" id="aclass_polygon_html_abb73ec1c71c1d824791ffd1cb2156e40"><div class="ttname"><a href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon::Polygon</a></div><div class="ttdeci">Polygon(float i_inverseMass=0.1, std::vector&lt; sf::Vector2f &gt; i_vertices={sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)})</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> Polygon.cpp:12</div></div>
+<div class="ttc" id="aclass_polygon_html_ace39c67107966db12e13a183f496c3b0"><div class="ttname"><a href="class_polygon.html#ace39c67107966db12e13a183f496c3b0">Polygon::~Polygon</a></div><div class="ttdeci">~Polygon()</div><div class="ttdef"><b>Definition</b> Polygon.cpp:16</div></div>
+<div class="ttc" id="aclass_vertex_based_body_html_a1789e2debde3edcbf5e2de5f5d13873a"><div class="ttname"><a href="class_vertex_based_body.html#a1789e2debde3edcbf5e2de5f5d13873a">VertexBasedBody::VertexBasedBody</a></div><div class="ttdeci">VertexBasedBody(float i_inverseMass, std::vector&lt; sf::Vector2f &gt; i_vertices)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> VertexBasedBody.cpp:9</div></div>
+<div class="ttc" id="astructpoint_separation_data__type_html"><div class="ttname"><a href="structpoint_separation_data__type.html">pointSeparationData_type</a></div><div class="ttdoc">Stores data related to the separation between a VertexBasedBody and a single point.</div><div class="ttdef"><b>Definition</b> VertexBasedBody.hpp:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

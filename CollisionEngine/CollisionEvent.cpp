@@ -10,15 +10,18 @@ CollisionEvent::CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const colli
 
 CollisionEvent::~CollisionEvent() {}
 
+/**
+ * @brief Resolve the collision and apply the translational and rotational velocities to the respective bodies.
+ */
 void CollisionEvent::resolve() {
     float contactTransformationAngle = sfu::getVectorDirection(m_collisionGeometry.normals[0]); // only one is needed;
 
     // Get relative position in global coordinates for body 1 and 2
-
-    sf::Vector2f relativePositions[2] = {computeRelativePosition(m_collisionGeometry.location, m_collisionPartners[0]->getPosition()),
+    std::array<sf::Vector2f, 2> relativePositions = {
+            computeRelativePosition(m_collisionGeometry.location, m_collisionPartners[0]->getPosition()),
             computeRelativePosition(m_collisionGeometry.location, m_collisionPartners[1]->getPosition())};
 
-    float contactVel = calculateContactVelocity(relativePositions);
+    float contactVel = calculateContactSpeed(relativePositions);
 
     if (contactVel > 0) { // Avoid bodies getting stuck inside each other
         float restitutionCoefficient =
@@ -33,7 +36,7 @@ void CollisionEvent::resolve() {
         } catch (const std::runtime_error & e) {
             // TODO use subfunction
             std::cerr << e.what() << "-> Forcing the bodies away from each other." << "\n";
-            for (RigidBody* colPar : m_collisionPartners) {
+            for (RigidBody * colPar : m_collisionPartners) {
                 sf::Vector2f vel = colPar->getVelocity();
                 float angVel = colPar->getAngularVelocity();
                 sf::Vector2f newVel = sfu::scaleVector(vel, -1.0f);
@@ -44,31 +47,36 @@ void CollisionEvent::resolve() {
         }
         float impulseContactX = desiredDeltaVel / deltaVelPerUnitImpulse;
 
-        handleCollision(relativePositions, impulseContactX, contactTransformationAngle);
+        handleImpulse(relativePositions, impulseContactX, contactTransformationAngle);
     }
-}
-
-RigidBody * CollisionEvent::getCollisionPartner(int i_index) const {
-    return m_collisionPartners[i_index];
 }
 
 collisionGeometry_type CollisionEvent::getCollisionGeometry() const {
     return m_collisionGeometry;
 }
 
-float CollisionEvent::getMinSeparation() const { //  TODO change name to minSeparation everywhere
+float CollisionEvent::getMinSeparation() const {
     return m_collisionGeometry.minSeparation;
 }
 
-// void CollisionEvent::setCollisionGeometry(collisionGeometry_type i_collisionGeometry) {
-//     m_collisionGeometry = i_collisionGeometry;
-// }
-
+/**
+ * @brief Calculates the relative position of the collision location to the body location.
+ * @param i_collLoc The collision location in global coordinates.
+ * @param i_bodyPosition The position of the body's center of mass.
+ * @return The relative collision location in global coordinates.
+ */
 sf::Vector2f CollisionEvent::computeRelativePosition(sf::Vector2f i_collLoc, sf::Vector2f i_bodyPosition) {
     return sfu::subtractVectors(i_collLoc, i_bodyPosition);
 }
 
-float CollisionEvent::calculateContactVelocity(sf::Vector2f * i_relativePositions) const {
+/**
+ * @brief Calculates the speed at which the bodies are colliding in the collision point (considering translational and rotational body
+ * movement)
+ * @param i_relativePositions Array containing the collision location in relation to the center of mass of the respective body (in global
+ * coordinates)
+ * @return The collision speed (the component of the local relative velocity vector parallel to the collision normal)
+ */
+float CollisionEvent::calculateContactSpeed(std::array<sf::Vector2f, 2> i_relativePositions) const {
 
     float projectedClosingVelocity = 0.0f;
 
@@ -84,7 +92,7 @@ float CollisionEvent::calculateContactVelocity(sf::Vector2f * i_relativePosition
     return projectedClosingVelocity;
 }
 
-float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f * i_relativePositions) const {
+float CollisionEvent::calculateDeltaVelPerUnitImpulse(std::array<sf::Vector2f, 2> i_relativePositions) const {
     // Implement the three equations, see p. 338
     float deltaVel = 0.0f;
 
@@ -101,19 +109,26 @@ float CollisionEvent::calculateDeltaVelPerUnitImpulse(sf::Vector2f * i_relativeP
     return deltaVel;
 }
 
-void CollisionEvent::handleCollision(sf::Vector2f * i_relativePosition, float i_impulseContactX, float i_contactTransformationAngle) {
+/**
+ * @brief Determines the impulse each body receives.
+ * @param i_relativePosition Array containing the collision location in relation to the center of mass of the respective body (in global
+ * coordinates)
+ * @param i_impulseContactX The impulse in contact coordinates, parallel to the contact x axis (parallel to the collision normal)
+ * @param i_contactTransformationAngle
+ *
+ */
+void CollisionEvent::handleImpulse(std::array<sf::Vector2f, 2> i_relativePosition, float i_impulseContactX,
+        float i_contactTransformationAngle) {
 
     sf::Vector2f impulseContact = sf::Vector2f(i_impulseContactX, 0.0f);
 
     // In global coordinates
     sf::Vector2f impulse[2];
     impulse[0] = sfu::rotateVector(impulseContact, i_contactTransformationAngle);
-    impulse[1] = sfu::scaleVector(impulse[0], -1.0f);
-    // sf::Vector2f impulse2 = sfu::scaleVector(impulse1, -1.0f); // Newton's third law
+    impulse[1] = sfu::scaleVector(impulse[0], -1.0f); // Newton's third law
 
     for (int i = 0; i < BODIES_PER_COLLISION; i++) {
 
         m_collisionPartners[i]->applyImpulse(i_relativePosition[i], impulse[i]);
     }
-    // std::cout << newVel1.x << ", " << newVel1.y << ", " << newVel2.x << ", " << newVel2.y << "\n";
 }

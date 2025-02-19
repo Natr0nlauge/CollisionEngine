@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CollisionEngine: CollisionEngine/Simulation.hpp File Reference</title>
+<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/CollisionEngine/Simulation.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -109,11 +116,12 @@ $(function(){initNavTree('_simulation_8hpp.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;sfml/Graphics.hpp&quot;</code><br />
-<code>#include &quot;<a class="el" href="_edge_structure_8hpp_source.html">EdgeStructure.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_vertex_based_body_8hpp_source.html">VertexBasedBody.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_collision_detector_8hpp_source.html">CollisionDetector.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_boundary_element_8hpp_source.html">BoundaryElement.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_player_controller_8hpp_source.html">PlayerController.hpp</a>&quot;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 </div>
@@ -122,6 +130,7 @@ $(function(){initNavTree('_simulation_8hpp.html',''); initResizable(true); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulation.html">Simulation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A singleton class that manages the physics simulation, rendering, and event handling.  <a href="class_simulation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

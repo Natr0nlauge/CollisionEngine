@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['matrix2f_0',['Matrix2f',['../classsfu_1_1_matrix2f.html',1,'sfu']]]
+  ['playercontroller_0',['PlayerController',['../class_player_controller.html',1,'']]],
+  ['pointseparationdata_5ftype_1',['pointSeparationData_type',['../structpoint_separation_data__type.html',1,'']]],
+  ['polygon_2',['Polygon',['../class_polygon.html',1,'']]]
 ];

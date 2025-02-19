@@ -3,7 +3,7 @@
 #include <iostream>
 
 BoundaryElement::BoundaryElement(float i_length)
-    : m_length(i_length), EdgeStructure(0.0f, {sf::Vector2f(-i_length / 2, 0.0f), sf::Vector2f(i_length / 2, 0.0f)}) {}
+    : m_length(i_length), VertexBasedBody(0.0f, {sf::Vector2f(-i_length / 2, 0.0f), sf::Vector2f(i_length / 2, 0.0f)}) {}
 
 BoundaryElement::~BoundaryElement() {}
 
@@ -13,8 +13,11 @@ sf::Vertex * BoundaryElement::getVertexArray() {
     return m_vertexArray;
 }
 
-
-
+/**
+ * @brief Calculates the separation of any point to the BoundaryElement
+ * @param i_point The point to test in global coordinates.
+ * @return Struct holding the separation and associated data.
+ */
 pointSeparationData_type BoundaryElement::calculateMinPointSeparation(sf::Vector2f i_point) {
     pointSeparationData_type separationData;
     sf::Vector2f normal = sf::Vector2f();

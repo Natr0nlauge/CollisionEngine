@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -110,18 +117,27 @@ $(function(){initNavTree('structpoint_separation_data__type.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_edge_structure_8hpp_source.html">EdgeStructure.hpp</a>&gt;</code></p>
+<p>Stores data related to the separation between a <a class="el" href="class_vertex_based_body.html" title="Represents a RigidBody based on vertices with straight edges.">VertexBasedBody</a> and a single point.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_vertex_based_body_8hpp_source.html">VertexBasedBody.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ad8a0fcf0ce1c6523b13602e28a9264f9" id="r_ad8a0fcf0ce1c6523b13602e28a9264f9"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8a0fcf0ce1c6523b13602e28a9264f9">separation</a> = std::numeric_limits&lt;float&gt;::lowest()</td></tr>
+<tr class="memdesc:ad8a0fcf0ce1c6523b13602e28a9264f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Separation according to SAT in pixels.  <br /></td></tr>
 <tr class="separator:ad8a0fcf0ce1c6523b13602e28a9264f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a01767ee197ec53314702dddf71f325" id="r_a2a01767ee197ec53314702dddf71f325"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a01767ee197ec53314702dddf71f325">index</a> = -1</td></tr>
+<tr class="memdesc:a2a01767ee197ec53314702dddf71f325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of the edge corresponding to the separation.  <br /></td></tr>
 <tr class="separator:a2a01767ee197ec53314702dddf71f325"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1960c9349a9bacb805e673da7fe6c7f9" id="r_a1960c9349a9bacb805e673da7fe6c7f9"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1960c9349a9bacb805e673da7fe6c7f9">normal</a></td></tr>
+<tr class="memitem:a1960c9349a9bacb805e673da7fe6c7f9" id="r_a1960c9349a9bacb805e673da7fe6c7f9"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1960c9349a9bacb805e673da7fe6c7f9">normal</a> = sf::Vector2f()</td></tr>
+<tr class="memdesc:a1960c9349a9bacb805e673da7fe6c7f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normal vector corresponding to the separation.  <br /></td></tr>
 <tr class="separator:a1960c9349a9bacb805e673da7fe6c7f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Stores data related to the separation between a <a class="el" href="class_vertex_based_body.html" title="Represents a RigidBody based on vertices with straight edges.">VertexBasedBody</a> and a single point. </p>
+<p>This struct holds information about the separation distance, the index of the relevant edge, and the normal vector representing the direction of separation. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a2a01767ee197ec53314702dddf71f325" name="a2a01767ee197ec53314702dddf71f325"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a01767ee197ec53314702dddf71f325">&#9670;&#160;</a></span>index</h2>
 
@@ -134,6 +150,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Index of the edge corresponding to the separation. </p>
+
 </div>
 </div>
 <a id="a1960c9349a9bacb805e673da7fe6c7f9" name="a1960c9349a9bacb805e673da7fe6c7f9"></a>
@@ -143,10 +161,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">sf::Vector2f pointSeparationData_type::normal</td>
+          <td class="memname">sf::Vector2f pointSeparationData_type::normal = sf::Vector2f()</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Normal vector corresponding to the separation. </p>
 
 </div>
 </div>
@@ -161,6 +181,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Separation according to SAT in pixels. </p>
 
 </div>
 </div>

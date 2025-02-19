@@ -1,7 +1,6 @@
 var sfml__utility_8hpp =
 [
     [ "sfu::addVectors", "namespacesfu.html#a185ef2717c71d6e1819b0a2eaf8882fa", null ],
-    [ "sfu::computeMedian", "namespacesfu.html#ad696b7cd991504655b96a5b1b30eb459", null ],
     [ "sfu::getRotationMatrix", "namespacesfu.html#a37ca9fe32c1cceddc5efc377f19555d5", null ],
     [ "sfu::getVectorDirection", "namespacesfu.html#a1c1e5904f2d7e4dc968c81f1a8b1c6af", null ],
     [ "sfu::getVectorLength", "namespacesfu.html#ac79792c8f29cce1c5bbd45ba82d5d31a", null ],

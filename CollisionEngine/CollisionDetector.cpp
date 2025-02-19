@@ -8,9 +8,16 @@
 std::unique_ptr<CollisionDetector> CollisionDetector::s_instance = nullptr;
 std::mutex CollisionDetector::mtx;
 
-// In case of edge-edge-collision: Find the center of the collision area
-sf::Vector2f CollisionDetector::findCenterOfContact(edgeStructureSeparationData_type & i_sepData1,
-        edgeStructureSeparationData_type & i_sepData2, EdgeStructure & i_body1, EdgeStructure & i_body2) {
+/**
+ * @brief This is called if an edge-on-edge-Collision is detected.
+ * @param i_sepData1 Holds the indices of the two points making up the colliding edge of the first body.
+ * @param i_sepData2 Holds the indices of the two points making up the colliding edge of the second body.
+ * @param i_body1 Reference to the first body.
+ * @param i_body2 Reference to the second body.
+ * @return The center point of the colliding segment given in global coordinates.
+ */
+sf::Vector2f CollisionDetector::findCenterOfContact(VertexBasedBodySeparation_type & i_sepData1,
+        VertexBasedBodySeparation_type & i_sepData2, VertexBasedBody & i_body1, VertexBasedBody & i_body2) {
     const int numberOfPoints = 4;
     sf::Vector2f vertices[numberOfPoints];
     std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -26,16 +33,21 @@ sf::Vector2f CollisionDetector::findCenterOfContact(edgeStructureSeparationData_
         yValues[i] = vertices[i].y;
     }
 
-    return sf::Vector2f(sfu::computeMedian(xValues), sfu::computeMedian(yValues));
+    return sf::Vector2f(computeMedian(xValues), computeMedian(yValues));
 }
 
-// Detect if two EdgeStructures are colliding and write collision data to a c_collisionEvent
-collisionGeometry_type CollisionDetector::determineCollisionGeometry(EdgeStructure * firstBody, EdgeStructure * secondBody) {
+/**
+ * @brief Determines the collision location and normal vector.
+ * @param firstBody One of the collision partners, order doesn't matter.
+ * @param secondBody The other collision partner.
+ * @return The collision geometry.
+ */
+collisionGeometry_type CollisionDetector::determineCollisionGeometry(VertexBasedBody * firstBody, VertexBasedBody * secondBody) {
     collisionGeometry_type collisionGeometry;
 
     // Do the actual calculations
-    edgeStructureSeparationData_type collData2 = calculateMinEdgeStructureSeparation(*firstBody, *secondBody);
-    edgeStructureSeparationData_type collData1 = calculateMinEdgeStructureSeparation(*secondBody, *firstBody);
+    VertexBasedBodySeparation_type collData2 = calculateMinVertexBasedBodySeparation(*firstBody, *secondBody);
+    VertexBasedBodySeparation_type collData1 = calculateMinVertexBasedBodySeparation(*secondBody, *firstBody);
     //  If one of the separation values is greater than 0, the bodies are not colliding
     // if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
     if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
@@ -62,14 +74,13 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(EdgeStructu
     return collisionGeometry;
 }
 
-// Detect if a Circle and an EdgeStructure are colliding and write collision data to a c_collisionEvent
-collisionGeometry_type CollisionDetector::determineCollisionGeometry(EdgeStructure * firstBody, Circle * secondBody) {
+collisionGeometry_type CollisionDetector::determineCollisionGeometry(VertexBasedBody * firstBody, Circle * secondBody) {
     collisionGeometry_type collisionGeometry = determineEdgeAndCircleGeometry(firstBody, secondBody);
 
     return collisionGeometry;
 }
 
-collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, EdgeStructure * secondBody) {
+collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, VertexBasedBody * secondBody) {
     collisionGeometry_type collisionGeometry = determineEdgeAndCircleGeometry(secondBody, firstBody);
     // Switch normals
     sf::Vector2f normal = collisionGeometry.normals[0];
@@ -78,11 +89,18 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * fi
     return collisionGeometry;
 }
 
-collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(EdgeStructure * theEdgeStructure, Circle * theCircle) {
+/**
+ * @brief Determines collision geometry if one Body is a VertexBasedBody and the other is a Circle.
+ * @attention Avoid using this directly. Use the appropriate overload of determineCollisionGeometry() instead, which will call this method.
+ * @param theVertexBasedBody The VertexBasedBody.
+ * @param theCircle The Circle.
+ * @return The Collision geometry.
+ */
+collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(VertexBasedBody * theVertexBasedBody, Circle * theCircle) {
     collisionGeometry_type collisionGeometry;
     float separation = std::numeric_limits<float>::max();
     // Modified SAT algorithm
-    circleSeparationData_type circleSeparationData = calculateMinCircleSeparation(*theEdgeStructure, *theCircle);
+    circleSeparation_type circleSeparationData = calculateMinCircleSeparation(*theVertexBasedBody, *theCircle);
     float cornerSeparation = circleSeparationData.cornerSeparation;
     float edgeSeparation = circleSeparationData.edgeSeparation;
     int pointIndex = circleSeparationData.pointIndex;
@@ -91,12 +109,12 @@ collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(EdgeStr
 
     // std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
     if (circleSeparationData.edgeSeparation < cornerSeparation) {
-        sf::Vector2f assumedCollisionNormal = theEdgeStructure->getGlobalNormal(normalIndex);
+        sf::Vector2f assumedCollisionNormal = theVertexBasedBody->getGlobalNormal(normalIndex);
         sf::Vector2f assumedCollisionLocation =
                 sfu::addVectors(theCircle->getPosition(), sfu::scaleVector(assumedCollisionNormal, -theCircle->getRadius()));
 
-        // Check if the Collision Location is actually inside the EdgeStructure
-        float collisionSeparation = theEdgeStructure->calculateMinPointSeparation(assumedCollisionLocation).separation;
+        // Check if the Collision Location is actually inside the VertexBasedBody
+        float collisionSeparation = theVertexBasedBody->calculateMinPointSeparation(assumedCollisionLocation).separation;
 
         if (collisionSeparation < 0) {
             normal = assumedCollisionNormal;
@@ -109,7 +127,7 @@ collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(EdgeStr
 
     if (edgeSeparation >= cornerSeparation) {
         separation = cornerSeparation;
-        collisionGeometry.location = theEdgeStructure->getGlobalPoint(pointIndex);
+        collisionGeometry.location = theVertexBasedBody->getGlobalPoint(pointIndex);
         normal = sfu::subtractVectors(theCircle->getPosition(), collisionGeometry.location);
     }
 
@@ -121,7 +139,6 @@ collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(EdgeStr
     return collisionGeometry;
 }
 
-// Detect if two Circles are colliding and write collision data to a c_collisionEvent
 collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, Circle * secondBody) {
     collisionGeometry_type collisionGeometry;
     sf::Vector2f firstPosition = firstBody->getPosition();
@@ -149,31 +166,31 @@ CollisionDetector & CollisionDetector::getInstance() {
     return *s_instance;
 }
 
-// Constructor
+// Constructor.
 CollisionDetector::CollisionDetector() {}
 
-// Destructor
+// Destructor.
 CollisionDetector::~CollisionDetector() {}
 
-//  Detects a collision between two edgeStructures and writes results to a collisionEvent
+//  Detects a collision between two VertexBasedBodys and writes results to a collisionEvent
 CollisionEvent CollisionDetector::generateCollisionEvent(RigidBody * i_firstBody, RigidBody * i_secondBody) {
 
     // Find out what the first body is
 
     collisionGeometry_type collisionGeometry;
 
-    if (EdgeStructure * firstBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(i_firstBody)) {
-        if (EdgeStructure * secondBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(i_secondBody)) {
-            // Both bodies are EdgeStructures
-            collisionGeometry = determineCollisionGeometry(firstBodyAsEdgeStructure, secondBodyAsEdgeStructure);
+    if (VertexBasedBody * firstBodyAsVertexBasedBody = dynamic_cast<VertexBasedBody *>(i_firstBody)) {
+        if (VertexBasedBody * secondBodyAsVertexBasedBody = dynamic_cast<VertexBasedBody *>(i_secondBody)) {
+            // Both bodies are VertexBasedBodys
+            collisionGeometry = determineCollisionGeometry(firstBodyAsVertexBasedBody, secondBodyAsVertexBasedBody);
         } else if (Circle * secondBodyAsCircle = dynamic_cast<Circle *>(i_secondBody)) {
-            // Body one is EdgeStructure, body two is Circle
-            collisionGeometry = determineCollisionGeometry(firstBodyAsEdgeStructure, secondBodyAsCircle);
+            // Body one is VertexBasedBody, body two is Circle
+            collisionGeometry = determineCollisionGeometry(firstBodyAsVertexBasedBody, secondBodyAsCircle);
         }
     } else if (Circle * firstBodyAsCircle = dynamic_cast<Circle *>(i_firstBody)) {
-        if (EdgeStructure * secondBodyAsEdgeStructure = dynamic_cast<EdgeStructure *>(i_secondBody)) {
-            // Body one is Circle, body two is EdgeStructure
-            collisionGeometry = determineCollisionGeometry(firstBodyAsCircle, secondBodyAsEdgeStructure);
+        if (VertexBasedBody * secondBodyAsVertexBasedBody = dynamic_cast<VertexBasedBody *>(i_secondBody)) {
+            // Body one is Circle, body two is VertexBasedBody
+            collisionGeometry = determineCollisionGeometry(firstBodyAsCircle, secondBodyAsVertexBasedBody);
         } else if (Circle * secondBodyAsCircle = dynamic_cast<Circle *>(i_secondBody)) {
             // Both bodies are Circles
             collisionGeometry = determineCollisionGeometry(firstBodyAsCircle, secondBodyAsCircle);
@@ -183,10 +200,16 @@ CollisionEvent CollisionDetector::generateCollisionEvent(RigidBody * i_firstBody
     return CollisionEvent(i_firstBody, i_secondBody, collisionGeometry);
 }
 
-edgeStructureSeparationData_type CollisionDetector::calculateMinEdgeStructureSeparation(EdgeStructure & i_body1,
-        EdgeStructure & i_body2) const {
+/**
+ * @brief Runs the SAT algorithm to determine the separation of two VertexBasedBodies.
+ * @param i_body1 One of the bodies, order doesn't matter.
+ * @param i_body2 The other body.
+ * @return A struct holding the separation and some associated data.
+ */
+VertexBasedBodySeparation_type CollisionDetector::calculateMinVertexBasedBodySeparation(VertexBasedBody & i_body1,
+        VertexBasedBody & i_body2) const {
 
-    edgeStructureSeparationData_type sepData;
+    VertexBasedBodySeparation_type sepData;
     int normalIndex = 0;
 
     std::vector<int> preliminaryCollIndexVec;
@@ -231,13 +254,19 @@ edgeStructureSeparationData_type CollisionDetector::calculateMinEdgeStructureSep
     return sepData;
 }
 
-circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(EdgeStructure & i_edgeStructure, Circle & i_circle) const {
+/**
+ * @brief Run a modified SAT algorithm to determine the separation of a VertexBasedBody and a Circle.
+ * @param i_VertexBasedBody The VertexBasedBody.
+ * @param i_circle The Circle.
+ * @return A struct holding the separation and some associated data.
+ */
+circleSeparation_type CollisionDetector::calculateMinCircleSeparation(VertexBasedBody & i_VertexBasedBody, Circle & i_circle) const {
     float radius = i_circle.getRadius();
-    circleSeparationData_type separationData;
+    circleSeparation_type separationData;
 
     // Modified SAT algorithm
-    for (int i = 0; i < i_edgeStructure.getNormalCount(); i++) {
-        sf::Vector2f testPoint = i_edgeStructure.getGlobalPoint(i);
+    for (int i = 0; i < i_VertexBasedBody.getNormalCount(); i++) {
+        sf::Vector2f testPoint = i_VertexBasedBody.getGlobalPoint(i);
         sf::Vector2f relativeCirclePosition = sfu::subtractVectors(i_circle.getPosition(), testPoint);
 
         float newCornerSeparation = sfu::getVectorLength(relativeCirclePosition) - radius;
@@ -246,7 +275,7 @@ circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(EdgeSt
             separationData.pointIndex = i;
         }
 
-        sf::Vector2f testNormal = i_edgeStructure.getGlobalNormal(i);
+        sf::Vector2f testNormal = i_VertexBasedBody.getGlobalNormal(i);
         sf::Vector2f pointConnector = sfu::subtractVectors(i_circle.getPosition(), testPoint);
         // std::cout << testPoint.x << ", " << testPoint.y << "\n";
         float newEdgeSeparation = sfu::scalarProduct(testNormal, pointConnector) - radius;
@@ -260,4 +289,18 @@ circleSeparationData_type CollisionDetector::calculateMinCircleSeparation(EdgeSt
     }
 
     return separationData;
+}
+
+/**
+ * @brief Compute the median of an array of 4 floats.
+ * @param i_arr The array of floats.
+ * @return The median.
+ */
+float CollisionDetector::computeMedian(const std::array<float, 4> & i_arr) {
+    // Make a copy of the array because we need to sort it
+    std::array<float, 4> sortedArr = i_arr;
+    std::sort(sortedArr.begin(), sortedArr.end());
+
+    // Compute and return the median (average of the two middle elements)
+    return (sortedArr[1] + sortedArr[2]) / 2.0f;
 }

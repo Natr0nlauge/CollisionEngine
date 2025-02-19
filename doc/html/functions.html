@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -109,6 +116,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>addBoundaryElement()&#160;:&#160;<a class="el" href="class_simulation.html#addf48743416b716a91b04a88b22a0e27">Simulation</a></li>
 <li>addCollisionPartner()&#160;:&#160;<a class="el" href="class_simulation.html#a29635ac084979016e85dbebc92b2ad81">Simulation</a></li>
 <li>addPlayer()&#160;:&#160;<a class="el" href="class_simulation.html#aa411c38fc678b65c547d2081c9c59ec3">Simulation</a></li>
+<li>applyImpulse()&#160;:&#160;<a class="el" href="class_rigid_body.html#ab417f01a889f35a0ea044cab30927fb2">RigidBody</a></li>
 </ul>
 
 
@@ -118,15 +126,15 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
-<li>calculateAndSetArea()&#160;:&#160;<a class="el" href="class_edge_structure.html#ac5225861aa2f77650b1a7a0df945e97f">EdgeStructure</a>, <a class="el" href="class_rigid_body.html#a73dbf64a8dd0f997287e16d7d9d31666">RigidBody</a></li>
-<li>calculateCenterOfMass()&#160;:&#160;<a class="el" href="class_edge_structure.html#a181d42576f9c36fd3fcaf44d9fa5f0fa">EdgeStructure</a>, <a class="el" href="class_rigid_body.html#ac50474d48aefae643dba75da2f7a1a5e">RigidBody</a></li>
+<li>calculateAndSetArea()&#160;:&#160;<a class="el" href="class_rigid_body.html#a73dbf64a8dd0f997287e16d7d9d31666">RigidBody</a>, <a class="el" href="class_vertex_based_body.html#a3506c9e6dbec178babe37e93d94ccc57">VertexBasedBody</a></li>
+<li>calculateCenterOfMass()&#160;:&#160;<a class="el" href="class_rigid_body.html#ac50474d48aefae643dba75da2f7a1a5e">RigidBody</a>, <a class="el" href="class_vertex_based_body.html#a872f455295fe0557a31581993367f95a">VertexBasedBody</a></li>
 <li>calculateInverseDensity()&#160;:&#160;<a class="el" href="class_rigid_body.html#a6f7a22d84ad7166f29811c4620ce8210">RigidBody</a></li>
-<li>calculateInverseMomentOfInertia()&#160;:&#160;<a class="el" href="class_edge_structure.html#ae43fbf81110290b8aeedf1a857a933c1">EdgeStructure</a>, <a class="el" href="class_rigid_body.html#ae231d51dbc6d416bb1a46f58637b07cd">RigidBody</a></li>
-<li>calculateMinPointSeparation()&#160;:&#160;<a class="el" href="class_boundary_element.html#a707011f150e1ca044e450ed68b88aa06">BoundaryElement</a>, <a class="el" href="class_edge_structure.html#a4b8c0c238dfca549c1745970b1808804">EdgeStructure</a>, <a class="el" href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">Polygon</a></li>
-<li>calculateSignedArea()&#160;:&#160;<a class="el" href="class_edge_structure.html#aaa525a7a27239bd823d44763ee407a8d">EdgeStructure</a></li>
+<li>calculateInverseMomentOfInertia()&#160;:&#160;<a class="el" href="class_rigid_body.html#ae231d51dbc6d416bb1a46f58637b07cd">RigidBody</a>, <a class="el" href="class_vertex_based_body.html#a2228cbc78b53fd2c51fdc1ba3be0a6dc">VertexBasedBody</a></li>
+<li>calculateMinPointSeparation()&#160;:&#160;<a class="el" href="class_boundary_element.html#a707011f150e1ca044e450ed68b88aa06">BoundaryElement</a>, <a class="el" href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">Polygon</a>, <a class="el" href="class_vertex_based_body.html#a3ef78b1284b8ac19fea8084f5b5ebbd6">VertexBasedBody</a></li>
+<li>calculateSignedArea()&#160;:&#160;<a class="el" href="class_vertex_based_body.html#ae525c69228a1f60fb892ac328d606778">VertexBasedBody</a></li>
 <li>Circle()&#160;:&#160;<a class="el" href="class_circle.html#ab4a54afa91bcfbeead71030e625540ab">Circle</a></li>
 <li>CollisionEvent()&#160;:&#160;<a class="el" href="class_collision_event.html#ace14e67fbca58ea046f8aa7679018ebc">CollisionEvent</a></li>
-<li>cornerSeparation&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#ae48753224d04a092e87cd27547dbf186">circleSeparationData_type</a></li>
+<li>cornerSeparation&#160;:&#160;<a class="el" href="structcircle_separation__type.html#a7aaa82329f1429d3666875990ef58c87">circleSeparation_type</a></li>
 </ul>
 
 
@@ -136,8 +144,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 
 <h3><a id="index_e" name="index_e"></a>- e -</h3><ul>
-<li>edgeSeparation&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#a650f5c058fc0e33cf0ae006456ec7b5c">circleSeparationData_type</a></li>
-<li>EdgeStructure()&#160;:&#160;<a class="el" href="class_edge_structure.html#a828355130e5ef12629eaf04613e2f68b">EdgeStructure</a></li>
+<li>edgeSeparation&#160;:&#160;<a class="el" href="structcircle_separation__type.html#ab86699a01cfc5d9346836adc3ca6bb08">circleSeparation_type</a></li>
 </ul>
 
 
@@ -145,20 +152,19 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>generateCollisionEvent()&#160;:&#160;<a class="el" href="class_collision_detector.html#ae1aa8233a0fc01746161bb72f150f5c0">CollisionDetector</a></li>
 <li>getAngularVelocity()&#160;:&#160;<a class="el" href="class_rigid_body.html#a9bd6579563ca592099160912811a9ea7">RigidBody</a></li>
 <li>getCollisionGeometry()&#160;:&#160;<a class="el" href="class_collision_event.html#ab375fa15d81fe2ca3122ffd528b56cd3">CollisionEvent</a></li>
-<li>getCollisionPartner()&#160;:&#160;<a class="el" href="class_collision_event.html#a017e0039a831bd68d8caa244a03ad01f">CollisionEvent</a></li>
 <li>getFrictionCoefficient()&#160;:&#160;<a class="el" href="class_rigid_body.html#ad42449c8a7af7758d7a24dacbff23f60">RigidBody</a></li>
-<li>getGlobalNormal()&#160;:&#160;<a class="el" href="class_edge_structure.html#a2bb5160037ed6866c6cbfa89f7d40236">EdgeStructure</a></li>
-<li>getGlobalPoint()&#160;:&#160;<a class="el" href="class_edge_structure.html#a9cf9b54b3d6d401d3e450095f8ede40d">EdgeStructure</a></li>
+<li>getGlobalNormal()&#160;:&#160;<a class="el" href="class_vertex_based_body.html#a1ead6e9b0aacd55b2fb7858c7c3ea4d9">VertexBasedBody</a></li>
+<li>getGlobalPoint()&#160;:&#160;<a class="el" href="class_vertex_based_body.html#a223a55ea4eba0f5ebd8572d1cee4274c">VertexBasedBody</a></li>
 <li>getInstance()&#160;:&#160;<a class="el" href="class_collision_detector.html#ab804e2427ad73a9bbf95e141c759ace4">CollisionDetector</a>, <a class="el" href="class_simulation.html#a7b05c9662b46483be6de082c3a068cf9">Simulation</a></li>
 <li>getInverseMass()&#160;:&#160;<a class="el" href="class_rigid_body.html#ace41f1b806bceb0690b0df686d2665e0">RigidBody</a></li>
 <li>getInverseMomentOfInertia()&#160;:&#160;<a class="el" href="class_rigid_body.html#a995bb77c1cf1d07ce23c2b4bbe3f5a4e">RigidBody</a></li>
 <li>getMinSeparation()&#160;:&#160;<a class="el" href="class_collision_event.html#a16cf80543e0b8a3d2e7b893c2eb6f400">CollisionEvent</a></li>
-<li>getNormal()&#160;:&#160;<a class="el" href="class_edge_structure.html#a3bcbc97ac6a7c2c881f375d5f50e1f8b">EdgeStructure</a></li>
-<li>getNormalCount()&#160;:&#160;<a class="el" href="class_boundary_element.html#a537ee36dbacabf6ee185ec4d445182b5">BoundaryElement</a>, <a class="el" href="class_edge_structure.html#a3b80cfd60b3c3c1814fb0a0f31a1384b">EdgeStructure</a>, <a class="el" href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">Polygon</a></li>
+<li>getNormal()&#160;:&#160;<a class="el" href="class_vertex_based_body.html#a67e6a3e0a5dfef142917bee1ee097774">VertexBasedBody</a></li>
+<li>getNormalCount()&#160;:&#160;<a class="el" href="class_boundary_element.html#a537ee36dbacabf6ee185ec4d445182b5">BoundaryElement</a>, <a class="el" href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">Polygon</a>, <a class="el" href="class_vertex_based_body.html#ae4e0ea78cd8eb1a780cc7fcd3181008e">VertexBasedBody</a></li>
 <li>getPlayerBody()&#160;:&#160;<a class="el" href="class_player_controller.html#a096567989e195d6440e0270e9ea5a42e">PlayerController</a></li>
 <li>getPoint()&#160;:&#160;<a class="el" href="class_rigid_body.html#aa34d96e31b3d81e00ac54b2f698ef8df">RigidBody</a></li>
 <li>getPointCount()&#160;:&#160;<a class="el" href="class_rigid_body.html#a0d9c8b90beb86e5da4ad60d71a886701">RigidBody</a></li>
-<li>getPoints()&#160;:&#160;<a class="el" href="class_edge_structure.html#a7eca362fb24b6d2d3b01285d558f3329">EdgeStructure</a></li>
+<li>getPoints()&#160;:&#160;<a class="el" href="class_vertex_based_body.html#af30aecdb779f06de9087c3ea8f98b299">VertexBasedBody</a></li>
 <li>getRadius()&#160;:&#160;<a class="el" href="class_circle.html#a95b7dc25d2e9b1e40a189cd83386a12e">Circle</a></li>
 <li>getRestitutionCoefficient()&#160;:&#160;<a class="el" href="class_rigid_body.html#a82a887b8dc50e275013e40f7557af9cc">RigidBody</a></li>
 <li>getVelocity()&#160;:&#160;<a class="el" href="class_rigid_body.html#aa5b5734aa8df281ea757f3210593cc11">RigidBody</a></li>
@@ -168,7 +174,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 <h3><a id="index_i" name="index_i"></a>- i -</h3><ul>
 <li>index&#160;:&#160;<a class="el" href="structpoint_separation_data__type.html#a2a01767ee197ec53314702dddf71f325">pointSeparationData_type</a></li>
-<li>indexVec&#160;:&#160;<a class="el" href="structedge_structure_separation_data__type.html#af2c50ce7240e4aa9e3a81ab734425d96">edgeStructureSeparationData_type</a></li>
+<li>indexVec&#160;:&#160;<a class="el" href="struct_vertex_based_body_separation__type.html#aba5e069831e7477a750e2eb457d8bdd3">VertexBasedBodySeparation_type</a></li>
 <li>initWindow()&#160;:&#160;<a class="el" href="class_simulation.html#a84878eafad636b91fa491ac77331017e">Simulation</a></li>
 </ul>
 
@@ -182,11 +188,11 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>m&#160;:&#160;<a class="el" href="classsfu_1_1_matrix2f.html#a004c311747ae86cb59c93ad93d16fc92">sfu::Matrix2f</a></li>
 <li>m_angularVelocity&#160;:&#160;<a class="el" href="class_rigid_body.html#ac34c93debfecfe4d6409b95392637e3a">RigidBody</a></li>
 <li>m_area&#160;:&#160;<a class="el" href="class_rigid_body.html#adfb760b77153a4187ad0565423ad267b">RigidBody</a></li>
-<li>m_frictionCoefficient&#160;:&#160;<a class="el" href="class_rigid_body.html#a54a1e3456712fcec8f1444f9c49cd012">RigidBody</a></li>
 <li>m_inverseMass&#160;:&#160;<a class="el" href="class_rigid_body.html#a65a16343dbe0af74b62fc6442b4ae154">RigidBody</a></li>
 <li>m_inverseMomentOfInertia&#160;:&#160;<a class="el" href="class_rigid_body.html#ac7cd5ee326260472f63d7fe64e30da0c">RigidBody</a></li>
 <li>m_points&#160;:&#160;<a class="el" href="class_rigid_body.html#a96adcb574654df8c3f6e56bb314e0769">RigidBody</a></li>
 <li>m_restitutionCoefficient&#160;:&#160;<a class="el" href="class_rigid_body.html#a54714ea34de4e5e05e065b5ccf09a83b">RigidBody</a></li>
+<li>m_timeNormalizedFrictionCoefficient&#160;:&#160;<a class="el" href="class_rigid_body.html#a8b6db2b95240773ba7e5895272cea00f">RigidBody</a></li>
 <li>m_velocity&#160;:&#160;<a class="el" href="class_rigid_body.html#acbd67c8cdbea716cdba44e34106b837d">RigidBody</a></li>
 <li>Matrix2f()&#160;:&#160;<a class="el" href="classsfu_1_1_matrix2f.html#a13bd496c92ca9b5a158e5a4086970113">sfu::Matrix2f</a></li>
 <li>minSeparation&#160;:&#160;<a class="el" href="structcollision_geometry__type.html#a2be2b22664b9a9d0762fb87976edd46e">collisionGeometry_type</a></li>
@@ -195,15 +201,15 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 
 <h3><a id="index_n" name="index_n"></a>- n -</h3><ul>
-<li>normal&#160;:&#160;<a class="el" href="structedge_structure_separation_data__type.html#a9706e3725ef6749d6d2dda82f48c6de9">edgeStructureSeparationData_type</a>, <a class="el" href="structpoint_separation_data__type.html#a1960c9349a9bacb805e673da7fe6c7f9">pointSeparationData_type</a></li>
-<li>normalIndex&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#a6779024ae0b8a04f12df1319e3b974e9">circleSeparationData_type</a></li>
+<li>normal&#160;:&#160;<a class="el" href="structpoint_separation_data__type.html#a1960c9349a9bacb805e673da7fe6c7f9">pointSeparationData_type</a>, <a class="el" href="struct_vertex_based_body_separation__type.html#a1d6f2d4e4187f0acfd17b5ff97ea6d7a">VertexBasedBodySeparation_type</a></li>
+<li>normalIndex&#160;:&#160;<a class="el" href="structcircle_separation__type.html#aa30f834e550bb845ae579119a90070b5">circleSeparation_type</a></li>
 <li>normals&#160;:&#160;<a class="el" href="structcollision_geometry__type.html#a3845a1b3cd119055eb2abd0ecbfd0b89">collisionGeometry_type</a></li>
 </ul>
 
 
 <h3><a id="index_p" name="index_p"></a>- p -</h3><ul>
 <li>PlayerController()&#160;:&#160;<a class="el" href="class_player_controller.html#a2ad1eded2ea261601e5b9396d6f23f41">PlayerController</a></li>
-<li>pointIndex&#160;:&#160;<a class="el" href="structcircle_separation_data__type.html#a984bafb9e0b63903014468db593b67a8">circleSeparationData_type</a></li>
+<li>pointIndex&#160;:&#160;<a class="el" href="structcircle_separation__type.html#a027770b95a9fd0bed7bedaf590b25d0d">circleSeparation_type</a></li>
 <li>Polygon()&#160;:&#160;<a class="el" href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon</a></li>
 </ul>
 
@@ -216,7 +222,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 
 <h3><a id="index_s" name="index_s"></a>- s -</h3><ul>
-<li>separation&#160;:&#160;<a class="el" href="structedge_structure_separation_data__type.html#aad5a065c5348bcf283793f9af14a1f1c">edgeStructureSeparationData_type</a>, <a class="el" href="structpoint_separation_data__type.html#ad8a0fcf0ce1c6523b13602e28a9264f9">pointSeparationData_type</a></li>
+<li>separation&#160;:&#160;<a class="el" href="structpoint_separation_data__type.html#ad8a0fcf0ce1c6523b13602e28a9264f9">pointSeparationData_type</a>, <a class="el" href="struct_vertex_based_body_separation__type.html#a6f41c4e1274b9b076e956e595613c15f">VertexBasedBodySeparation_type</a></li>
 <li>setAcceleration()&#160;:&#160;<a class="el" href="class_player_controller.html#ac2e379948c15c3d1d8c3ce4a2b57fba3">PlayerController</a></li>
 <li>setAngularVelocity()&#160;:&#160;<a class="el" href="class_rigid_body.html#a24c490c56fa089aa5579998002b0bd25">RigidBody</a></li>
 <li>setFrictionCoefficient()&#160;:&#160;<a class="el" href="class_rigid_body.html#ac97f8f1ff7b8fd6b2009b1e1672eff4b">RigidBody</a></li>
@@ -237,7 +243,12 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 <h3><a id="index_u" name="index_u"></a>- u -</h3><ul>
 <li>update()&#160;:&#160;<a class="el" href="class_player_controller.html#a1e8201886544d22b6fd956ad3fd821de">PlayerController</a></li>
-<li>updatePositionAndAngle()&#160;:&#160;<a class="el" href="class_rigid_body.html#a55e7d2bafa3fb3c315671c649d12be28">RigidBody</a></li>
+<li>updateBody()&#160;:&#160;<a class="el" href="class_rigid_body.html#a75659c36bd1307cd3db2eb486012fd97">RigidBody</a></li>
+</ul>
+
+
+<h3><a id="index_v" name="index_v"></a>- v -</h3><ul>
+<li>VertexBasedBody()&#160;:&#160;<a class="el" href="class_vertex_based_body.html#a1789e2debde3edcbf5e2de5f5d13873a">VertexBasedBody</a></li>
 </ul>
 
 
@@ -246,11 +257,11 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>~Circle()&#160;:&#160;<a class="el" href="class_circle.html#ae3f30436e645d73e368e8ee55f8d1650">Circle</a></li>
 <li>~CollisionDetector()&#160;:&#160;<a class="el" href="class_collision_detector.html#a1a0f7a386920e0cf83a101be92f04598">CollisionDetector</a></li>
 <li>~CollisionEvent()&#160;:&#160;<a class="el" href="class_collision_event.html#a123a9d1c0d102be1761267f4764f2fb7">CollisionEvent</a></li>
-<li>~EdgeStructure()&#160;:&#160;<a class="el" href="class_edge_structure.html#ade2f63f52db726e9634501d8445ec5f6">EdgeStructure</a></li>
 <li>~PlayerController()&#160;:&#160;<a class="el" href="class_player_controller.html#a27b597bc2dbe06e2464dea6cdb3fac96">PlayerController</a></li>
 <li>~Polygon()&#160;:&#160;<a class="el" href="class_polygon.html#ace39c67107966db12e13a183f496c3b0">Polygon</a></li>
 <li>~RigidBody()&#160;:&#160;<a class="el" href="class_rigid_body.html#a4eade6e08e5a78c56822d2f42322c915">RigidBody</a></li>
 <li>~Simulation()&#160;:&#160;<a class="el" href="class_simulation.html#a80fad3f57dfaf195a36f7bc49bc88279">Simulation</a></li>
+<li>~VertexBasedBody()&#160;:&#160;<a class="el" href="class_vertex_based_body.html#a6a8ba5033aee122435110ca7195e8892">VertexBasedBody</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

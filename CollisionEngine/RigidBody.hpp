@@ -2,6 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @class RigidBody
+ * @brief Abstract class which describes the physical behaviour of the simulated bodies. This does not include the geometry of the bodies,
+ * which is implemented in the subclasses.
+ */
 class RigidBody : public sf::Shape {
   public:
     RigidBody(float i_mass);
@@ -22,14 +27,12 @@ class RigidBody : public sf::Shape {
     void setFrictionCoefficient(float i_frictionCoefficient);
 
     // Public methods
-    void updatePositionAndAngle(float i_dT);
+    void updateBody(float i_dT);
     void applyImpulse(sf::Vector2f i_relativePosition, sf::Vector2f i_impulse);
 
     // Override inherited methods
     std::size_t getPointCount() const override;
     sf::Vector2f getPoint(std::size_t index) const override;
-
-    
 
   protected:
     // Utility methods
@@ -37,20 +40,30 @@ class RigidBody : public sf::Shape {
     sf::Vector2f transformVectorToGlobal(sf::Vector2f i_localVector);
     float calculateInverseDensity() const;
 
-    
-
     // Pure virtual methods
     virtual void calculateAndSetArea() = 0;
     virtual float calculateInverseMomentOfInertia() = 0;
     virtual sf::Vector2f calculateCenterOfMass() = 0;
 
     // Member variables
-    float m_inverseMass; // inverse mass is more useful ("infinite" mass for immovable objects is easier to implement)
+    /// Mass is inverted to save division operations and to easily depict infinite translational inertia (in this case, the variable will be
+    /// zero). Choose any mass unit.
+    float m_inverseMass;
+    /// Moment of inertia is inverted to save division operations and to easily depict infinite rotational inertia (in this case, the
+    /// variable will be zero). Measured in 1/(mass unit * pixel^2)
     float m_inverseMomentOfInertia = 0.0f;
-    float m_area = 0.0f; // area of 0.0f indicates that it is not yet calculated (this should be avoided)
+    /// The area covered by the body. Measured in pixel^2
+    float m_area = 0.0f;
+    /// In pixels per second.
     sf::Vector2f m_velocity = sf::Vector2f(0.0f, 0.0f);
+    /// In degrees per second. Clockwise is positive!
     float m_angularVelocity = 0.0f;
+    /// The restitution coefficient of a collision is determined by taking this variable from both bodies and multiplying them. This is not
+    /// necessarily realistic.
     float m_restitutionCoefficient = 1.0f;
-    float m_frictionCoefficient = 0.005f;
+    /// Friction coefficient divided by the time per frame (This is necessary to frame rate interacting with friction). Only affects
+    /// movement, not collisions. Measured in 1/s.
+    float m_timeNormalizedFrictionCoefficient = 0.005f * 120.0f;
+    /// The corners of the rendered body. Should be set in subclasses.
     std::vector<sf::Vector2f> m_points;
 };

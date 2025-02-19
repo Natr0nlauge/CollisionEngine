@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['edgestructure_0',['EdgeStructure',['../class_edge_structure.html',1,'']]],
-  ['edgestructureseparationdata_5ftype_1',['edgeStructureSeparationData_type',['../structedge_structure_separation_data__type.html',1,'']]]
+  ['matrix2f_0',['Matrix2f',['../classsfu_1_1_matrix2f.html',1,'sfu']]]
 ];

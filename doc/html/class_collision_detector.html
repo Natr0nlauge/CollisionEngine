@@ -23,6 +23,13 @@
   $(function() { init_search(); });
 /* @license-end */
 </script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -111,6 +118,9 @@ $(function(){initNavTree('class_collision_detector.html',''); initResizable(true
 </div><!--header-->
 <div class="contents">
 
+<p>Singleton class that holds methods to detect Collisions between <a class="el" href="class_rigid_body.html" title="Abstract class which describes the physical behaviour of the simulated bodies. This does not include ...">RigidBody</a> objects and to determine the collision geometry.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_collision_detector_8hpp_source.html">CollisionDetector.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -125,7 +135,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ab804e2427ad73a9bbf95e141c759ace4" id="r_ab804e2427ad73a9bbf95e141c759ace4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_collision_detector.html">CollisionDetector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab804e2427ad73a9bbf95e141c759ace4">getInstance</a> ()</td></tr>
 <tr class="separator:ab804e2427ad73a9bbf95e141c759ace4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Singleton class that holds methods to detect Collisions between <a class="el" href="class_rigid_body.html" title="Abstract class which describes the physical behaviour of the simulated bodies. This does not include ...">RigidBody</a> objects and to determine the collision geometry. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1a0f7a386920e0cf83a101be92f04598" name="a1a0f7a386920e0cf83a101be92f04598"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a0f7a386920e0cf83a101be92f04598">&#9670;&#160;</a></span>~CollisionDetector()</h2>
 

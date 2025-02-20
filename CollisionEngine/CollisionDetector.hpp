@@ -73,7 +73,7 @@ class CollisionDetector {
     collisionGeometry_type determineCollisionGeometry(VertexBasedBody * i_firstBody, Circle * i_secondBody);
     collisionGeometry_type determineCollisionGeometry(Circle * i_firstBody, VertexBasedBody * i_secondBody);
     collisionGeometry_type determineCollisionGeometry(Circle * i_firstBody, Circle * i_secondBody);
-    collisionGeometry_type determineEdgeAndCircleGeometry(VertexBasedBody * i_firstBody, Circle * i_secondBody);
+    collisionGeometry_type determineVertexBodyAndCircleGeometry(VertexBasedBody * i_firstBody, Circle * i_secondBody);
     float computeMedian(const std::array<float, 4> & i_arr);
 
     // Private member variables

@@ -43,6 +43,7 @@ class Simulation {
 
     // Private methods
     void update();
+    void updateAndDrawBodies();
     void evaluateCollisionEvent(CollisionEvent & i_collisionEvent);
     void handleEvents();
     void initCollisionMarkers();
@@ -50,9 +51,9 @@ class Simulation {
 
     // Member variables
     sf::Clock m_clock;
-    /// Vector of pointers to the bodies managed by the Simulation
+    /// Vector of pointers to the bodies managed by the Simulation (does not include player controlled bodies)
     std::vector<RigidBody *> m_collisionPartners;
-    std::vector<PlayerController *> m_players;
+    std::vector<PlayerController *> m_players; ///< Vector of pointers to the players
     // These shapes serve to visualize collision geometry
     sf::RectangleShape m_collisionLocationMarker{sf::RectangleShape({10.0f, 10.0f})};
     std::array<sf::RectangleShape, 2> m_collisionNormalMarkers{sf::RectangleShape(sf::Vector2f(50.0f, 1.0f)),
@@ -63,12 +64,8 @@ class Simulation {
     CollisionDetector & m_cd = CollisionDetector::getInstance();
     sf::View m_view;
     sf::RenderWindow m_window;
-    /// Time per frame in seconds.
-    float m_dT = 1 / DEFAULT_FRAME_RATE;
-    /// In pixels.
-    static constexpr float DEFAULT_VIEW_WIDTH = 512.0f;
-    /// In pixels.
-    static constexpr float DEFAULT_VIEW_HEIGHT = 512.0f; 
-    /// In Hz.
-    static constexpr float DEFAULT_FRAME_RATE = 120.0f;
+    float m_dT = 1 / DEFAULT_FRAME_RATE;                 ///< Time per frame in seconds.
+    static constexpr float DEFAULT_VIEW_WIDTH = 512.0f;  ///< In pixels.
+    static constexpr float DEFAULT_VIEW_HEIGHT = 512.0f; ///< In pixels.
+    static constexpr float DEFAULT_FRAME_RATE = 120.0f;  ///< In Hz.
 };

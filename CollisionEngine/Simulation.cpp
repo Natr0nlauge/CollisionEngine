@@ -192,19 +192,18 @@ void Simulation::addBoundaryElement(BoundaryElement * i_boundaryElement) {
 void Simulation::update() {
     m_window.setView(m_view); // update view
     m_window.clear();         // remove old Objects
-    // Create a new vector to hold the combined contents
+    
     std::vector<RigidBody *> playerBodies;
 
     for (PlayerController * player : m_players) {
         playerBodies.push_back(player->getPlayerBody());
     }
 
+    // Create a new vector to hold combined contents
     std::vector<RigidBody *> allBodies;
+    allBodies.reserve(m_collisionPartners.size() + m_players.size()); // Reserve memory to improve performance
 
-    // Reserve memory to improve performance
-    allBodies.reserve(m_collisionPartners.size() + m_players.size());
-
-    // Copy the elements of vec1 and vec2 into the new vector
+    // Copy the relevant content into allBodies
     allBodies.insert(allBodies.end(), m_collisionPartners.begin(), m_collisionPartners.end());
     allBodies.insert(allBodies.end(), playerBodies.begin(), playerBodies.end());
     // Iterate through all bodies
@@ -219,9 +218,17 @@ void Simulation::update() {
             CollisionEvent collEvent = m_cd.generateCollisionEvent(m_boundaryElements[j], allBodies[i]);
             evaluateCollisionEvent(collEvent);
         }
-        // Update and display bodies
     }
 
+    // Render the frame
+    updateAndDrawBodies();
+    m_window.display();
+}
+
+/**
+ * @brief Calls the update method for all simulated RigidBodies and draws them into the new frame.
+ */
+void Simulation::updateAndDrawBodies() {
     for (RigidBody * body : m_collisionPartners) {
         body->updateBody(m_dT);
         m_window.draw(*body);
@@ -248,9 +255,6 @@ void Simulation::update() {
         localVertexArray[1] = vertexArray[1];
         m_window.draw(localVertexArray, 2, sf::Lines);
     }
-
-    // Render the frame
-    m_window.display();
 }
 
 /**

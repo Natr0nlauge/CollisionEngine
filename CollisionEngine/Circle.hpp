@@ -12,18 +12,14 @@
  */
 class Circle : public RigidBody {
   public:
-    // Constructor and destructor
-
     Circle(float i_inverseMass = 0.1, float i_radius = 25.0f, int i_resolution = 12);
     ~Circle();
 
     // Getters
-
     float getRadius() const;
 
   private:
     // Override virtual methods
-
     void calculateAndSetArea() override;
     float calculateInverseMomentOfInertia() override;
     sf::Vector2f calculateCenterOfMass() override;
@@ -31,7 +27,6 @@ class Circle : public RigidBody {
     sf::Vector2f calculatePoint(float angle) const;
 
     // Private member variables
-
     /// Radius in pixels.
     float m_radius;
     /// How many vertices the circular shape will have (only changes appearance, doesn't influence the physical behaviour).

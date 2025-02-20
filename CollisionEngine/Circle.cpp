@@ -11,9 +11,8 @@
 Circle::Circle(float i_inverseMass, float i_radius, int i_resolution)
     : m_radius(i_radius), m_resolution(i_resolution), RigidBody(i_inverseMass) {
     calculateAndSetArea();
-    calculatePoints();
-    // setOrigin(calculateCenterOfMass());
-    setOrigin(sf::Vector2f(0.0f, 0.0f));
+    calculatePoints(); // Determine the shape for rendering
+    setOrigin(sf::Vector2f(0.0f, 0.0f)); // Origin is always at the center point
     m_inverseMomentOfInertia = calculateInverseMomentOfInertia();
 }
 
@@ -47,13 +46,15 @@ sf::Vector2f Circle::calculateCenterOfMass() {
 }
 
 /**
- * @brief Calculates the coordinates of the points needed for rendering and writes them to m_points (they depend on radius an friction).
+ * @brief Calculates the coordinates of the points needed for rendering and writes them to m_points (they depend on radius and resolution).
  */
 void Circle::calculatePoints() {
     float angle = 0.0f;
     for (int i = 0; i < m_resolution; i++) {
+        // Go along the circle's border and calculate the points
         sf::Vector2f newPoint = calculatePoint(angle);
         m_points.push_back(newPoint);
+        // Angle increment depends on resolution
         angle += 2 * sfu::PI / m_resolution;
     }
 }
@@ -62,6 +63,7 @@ void Circle::calculatePoints() {
  * @brief Calculates the points needed for rendering and writes them to m_points (they depend on radius an friction).
  */
 sf::Vector2f Circle::calculatePoint(float angle) const {
+    // Calculate the coordinates of a point along the circle with the given angle.
     sf::Vector2f newPoint = sf::Vector2f(cos(angle), sin(angle));
     return sfu::scaleVector(newPoint, m_radius);
 }

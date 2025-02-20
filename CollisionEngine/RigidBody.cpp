@@ -18,7 +18,7 @@ sf::Vector2f RigidBody::getPoint(std::size_t i_index) const {
     if (i_index < m_points.size()) {
         return m_points[i_index];
     }
-    return sf::Vector2f(0.f, 0.f); // Fallback (shouldn't happen if used correctly)
+    return sf::Vector2f(0.0f, 0.0f); // Fallback
 }
 
 float RigidBody::getInverseMass() const {
@@ -38,11 +38,11 @@ float RigidBody::getAngularVelocity() const {
     return m_angularVelocity;
 }
 
-float RigidBody::getRestitutionCoefficient() {
+float RigidBody::getRestitutionCoefficient() const {
     return m_restitutionCoefficient;
 }
 
-float RigidBody::getFrictionCoefficient() {
+float RigidBody::getFrictionCoefficient() const {
     return m_timeNormalizedFrictionCoefficient;
 }
 
@@ -74,8 +74,10 @@ void RigidBody::setFrictionCoefficient(float i_frictionCoefficient) {
  * @param i_dT Time increment.
  */
 void RigidBody::updateBody(float i_dT) {
+    // Apply translation and rotation
     move(m_velocity.x * i_dT, m_velocity.y * i_dT);
     rotate(m_angularVelocity * i_dT);
+    // Account for movement friction
     m_velocity = sfu::scaleVector(m_velocity, 1.0f - m_timeNormalizedFrictionCoefficient * i_dT);
     m_angularVelocity = m_angularVelocity * (1.0f - m_timeNormalizedFrictionCoefficient * i_dT);
 }
@@ -87,12 +89,12 @@ void RigidBody::updateBody(float i_dT) {
  * @param i_impulse The impulse to apply.
  */
 void RigidBody::applyImpulse(sf::Vector2f i_relativePosition, sf::Vector2f i_impulse) {
-
+    // Change of the translational velocity
     sf::Vector2f velocityChange = sfu::scaleVector(i_impulse, m_inverseMass);
-
+    // Change in the angular velocity
     float impulsiveTorque = sfu::pseudoCrossProduct(i_relativePosition, i_impulse);
     float angularVelocityChange = m_inverseMomentOfInertia * impulsiveTorque;
-
+    // Calculate new translational and angular velocity
     sf::Vector2f newVel = sfu::addVectors(m_velocity, velocityChange);
     float newAngVel = m_angularVelocity + angularVelocityChange * 180 / sfu::PI;
     setVelocity(newVel);
@@ -107,18 +109,19 @@ void RigidBody::applyImpulse(sf::Vector2f i_relativePosition, sf::Vector2f i_imp
 sf::Vector2f RigidBody::transformPointToGlobal(sf::Vector2f i_localPoint) {
     // Body position will be the new origin
     sf::Vector2f localOrigin = getPosition();
+    // Rotation angke for the coordinate transformation is the body's rotation angle
     float angle = getRotation();
     return sfu::transformPoint(i_localPoint, localOrigin, angle);
 }
 
 /**
  * @brief Transform a point from body coordinates to global coordinates.
- * @param i_localPoint The point to transform in global coordinates.
+ * @param i_localVector The vector to transform in global coordinates.
  * @return The point in body coordinates.
  */
 sf::Vector2f RigidBody::transformVectorToGlobal(sf::Vector2f i_localVector) {
-    // Multiply with rotation matrix
     float angle = getRotation();
+    // Multiply with rotation matrix
     return sfu::rotateVector(i_localVector, angle);
 }
 
@@ -130,5 +133,6 @@ sf::Vector2f RigidBody::transformVectorToGlobal(sf::Vector2f i_localVector) {
  * @return The density.
  */
 float RigidBody::calculateInverseDensity() const {
+    // Area divided my mass
     return m_area * m_inverseMass;
 }

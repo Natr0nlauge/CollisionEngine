@@ -14,19 +14,20 @@ sf::Vertex * BoundaryElement::getVertexArray() {
 }
 
 /**
- * @brief Calculates the separation of any point to the BoundaryElement
+ * @brief Calculates the separation of any point to the center of the BoundaryElement. This is used to check if a calculated collision point
+ * is actually inside the BoundaryElement.
  * @param i_point The point to test in global coordinates.
  * @return Struct holding the separation and associated data.
  */
 pointSeparationData_type BoundaryElement::calculateMinPointSeparation(sf::Vector2f i_point) {
     pointSeparationData_type separationData;
-    sf::Vector2f normal = sf::Vector2f();
 
+    // We only have a single normal vector, so iteration won't be required.
     sf::Vector2f testVertex = getPosition();
     sf::Vector2f testNormal = getGlobalNormal(0);
     sf::Vector2f pointConnector = sfu::subtractVectors(i_point, testVertex);
 
-    separationData.separation = sfu::getVectorLength(pointConnector)-m_length/2; // previous indices are irrelevant
+    separationData.separation = sfu::getVectorLength(pointConnector) - m_length / 2; // previous indices are irrelevant
     separationData.index = 0;
     separationData.normal = testNormal;
 
@@ -34,7 +35,6 @@ pointSeparationData_type BoundaryElement::calculateMinPointSeparation(sf::Vector
 }
 
 int BoundaryElement::getNormalCount() {
+    // There is only one normal vector
     return 1;
 }
-
-

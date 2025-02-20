@@ -101,7 +101,7 @@ void VertexBasedBody::calculateAndSetArea() {
 
 /**
  * @brief Calculate the inverse moment of inertia of the body based on the specified vertices.
- * @return The inverse moment of inertia in 1/(mass unit * pixel^2)
+ * @return The inverse moment of inertia measured in 1/(mass unit * pixel^2).
  */
 float VertexBasedBody::calculateInverseMomentOfInertia() {
     if (m_points.size() < 3) {

@@ -42,16 +42,16 @@ int main() {
     playerPtr->getPlayerBody()->setVelocity(sf::Vector2f(0, -10.0f));
     playerPtr->getPlayerBody()->setAngularVelocity(0);
 
-    boundaryElements.push_back(new BoundaryElement(550));
+    boundaryElements.push_back(new BoundaryElement(250));
     boundaryElements[0]->setPosition(256, 0);
     boundaryElements[0]->setRotation(0);
-    boundaryElements.push_back(new BoundaryElement(550));
+    boundaryElements.push_back(new BoundaryElement(250));
     boundaryElements[1]->setPosition(256, 512);
     boundaryElements[1]->setRotation(180);
-    boundaryElements.push_back(new BoundaryElement(550));
+    boundaryElements.push_back(new BoundaryElement(250));
     boundaryElements[2]->setPosition(0, 256);
     boundaryElements[2]->setRotation(270);
-    boundaryElements.push_back(new BoundaryElement(550));
+    boundaryElements.push_back(new BoundaryElement(250));
     boundaryElements[3]->setPosition(512, 256);
     boundaryElements[3]->setRotation(90);
 

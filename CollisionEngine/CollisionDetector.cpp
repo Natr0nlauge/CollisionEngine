@@ -9,7 +9,7 @@ std::unique_ptr<CollisionDetector> CollisionDetector::s_instance = nullptr;
 std::mutex CollisionDetector::mtx;
 
 /**
- * @brief This is called if an edge-on-edge-Collision is detected.
+ * @brief This method is called if an edge-on-edge-Collision is detected.
  * @param i_sepData1 Holds the indices of the two points making up the colliding edge of the first body.
  * @param i_sepData2 Holds the indices of the two points making up the colliding edge of the second body.
  * @param i_body1 Reference to the first body.
@@ -19,20 +19,21 @@ std::mutex CollisionDetector::mtx;
 sf::Vector2f CollisionDetector::findCenterOfContact(VertexBasedBodySeparation_type & i_sepData1,
         VertexBasedBodySeparation_type & i_sepData2, VertexBasedBody & i_body1, VertexBasedBody & i_body2) {
     const int numberOfPoints = 4;
-    sf::Vector2f vertices[numberOfPoints];
-    std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f};
-    std::array<float, numberOfPoints> yValues = {0.0f, 0.0f, 0.0f, 0.0f};
-
+    // Get global coordinates of all involved points
+    std::array<sf::Vector2f, numberOfPoints> vertices;
     vertices[0] = i_body2.getGlobalPoint(i_sepData2.indexVec[0]);
     vertices[1] = i_body2.getGlobalPoint(i_sepData2.indexVec[1]);
     vertices[2] = i_body1.getGlobalPoint(i_sepData1.indexVec[0]);
     vertices[3] = i_body1.getGlobalPoint(i_sepData1.indexVec[1]);
 
+    // Get the global x and y coordinates of all involved points (it doesn't matter to which body they belong)
+    std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f};
+    std::array<float, numberOfPoints> yValues = {0.0f, 0.0f, 0.0f, 0.0f};
     for (int i = 0; i < numberOfPoints; i++) {
         xValues[i] = vertices[i].x;
         yValues[i] = vertices[i].y;
     }
-
+    // The center point of the contact area is determined by using the median
     return sf::Vector2f(computeMedian(xValues), computeMedian(yValues));
 }
 
@@ -44,94 +45,130 @@ sf::Vector2f CollisionDetector::findCenterOfContact(VertexBasedBodySeparation_ty
  */
 collisionGeometry_type CollisionDetector::determineCollisionGeometry(VertexBasedBody * firstBody, VertexBasedBody * secondBody) {
     collisionGeometry_type collisionGeometry;
-
-    // Do the actual calculations
+    // Calculate the separations, the relevant corner indices and the relevant normal indices
     VertexBasedBodySeparation_type collData2 = calculateMinVertexBasedBodySeparation(*firstBody, *secondBody);
     VertexBasedBodySeparation_type collData1 = calculateMinVertexBasedBodySeparation(*secondBody, *firstBody);
-    //  If one of the separation values is greater than 0, the bodies are not colliding
-    // if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
-    if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
-        // Two values in each vector indicate an edge-to-edge collision
-        collisionGeometry.minSeparation = collData2.separation;
-        collisionGeometry.location = findCenterOfContact(collData1, collData2, *firstBody, *secondBody);
-        collisionGeometry.normals[0] = collData2.normal;
-        collisionGeometry.normals[1] = collData1.normal;
-    } else if (collData2.separation < collData1.separation) {
-        // Vertex of body 1 hits edge of body 2
-        collisionGeometry.minSeparation = collData1.separation;
-        collisionGeometry.location = firstBody->getGlobalPoint(collData1.indexVec[0]);
-        collisionGeometry.normals[0] = sfu::scaleVector(collData1.normal, -1.0f);
-        collisionGeometry.normals[1] = sfu::scaleVector(collData1.normal, 1.0f);
-        // assignNormal(c_collisionEvent, collData1);
-    } else /*if (collData2.separation > collData1.separation)*/ {
-        // Vertex of body 2 hits edge of body 1
-        collisionGeometry.minSeparation = collData2.separation;
-        collisionGeometry.location = secondBody->getGlobalPoint(collData2.indexVec[0]);
-        collisionGeometry.normals[0] = sfu::scaleVector(collData2.normal, 1.0f);
-        collisionGeometry.normals[1] = sfu::scaleVector(collData2.normal, -1.0f);
+    // If one of the separation values is greater than 0, the bodies are not colliding
+    if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
+        if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
+            // Two values in each vector indicate an edge-to-edge collision
+            collisionGeometry.minSeparation = collData2.separation;
+            collisionGeometry.location = findCenterOfContact(collData1, collData2, *firstBody, *secondBody);
+            collisionGeometry.normals[0] = collData2.normal;
+            collisionGeometry.normals[1] = collData1.normal;
+        } else if (collData2.separation < collData1.separation) {
+            // Vertex of body 1 hits edge of body 2
+            collisionGeometry.minSeparation = collData1.separation;
+            collisionGeometry.location = firstBody->getGlobalPoint(collData1.indexVec[0]);
+            collisionGeometry.normals[0] = sfu::scaleVector(collData1.normal, -1.0f);
+            collisionGeometry.normals[1] = collData1.normal;
+        } else if (collData2.separation >= collData1.separation) {
+            // Vertex of body 2 hits edge of body 1
+            collisionGeometry.minSeparation = collData2.separation;
+            collisionGeometry.location = secondBody->getGlobalPoint(collData2.indexVec[0]);
+            collisionGeometry.normals[0] = collData2.normal;
+            collisionGeometry.normals[1] = sfu::scaleVector(collData2.normal, -1.0f);
+        }
     }
-
-    return collisionGeometry;
-}
-
-collisionGeometry_type CollisionDetector::determineCollisionGeometry(VertexBasedBody * firstBody, Circle * secondBody) {
-    collisionGeometry_type collisionGeometry = determineEdgeAndCircleGeometry(firstBody, secondBody);
-
-    return collisionGeometry;
-}
-
-collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, VertexBasedBody * secondBody) {
-    collisionGeometry_type collisionGeometry = determineEdgeAndCircleGeometry(secondBody, firstBody);
-    // Switch normals
-    sf::Vector2f normal = collisionGeometry.normals[0];
-    collisionGeometry.normals[0] = collisionGeometry.normals[1];
-    collisionGeometry.normals[1] = normal;
     return collisionGeometry;
 }
 
 /**
- * @brief Determines collision geometry if one Body is a VertexBasedBody and the other is a Circle.
- * @attention Avoid using this directly. Use the appropriate overload of determineCollisionGeometry() instead, which will call this method.
+ * @brief Determines the collision location and normal vector.
+ * @param firstBody One of the collision partners, order doesn't matter.
+ * @param secondBody The other collision partner.
+ * @return The collision geometry.
+ */
+collisionGeometry_type CollisionDetector::determineCollisionGeometry(VertexBasedBody * firstBody, Circle * secondBody) {
+    collisionGeometry_type collisionGeometry = determineVertexBodyAndCircleGeometry(firstBody, secondBody);
+    return collisionGeometry;
+}
+
+/**
+ * @brief Determines the collision location and normal vector.
+ * @param firstBody One of the collision partners, order doesn't matter.
+ * @param secondBody The other collision partner.
+ * @return The collision geometry.
+ */
+collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, VertexBasedBody * secondBody) {
+    collisionGeometry_type collisionGeometry = determineVertexBodyAndCircleGeometry(secondBody, firstBody);
+    // Switch out normal vectors (this is necessary because of the way how determineVertexBodyAndCircleGeometry() works)
+    sf::Vector2f temporaryVector = collisionGeometry.normals[0];
+    collisionGeometry.normals[0] = collisionGeometry.normals[1];
+    collisionGeometry.normals[1] = temporaryVector;
+    return collisionGeometry;
+}
+
+/**
+ * @brief Determines the collision location and normal vector.
+ * @param firstBody One of the collision partners, order doesn't matter.
+ * @param secondBody The other collision partner.
+ * @return The collision geometry.
+ */
+collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, Circle * secondBody) {
+    collisionGeometry_type collisionGeometry;
+    // Determine the position of the circle center points relative to each other
+    sf::Vector2f firstPosition = firstBody->getPosition();
+    sf::Vector2f secondPosition = secondBody->getPosition();
+    sf::Vector2f relativeBodyPosition = sfu::subtractVectors(firstBody->getPosition(), secondBody->getPosition());
+    // Calculate the separation
+    float offset = sfu::getVectorLength(relativeBodyPosition);
+    collisionGeometry.minSeparation = offset - firstBody->getRadius() - secondBody->getRadius();
+    // Calculate normals and collision location
+    collisionGeometry.normals[1] = sfu::normalizeVector(relativeBodyPosition);
+    collisionGeometry.normals[0] = sfu::scaleVector(collisionGeometry.normals[1], -1);
+    sf::Vector2f relativeCollisionPosition = sfu::scaleVector(collisionGeometry.normals[0], firstBody->getRadius());
+    collisionGeometry.location = sfu::addVectors(firstBody->getPosition(), relativeCollisionPosition);
+    return collisionGeometry;
+}
+
+/**
+ * @brief Determines collision geometry if one body is a VertexBasedBody and the other is a Circle.
+ * @note This method is called by the appropriate overloads of determineCollisionGeometry(). Avoid using this method otherwise.
  * @param theVertexBasedBody The VertexBasedBody.
  * @param theCircle The Circle.
  * @return The Collision geometry.
  */
-collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(VertexBasedBody * theVertexBasedBody, Circle * theCircle) {
-    collisionGeometry_type collisionGeometry;
+collisionGeometry_type CollisionDetector::determineVertexBodyAndCircleGeometry(VertexBasedBody * theVertexBasedBody, Circle * theCircle) {
     float separation = std::numeric_limits<float>::max();
-    // Modified SAT algorithm
+    // Determine separation distance to circle
     circleSeparation_type circleSeparationData = calculateMinCircleSeparation(*theVertexBasedBody, *theCircle);
     float cornerSeparation = circleSeparationData.cornerSeparation;
     float edgeSeparation = circleSeparationData.edgeSeparation;
     int pointIndex = circleSeparationData.pointIndex;
     int normalIndex = circleSeparationData.normalIndex;
+    sf::Vector2f location = sf::Vector2f();
+    // Initialize variables
     sf::Vector2f normal = sf::Vector2f();
-
-    // std::cout << cornerSeparation << ", " << edgeSeparation << "\n";
-    if (circleSeparationData.edgeSeparation < cornerSeparation) {
-        sf::Vector2f assumedCollisionNormal = theVertexBasedBody->getGlobalNormal(normalIndex);
-        sf::Vector2f assumedCollisionLocation =
+    float assumedCollisionSeparation = std::numeric_limits<float>::max();
+    sf::Vector2f assumedCollisionNormal = sf::Vector2f();
+    sf::Vector2f assumedCollisionLocation = sf::Vector2f();
+    // The SAT algorithm thinks the Circle is colliding with an edge rather than a corner
+    if (edgeSeparation < cornerSeparation) {
+        // The SAT algorithm thinks the Circle is colliding with an edge rather than with a corner.
+        // Check if the assumed collision location is inside of the VertexBasedBody by calculating the separation seperately.
+        assumedCollisionNormal = theVertexBasedBody->getGlobalNormal(normalIndex);
+        assumedCollisionLocation =
                 sfu::addVectors(theCircle->getPosition(), sfu::scaleVector(assumedCollisionNormal, -theCircle->getRadius()));
-
-        // Check if the Collision Location is actually inside the VertexBasedBody
-        float collisionSeparation = theVertexBasedBody->calculateMinPointSeparation(assumedCollisionLocation).separation;
-
-        if (collisionSeparation < 0) {
-            normal = assumedCollisionNormal;
-            collisionGeometry.location = assumedCollisionLocation;
-            separation = edgeSeparation;
-        } else {
-            edgeSeparation = std::numeric_limits<float>::max();
-        }
+        assumedCollisionSeparation = theVertexBasedBody->calculateMinPointSeparation(assumedCollisionLocation).separation;
     }
-
-    if (edgeSeparation >= cornerSeparation) {
+    if (edgeSeparation < cornerSeparation && assumedCollisionSeparation < 0) {
+        // The assumed collision location is actually inside the body and the collision detection was correct.
+        normal = assumedCollisionNormal;
+        location = assumedCollisionLocation;
+        separation = edgeSeparation;
+    } else /* if (edgeSeparation >= cornerSeparation) */ {
+        // Either is the assumed collision location not actually inside the body, or it was detected as a corner collision in the first
+        // place. A corner collision does not need an additional check, as the corner vertex is obviously a part of the VertexBasedBody.
         separation = cornerSeparation;
-        collisionGeometry.location = theVertexBasedBody->getGlobalPoint(pointIndex);
-        normal = sfu::subtractVectors(theCircle->getPosition(), collisionGeometry.location);
+        location = theVertexBasedBody->getGlobalPoint(pointIndex);
+        normal = sfu::subtractVectors(theCircle->getPosition(), location);
     }
 
+    // Assign the values to the returned struct
+    collisionGeometry_type collisionGeometry;
     collisionGeometry.minSeparation = separation;
+    collisionGeometry.location = location;
     normal = sfu::normalizeVector(normal);
     collisionGeometry.normals[0] = normal;
     collisionGeometry.normals[1] = sfu::scaleVector(normal, -1.0f);
@@ -139,23 +176,11 @@ collisionGeometry_type CollisionDetector::determineEdgeAndCircleGeometry(VertexB
     return collisionGeometry;
 }
 
-collisionGeometry_type CollisionDetector::determineCollisionGeometry(Circle * firstBody, Circle * secondBody) {
-    collisionGeometry_type collisionGeometry;
-    sf::Vector2f firstPosition = firstBody->getPosition();
-    sf::Vector2f secondPosition = secondBody->getPosition();
-    sf::Vector2f relativePosition = sfu::subtractVectors(firstBody->getPosition(), secondBody->getPosition());
-
-    float offset = sfu::getVectorLength(relativePosition);
-    collisionGeometry.minSeparation = offset - firstBody->getRadius() - secondBody->getRadius();
-
-    collisionGeometry.normals[1] = sfu::normalizeVector(relativePosition);
-    collisionGeometry.normals[0] = sfu::scaleVector(collisionGeometry.normals[1], -1);
-    sf::Vector2f relativeCollisionPosition = sfu::scaleVector(collisionGeometry.normals[0], firstBody->getRadius());
-    collisionGeometry.location = sfu::addVectors(firstBody->getPosition(), relativeCollisionPosition);
-
-    return collisionGeometry;
-}
-
+/**
+ * @brief Retrieves the singleton instance of the class.
+ *
+ * @return A reference to the CollisionDetector.
+ */
 CollisionDetector & CollisionDetector::getInstance() {
     if (s_instance == nullptr) {
         std::lock_guard<std::mutex> lock(mtx);
@@ -174,9 +199,7 @@ CollisionDetector::~CollisionDetector() {}
 
 //  Detects a collision between two VertexBasedBodys and writes results to a collisionEvent
 CollisionEvent CollisionDetector::generateCollisionEvent(RigidBody * i_firstBody, RigidBody * i_secondBody) {
-
     // Find out what the first body is
-
     collisionGeometry_type collisionGeometry;
 
     if (VertexBasedBody * firstBodyAsVertexBasedBody = dynamic_cast<VertexBasedBody *>(i_firstBody)) {
@@ -196,7 +219,6 @@ CollisionEvent CollisionDetector::generateCollisionEvent(RigidBody * i_firstBody
             collisionGeometry = determineCollisionGeometry(firstBodyAsCircle, secondBodyAsCircle);
         }
     }
-
     return CollisionEvent(i_firstBody, i_secondBody, collisionGeometry);
 }
 
@@ -228,7 +250,6 @@ VertexBasedBodySeparation_type CollisionDetector::calculateMinVertexBasedBodySep
             float dotProd = normal.x * pointConnector.x + normal.y * pointConnector.y;
             // Find minimum value of all possible dot products (for each normal vector)
             if (dotProd < minSep - MIN_SEP_EPSILON) {
-                // minSep = std::min(minSep, dotProd);
                 minSep = dotProd;
                 preliminaryCollIndexVec.clear();      // previous indices are irrelevant
                 preliminaryCollIndexVec.push_back(j); // save index
@@ -239,18 +260,15 @@ VertexBasedBodySeparation_type CollisionDetector::calculateMinVertexBasedBodySep
                 preliminaryCollIndexVec.push_back(j);
             }
         }
-
         // The maximum minSep value for all normal vectors (for all i values) is the minimal seperation
         if (minSep > sepData.separation) {
-
             sepData.separation = minSep;
             preliminaryCollIndexVec2 = preliminaryCollIndexVec;
             normalIndex = i;
             sepData.normal = normal;
         }
     }
-    sepData.indexVec = preliminaryCollIndexVec2; // output
-    // std::cout << collData.indexVec.size() << ", ";
+    sepData.indexVec = preliminaryCollIndexVec2;
     return sepData;
 }
 
@@ -264,27 +282,28 @@ circleSeparation_type CollisionDetector::calculateMinCircleSeparation(VertexBase
     float radius = i_circle.getRadius();
     circleSeparation_type separationData;
 
-    // Modified SAT algorithm
     for (int i = 0; i < i_VertexBasedBody.getNormalCount(); i++) {
+        // Iterate through all normals and determine the distance to the center point of the Circle
         sf::Vector2f testPoint = i_VertexBasedBody.getGlobalPoint(i);
         sf::Vector2f relativeCirclePosition = sfu::subtractVectors(i_circle.getPosition(), testPoint);
 
+        // Always substract the radius from the determined separation
         float newCornerSeparation = sfu::getVectorLength(relativeCirclePosition) - radius;
+        // Corner separation is the separation to the closest corner, or the minimum value
         if (newCornerSeparation < separationData.cornerSeparation) {
+            // Save new separation and index
             separationData.cornerSeparation = newCornerSeparation;
             separationData.pointIndex = i;
         }
 
         sf::Vector2f testNormal = i_VertexBasedBody.getGlobalNormal(i);
         sf::Vector2f pointConnector = sfu::subtractVectors(i_circle.getPosition(), testPoint);
-        // std::cout << testPoint.x << ", " << testPoint.y << "\n";
         float newEdgeSeparation = sfu::scalarProduct(testNormal, pointConnector) - radius;
         // Edge separation is the maximum value of all possible edge separations
-        // std::cout << newEdgeSeparation << "\n";
         if (newEdgeSeparation > separationData.edgeSeparation) {
-            // minSep = std::min(minSep, dotProd);
-            separationData.edgeSeparation = newEdgeSeparation; // previous indices are irrelevant
-            separationData.normalIndex = i;                    // save index
+            // Save new separation and index
+            separationData.edgeSeparation = newEdgeSeparation;
+            separationData.normalIndex = i;
         }
     }
 
@@ -297,7 +316,7 @@ circleSeparation_type CollisionDetector::calculateMinCircleSeparation(VertexBase
  * @return The median.
  */
 float CollisionDetector::computeMedian(const std::array<float, 4> & i_arr) {
-    // Make a copy of the array because we need to sort it
+    // Make a copy of the array because it has to be sorted
     std::array<float, 4> sortedArr = i_arr;
     std::sort(sortedArr.begin(), sortedArr.end());
 

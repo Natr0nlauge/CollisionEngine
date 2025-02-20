@@ -11,8 +11,8 @@
  * @note It is only considered a collision, if minSeparation<=0.
  */
 struct collisionGeometry_type {
-    /// The separation of two bodies according to SAT algorithm (this is not necessesarily the actual minimum distance!)
-    float minSeparation = std::numeric_limits<float>::lowest();
+    /// The separation of two bodies according to SAT algorithm (this is not necessarily the actual minimum distance!)
+    float minSeparation = std::numeric_limits<float>::max();
     /// Collision location in global coordinates. If there is no collision, this is {0,0}
     sf::Vector2f location = sf::Vector2f();
     /// Contains the normalized collision normal vectors. Note that normals[0] is just normals[1] multiplied by -1.

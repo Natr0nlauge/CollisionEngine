@@ -1,6 +1,7 @@
 #include "sfml_utility.hpp"
-#include "CollisionDetector.hpp"
+//#include "CollisionDetector.hpp"
 #include <array>
+#include <iostream>
 
 /**
  * @brief Construct the 2D direct cosine matrix.
@@ -50,7 +51,7 @@ sf::Vector2f sfu::scaleVector(sf::Vector2f i_vector, float factor) {
 sf::Vector2f sfu::normalizeVector(sf::Vector2f i_vector) {
     float vectorLength = getVectorLength(i_vector);
     if (vectorLength != 0) {
-        return scaleVector(i_vector, 1 / getVectorLength(i_vector));
+        return scaleVector(i_vector, 1 / vectorLength);
     } else {
         return sf::Vector2f(0.0f, 0.0f);
     }
@@ -126,5 +127,13 @@ sf::Vector2f sfu::rotateVector(sf::Vector2f i_vector, float i_angle) {
  */
 sf::Vector2f sfu::transformPoint(sf::Vector2f i_vector, sf::Vector2f i_origin, float i_angle) {
     return sfu::addVectors(rotateVector(i_vector, i_angle), i_origin);
+}
+
+/**
+ * @brief Prints the x- and y-Coordinate of a 2D vector into the console. Intended mainly for debugging.
+ * @param i_vector The vector to print.
+ */
+void sfu::printVectorCoords(sf::Vector2f i_vector) {
+    std::cout << i_vector.x << ", " << i_vector.y << "\n";
 }
 

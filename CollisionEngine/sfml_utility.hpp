@@ -33,4 +33,6 @@ sf::Vector2f rotateVector(sf::Vector2f i_vector, float i_angle);
 
 sf::Vector2f transformPoint(sf::Vector2f i_vector, sf::Vector2f i_origin, float i_angle);
 
+void printVectorCoords(sf::Vector2f i_vector);
+
 } // namespace sfu

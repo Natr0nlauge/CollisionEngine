@@ -24,16 +24,17 @@ Polygon::~Polygon() {}
 pointSeparationData_type Polygon::calculateMinPointSeparation(sf::Vector2f i_point) {
     pointSeparationData_type separationData;
     sf::Vector2f normal = sf::Vector2f();
+    // Iterate through all normal vectors of the polygon
     for (int i = 0; i < getNormalCount(); i++) {
+        // Determine signed distance to each edge
         sf::Vector2f testVertex = getGlobalPoint(i);
         sf::Vector2f testNormal = getGlobalNormal(i);
         sf::Vector2f pointConnector = sfu::subtractVectors(i_point, testVertex);
-        // std::cout << testPoint.x << ", " << testPoint.y << "\n";
         float newSeparation = sfu::scalarProduct(testNormal, pointConnector);
-        // Edge separation is the maximum value of all possible edge separations
+        // Final edge separation is the maximum value of all possible edge separations
         if (newSeparation > separationData.separation) {
-            // minSep = std::min(minSep, dotProd);
-            separationData.separation = newSeparation; // previous indices are irrelevant
+            // Assign results
+            separationData.separation = newSeparation;
             separationData.index = i;
             separationData.normal = testNormal;
         }

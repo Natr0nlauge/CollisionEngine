@@ -17,8 +17,8 @@ class RigidBody : public sf::Shape {
     float getInverseMomentOfInertia() const;
     sf::Vector2f getVelocity() const;
     float getAngularVelocity() const;
-    float getRestitutionCoefficient();
-    float getFrictionCoefficient();
+    float getRestitutionCoefficient() const;
+    float getFrictionCoefficient() const;
 
     // Setters
     void setVelocity(sf::Vector2f i_newVel);

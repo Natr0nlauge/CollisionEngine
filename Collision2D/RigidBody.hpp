@@ -10,7 +10,7 @@
 class RigidBody : public sf::Shape {
   public:
     RigidBody(float i_mass);
-    ~RigidBody();
+    virtual ~RigidBody();
 
     // Getters
     float getInverseMass() const;

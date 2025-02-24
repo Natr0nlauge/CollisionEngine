@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "pch.h"
+
 //#include "sfml_utility.hpp"
 #include "..\Collision2D\sfml_utility.cpp"
 #include "..\Collision2D\Matrix2f.cpp"

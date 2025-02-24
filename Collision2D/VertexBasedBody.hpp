@@ -28,7 +28,7 @@ class VertexBasedBody : public RigidBody {
     VertexBasedBody(float i_inverseMass, std::vector<sf::Vector2f> i_vertices);
 
     // Destructor
-    ~VertexBasedBody();
+    virtual ~VertexBasedBody();
 
     // Getters
     std::vector<sf::Vector2f> getPoints();

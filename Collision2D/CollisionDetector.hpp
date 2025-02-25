@@ -65,6 +65,8 @@ class CollisionDetector {
     CollisionDetector & operator=(const CollisionDetector &) = delete;
 
     // Private methods
+    VertexBasedBodySeparation_type evaluateEdge(VertexBasedBody & i_body1, VertexBasedBody & i_body2,
+            int i_index) const;
     VertexBasedBodySeparation_type calculateMinVertexBasedBodySeparation(VertexBasedBody & i_body1, VertexBasedBody & i_body2) const;
     circleSeparation_type calculateMinCircleSeparation(VertexBasedBody & i_VertexBasedBody, Circle & i_circle) const;
     sf::Vector2f findCenterOfContact(VertexBasedBodySeparation_type & i_sepData1, VertexBasedBodySeparation_type & i_sepData2,
@@ -77,6 +79,7 @@ class CollisionDetector {
     float computeMedian(const std::array<float, 4> & i_arr);
 
     // Private member variables
-    /// This helps identifying edge-on-edge collisions.
-    const float MIN_SEP_EPSILON = 0.01;
+    /// The maximum angle of a collision to be considered edge-to-edge, in degrees
+    const float MAX_ANGLE_FOR_EDGE_TO_EDGE = 1.0f;
+    const float SEPARATION_TOLERANCE = 0.1f;
 };

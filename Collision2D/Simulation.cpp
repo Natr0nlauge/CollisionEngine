@@ -264,14 +264,14 @@ void Simulation::updateAndDrawBodies() {
  * @param i_collisionEvent The CollisionEvent to evaluate.
  */
 void Simulation::evaluateCollisionEvent(CollisionEvent & i_collisionEvent) {
-    if (i_collisionEvent.getMinSeparation() < 0) {
+    if (i_collisionEvent.getMinSeparation() <= 0) {
         collisionGeometry_type collisionGeometry = i_collisionEvent.getCollisionGeometry();
         m_collisionLocationMarker.setPosition(collisionGeometry.location);
         m_collisionNormalMarkers[0].setPosition(collisionGeometry.location);
         m_collisionNormalMarkers[1].setPosition(collisionGeometry.location);
         m_collisionNormalMarkers[0].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
         m_collisionNormalMarkers[1].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
-        i_collisionEvent.resolve();
+        i_collisionEvent.resolve(); 
     }
 }
 
@@ -297,6 +297,18 @@ void Simulation::handleEvents() {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
             m_players[0]->getPlayerBody()->setPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+        }
+        const float ROTATION_PER_TIMESTEP = 0.05f;
+        // Rotation control
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            float oldRotation = m_players[0]->getPlayerBody()->getRotation();
+            float newRotation = oldRotation - ROTATION_PER_TIMESTEP;
+            m_players[0]->getPlayerBody()->setRotation(newRotation);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+            float oldRotation = m_players[0]->getPlayerBody()->getRotation();
+            float newRotation = oldRotation + ROTATION_PER_TIMESTEP;
+            m_players[0]->getPlayerBody()->setRotation(newRotation);
         }
     }
 }

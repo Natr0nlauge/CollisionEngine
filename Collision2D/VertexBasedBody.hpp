@@ -32,7 +32,7 @@ class VertexBasedBody : public RigidBody {
 
     // Getters
     std::vector<sf::Vector2f> getPoints();
-    sf::Vector2f getNormal(int i_index);
+    virtual sf::Vector2f getNormal(int i_index) = 0;
     virtual int getNormalCount() = 0;
     sf::Vector2f getGlobalPoint(int i_index);
     sf::Vector2f getGlobalNormal(int i_index);

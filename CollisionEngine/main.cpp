@@ -38,20 +38,20 @@ int main() {
     //testPolygon2->setAngularVelocity(-50);
 
     playerPtr->getPlayerBody()->setRotation(180.0f);
-    playerPtr->getPlayerBody()->setPosition(340.0f, 50.0f);
-    playerPtr->getPlayerBody()->setVelocity(sf::Vector2f(0, -10.0f));
+    playerPtr->getPlayerBody()->setPosition(25.0f, 200.0f);
+    //playerPtr->getPlayerBody()->setVelocity(sf::Vector2f(0, -10.0f));
     playerPtr->getPlayerBody()->setAngularVelocity(0);
 
-    boundaryElements.push_back(new BoundaryElement(250));
+    boundaryElements.push_back(new BoundaryElement(510));
     boundaryElements[0]->setPosition(256, 0);
     boundaryElements[0]->setRotation(0);
-    boundaryElements.push_back(new BoundaryElement(250));
+    boundaryElements.push_back(new BoundaryElement(510));
     boundaryElements[1]->setPosition(256, 512);
     boundaryElements[1]->setRotation(180);
-    boundaryElements.push_back(new BoundaryElement(250));
+    boundaryElements.push_back(new BoundaryElement(510));
     boundaryElements[2]->setPosition(0, 256);
     boundaryElements[2]->setRotation(270);
-    boundaryElements.push_back(new BoundaryElement(250));
+    boundaryElements.push_back(new BoundaryElement(510));
     boundaryElements[3]->setPosition(512, 256);
     boundaryElements[3]->setRotation(90);
 

@@ -19,6 +19,7 @@ class Polygon : public VertexBasedBody {
     ~Polygon();
     
     // Public methods
+    sf::Vector2f getNormal(int i_index) override;
     pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override;
     int getNormalCount() override;
 };

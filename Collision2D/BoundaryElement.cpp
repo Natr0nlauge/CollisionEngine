@@ -38,3 +38,7 @@ int BoundaryElement::getNormalCount() {
     // There is only one normal vector
     return 1;
 }
+
+sf::Vector2f BoundaryElement::getNormal(int i_index) {
+    return sf::Vector2f({0.0f,1.0f});
+}

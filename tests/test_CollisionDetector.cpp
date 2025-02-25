@@ -19,14 +19,16 @@ TEST(CollisionDetectorTest, instanceTest) {
     EXPECT_EQ(&instance1, &instance2);
 }
 
-// Test: VertexBasedBody vs VertexBasedBody
+// Test: VertexBasedBody vs VertexBasedBody, Collision on the Edge
 TEST(CollisionDetectorTest, EdgeOnEdgeCollision) {
+    // Two squares
     Polygon polygon1;
     Polygon polygon2;
     CollisionDetector & cd = CollisionDetector::getInstance();
     const float EDGE_LENGTH = 50.0f; // In pixels
     // subtract one to make sure bodies are intersecting
     const float HORIZONTAL_OFFSET = EDGE_LENGTH - 1; // In pixels
+    // Set squares next to each other on the same y-Coordinate
     polygon1.setPosition({0.0f, 0.0f});
     polygon2.setPosition({HORIZONTAL_OFFSET, 0.0f});
     
@@ -43,6 +45,35 @@ TEST(CollisionDetectorTest, EdgeOnEdgeCollision) {
     event = cd.generateCollisionEvent(&polygon1, &polygon2);
     EXPECT_NEAR(event.getMinSeparation(), -1.0f, EPSILON);
     EXPECT_NEAR_VECTOR(event.getCollisionGeometry().location, sf::Vector2f(HORIZONTAL_OFFSET/2, VERTICAL_OFFSET/2));
+    EXPECT_NEAR_VECTOR(event.getCollisionGeometry().normals[0], sf::Vector2f(1.0f, 0.0f));
+    EXPECT_NEAR_VECTOR(event.getCollisionGeometry().normals[1], sf::Vector2f(-1.0f, 0.0f));
+}
+
+TEST(CollisionDetectorTest, SmallAngleCollision) {
+    // Two squares
+    Polygon polygon1;
+    Polygon polygon2;
+    CollisionDetector & cd = CollisionDetector::getInstance();
+    const float EDGE_LENGTH = 50.0f; // In pixels
+    // subtract one to make sure bodies are intersecting
+    const float HORIZONTAL_OFFSET = EDGE_LENGTH - 1; // In pixels
+    // Set squares next to each other on the same y-Coordinate
+    polygon1.setPosition({0.0f, 0.0f});
+    polygon2.setPosition({HORIZONTAL_OFFSET, 0.0f});
+
+    CollisionEvent event = cd.generateCollisionEvent(&polygon1, &polygon2);
+
+    EXPECT_NEAR(event.getMinSeparation(), -1.0f, EPSILON);
+    EXPECT_NEAR_VECTOR(event.getCollisionGeometry().location, sf::Vector2f(HORIZONTAL_OFFSET / 2, 0.0f));
+    EXPECT_NEAR_VECTOR(event.getCollisionGeometry().normals[0], sf::Vector2f(1.0f, 0.0f));
+    EXPECT_NEAR_VECTOR(event.getCollisionGeometry().normals[1], sf::Vector2f(-1.0f, 0.0f));
+
+    // Move one body up -> The collision location should also move up (but only half the distance of the body)
+    const float VERTICAL_OFFSET = 20.0f;
+    polygon1.setPosition({0.0f, VERTICAL_OFFSET});
+    event = cd.generateCollisionEvent(&polygon1, &polygon2);
+    EXPECT_NEAR(event.getMinSeparation(), -1.0f, EPSILON);
+    EXPECT_NEAR_VECTOR(event.getCollisionGeometry().location, sf::Vector2f(HORIZONTAL_OFFSET / 2, VERTICAL_OFFSET / 2));
     EXPECT_NEAR_VECTOR(event.getCollisionGeometry().normals[0], sf::Vector2f(1.0f, 0.0f));
     EXPECT_NEAR_VECTOR(event.getCollisionGeometry().normals[1], sf::Vector2f(-1.0f, 0.0f));
 }

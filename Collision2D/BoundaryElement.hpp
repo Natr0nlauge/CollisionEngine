@@ -30,6 +30,7 @@ class BoundaryElement : public VertexBasedBody {
     int getNormalCount() override;
 
   private:
+    sf::Vector2f getNormal(int i_index) override;
     /// Array containing start and end point in body coordinates
     sf::Vertex m_vertexArray[2];
     /// Length of the element in pixels

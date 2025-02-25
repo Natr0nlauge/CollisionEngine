@@ -16,7 +16,7 @@ struct VertexBasedBodySeparation_type {
     /// Separation in pixels, as determined by the SAT algorithm. This is not necessarily the minimum distance between two bodies.
     float separation = std::numeric_limits<float>::lowest();
     /// Holds the index for the point with the smallest separation. If two points have a similarly small separation, holds both indices.
-    std::vector<int> indexVec;
+    std::array<int, 2> indices{-1,-1};
     /// Normal vector corresponding to the smallest separation.
     sf::Vector2f normal;
 };

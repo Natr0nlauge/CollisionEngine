@@ -21,10 +21,10 @@ sf::Vector2f CollisionDetector::findCenterOfContact(VertexBasedBodySeparation_ty
     const int numberOfPoints = 4;
     // Get global coordinates of all involved points
     std::array<sf::Vector2f, numberOfPoints> vertices;
-    vertices[0] = i_body2.getGlobalPoint(i_sepData2.indexVec[0]);
-    vertices[1] = i_body2.getGlobalPoint(i_sepData2.indexVec[1]);
-    vertices[2] = i_body1.getGlobalPoint(i_sepData1.indexVec[0]);
-    vertices[3] = i_body1.getGlobalPoint(i_sepData1.indexVec[1]);
+    vertices[0] = i_body2.getGlobalPoint(i_sepData2.indices[0]);
+    vertices[1] = i_body2.getGlobalPoint(i_sepData2.indices[1]);
+    vertices[2] = i_body1.getGlobalPoint(i_sepData1.indices[0]);
+    vertices[3] = i_body1.getGlobalPoint(i_sepData1.indices[1]);
 
     // Get the global x and y coordinates of all involved points (it doesn't matter to which body they belong)
     std::array<float, numberOfPoints> xValues = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -49,8 +49,8 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(VertexBased
     VertexBasedBodySeparation_type collData2 = calculateMinVertexBasedBodySeparation(*firstBody, *secondBody);
     VertexBasedBodySeparation_type collData1 = calculateMinVertexBasedBodySeparation(*secondBody, *firstBody);
     // If one of the separation values is greater than 0, the bodies are not colliding
-    if (collData1.separation <= 0 && collData2.separation <= 0) /*(collIndexVec2.size()>0 && collIndexVec1.size()>0)*/ {
-        if (collData1.indexVec.size() > 1 && collData2.indexVec.size() > 1) {
+    if (collData1.separation <= 0 && collData2.separation <= 0) {
+        if (collData1.indices[1] != -1 && collData1.indices[1] != -1) {
             // Two values in each vector indicate an edge-to-edge collision
             collisionGeometry.minSeparation = collData2.separation;
             collisionGeometry.location = findCenterOfContact(collData1, collData2, *firstBody, *secondBody);
@@ -59,13 +59,13 @@ collisionGeometry_type CollisionDetector::determineCollisionGeometry(VertexBased
         } else if (collData2.separation < collData1.separation) {
             // Vertex of body 1 hits edge of body 2
             collisionGeometry.minSeparation = collData1.separation;
-            collisionGeometry.location = firstBody->getGlobalPoint(collData1.indexVec[0]);
+            collisionGeometry.location = firstBody->getGlobalPoint(collData1.indices[0]);
             collisionGeometry.normals[0] = sfu::scaleVector(collData1.normal, -1.0f);
             collisionGeometry.normals[1] = collData1.normal;
         } else if (collData2.separation >= collData1.separation) {
             // Vertex of body 2 hits edge of body 1
             collisionGeometry.minSeparation = collData2.separation;
-            collisionGeometry.location = secondBody->getGlobalPoint(collData2.indexVec[0]);
+            collisionGeometry.location = secondBody->getGlobalPoint(collData2.indices[0]);
             collisionGeometry.normals[0] = collData2.normal;
             collisionGeometry.normals[1] = sfu::scaleVector(collData2.normal, -1.0f);
         }
@@ -234,8 +234,10 @@ VertexBasedBodySeparation_type CollisionDetector::calculateMinVertexBasedBodySep
     VertexBasedBodySeparation_type sepData;
     int normalIndex = 0;
 
-    std::vector<int> preliminaryCollIndexVec;
-    std::vector<int> preliminaryCollIndexVec2;
+    // Holds the point indices of the point(s) with the smallest separation to the observed edge
+    std::array<int, 2> preliminaryCollIndexVec{-1, -1};
+    // Also holds the point indices, but is defined for the edge producing the largest separation
+    std::array<int, 2> preliminaryCollIndexVec2{-1, -1};
 
     // Loop through all vertices for Body1 and get normal vector
     for (int i = 0; i < i_body1.getNormalCount(); i++) {
@@ -251,13 +253,13 @@ VertexBasedBodySeparation_type CollisionDetector::calculateMinVertexBasedBodySep
             // Find minimum value of all possible dot products (for each normal vector)
             if (dotProd < minSep - MIN_SEP_EPSILON) {
                 minSep = dotProd;
-                preliminaryCollIndexVec.clear();      // previous indices are irrelevant
-                preliminaryCollIndexVec.push_back(j); // save index
+                preliminaryCollIndexVec[0] = j; // save index
+                preliminaryCollIndexVec[1] = -1; // previous index is irrelevant
             }
             // If a minSep value is sufficiently close to a previous one, save another index (edge-to-edge-collision possible)
             // Tolerance needs to be larger here to correctly account for angle deviations
             else if (fabs(minSep - dotProd) <= 4 * MIN_SEP_EPSILON) {
-                preliminaryCollIndexVec.push_back(j);
+                preliminaryCollIndexVec[1] = j;
             }
         }
         // The maximum minSep value for all normal vectors (for all i values) is the minimal seperation
@@ -268,7 +270,7 @@ VertexBasedBodySeparation_type CollisionDetector::calculateMinVertexBasedBodySep
             sepData.normal = normal;
         }
     }
-    sepData.indexVec = preliminaryCollIndexVec2;
+    sepData.indices = preliminaryCollIndexVec2;
     return sepData;
 }
 

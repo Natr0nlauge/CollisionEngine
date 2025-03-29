@@ -29,7 +29,7 @@ sf::Vector2f Polygon::getNormal(int i_index) {
     sf::Vector2f edge = sfu::subtractVectors(m_points[i_index], m_points[incrIndex]);
     // edge = sf::Vector2f(m_points[i_index].x - m_points[i_index + 1].x, m_points[i_index].y - m_points[i_index + 1].y);
     // }
-    float vectorLength = sqrt(pow(edge.x, 2) + pow(edge.y, 2));
+    float vectorLength = (float)sqrt(pow(edge.x, 2) + pow(edge.y, 2));
     sf::Vector2f normal = sfu::rotateVector(edge, -90.0f);
     normal = sfu::normalizeVector(normal);
     return normal;
@@ -62,6 +62,6 @@ pointSeparationData_type Polygon::calculateMinPointSeparation(sf::Vector2f i_poi
     return separationData;
 }
 
-int Polygon::getNormalCount() {
+size_t Polygon::getNormalCount() {
     return getPointCount();
 }

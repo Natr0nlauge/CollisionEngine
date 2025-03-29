@@ -6,6 +6,7 @@ var namespacesfu =
     [ "getVectorDirection", "namespacesfu.html#a1c1e5904f2d7e4dc968c81f1a8b1c6af", null ],
     [ "getVectorLength", "namespacesfu.html#ac79792c8f29cce1c5bbd45ba82d5d31a", null ],
     [ "normalizeVector", "namespacesfu.html#a9e9eda2f2537a0542070f1915087c3ba", null ],
+    [ "printVectorCoords", "namespacesfu.html#a3b22a2103bd1a8da00ace751fa33154c", null ],
     [ "pseudoCrossProduct", "namespacesfu.html#a0e5fd86838525a748ef714578f982ff3", null ],
     [ "pseudoCrossProduct", "namespacesfu.html#acbdfb5e04f018ab18a5d5eedccd5b884", null ],
     [ "rotateVector", "namespacesfu.html#a317916576e109f52b18eaa2d6cffca77", null ],

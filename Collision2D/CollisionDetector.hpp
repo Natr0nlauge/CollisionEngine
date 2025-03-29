@@ -12,7 +12,7 @@
  * the indices of the colliding corners, and the normal vector representing
  * the direction of separation.
  */
-struct VertexBasedBodySeparation_type {
+struct VertexBasedBodySeparation {
     /// Separation in pixels, as determined by the SAT algorithm. This is not necessarily the minimum distance between two bodies.
     float separation = std::numeric_limits<float>::lowest();
     /// Holds the index for the point with the smallest separation. If two points have a similarly small separation, holds both indices.
@@ -28,7 +28,7 @@ struct VertexBasedBodySeparation_type {
  * the index of the colliding corner, and the normal vector representing
  * the direction of separation.
  */
-struct circleSeparation_type {
+struct circleSeparation {
     /// The separation according to SAT as determined when iterating through all edges.
     float edgeSeparation = std::numeric_limits<float>::lowest();
     /// The separation according to SAT as determined when iterating through all corner points.
@@ -65,17 +65,17 @@ class CollisionDetector {
     CollisionDetector & operator=(const CollisionDetector &) = delete;
 
     // Private methods
-    VertexBasedBodySeparation_type evaluateEdge(VertexBasedBody & i_body1, VertexBasedBody & i_body2,
+    VertexBasedBodySeparation evaluateEdge(VertexBasedBody & i_body1, VertexBasedBody & i_body2,
             int i_index) const;
-    VertexBasedBodySeparation_type calculateMinVertexBasedBodySeparation(VertexBasedBody & i_body1, VertexBasedBody & i_body2) const;
-    circleSeparation_type calculateMinCircleSeparation(VertexBasedBody & i_VertexBasedBody, Circle & i_circle) const;
-    sf::Vector2f findCenterOfContact(VertexBasedBodySeparation_type & i_sepData1, VertexBasedBodySeparation_type & i_sepData2,
+    VertexBasedBodySeparation calculateMinVertexBasedBodySeparation(VertexBasedBody & i_body1, VertexBasedBody & i_body2) const;
+    circleSeparation calculateMinCircleSeparation(VertexBasedBody & i_VertexBasedBody, Circle & i_circle) const;
+    sf::Vector2f findCenterOfContact(VertexBasedBodySeparation & i_sepData1, VertexBasedBodySeparation & i_sepData2,
             VertexBasedBody & i_body1, VertexBasedBody & i_body2);
-    collisionGeometry_type determineCollisionGeometry(VertexBasedBody * i_firstBody, VertexBasedBody * i_secondBody);
-    collisionGeometry_type determineCollisionGeometry(VertexBasedBody * i_firstBody, Circle * i_secondBody);
-    collisionGeometry_type determineCollisionGeometry(Circle * i_firstBody, VertexBasedBody * i_secondBody);
-    collisionGeometry_type determineCollisionGeometry(Circle * i_firstBody, Circle * i_secondBody);
-    collisionGeometry_type determineVertexBodyAndCircleGeometry(VertexBasedBody * i_firstBody, Circle * i_secondBody);
+    collisionGeometry determineCollisionGeometry(VertexBasedBody * i_firstBody, VertexBasedBody * i_secondBody);
+    collisionGeometry determineCollisionGeometry(VertexBasedBody * i_firstBody, Circle * i_secondBody);
+    collisionGeometry determineCollisionGeometry(Circle * i_firstBody, VertexBasedBody * i_secondBody);
+    collisionGeometry determineCollisionGeometry(Circle * i_firstBody, Circle * i_secondBody);
+    collisionGeometry determineVertexBodyAndCircleGeometry(VertexBasedBody * i_firstBody, Circle * i_secondBody);
     float computeMedian(const std::array<float, 4> & i_arr);
 
     // Private member variables

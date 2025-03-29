@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/CollisionEngine/Simulation.hpp Source File</title>
+<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/Collision2D/Simulation.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -135,73 +135,77 @@ $(function(){initNavTree('_simulation_8hpp_source.html',''); initResizable(true)
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="comment">// Public methods</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#addf48743416b716a91b04a88b22a0e27">addBoundaryElement</a>(<a class="code hl_class" href="class_boundary_element.html">BoundaryElement</a> * i_boundaryElement);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#a84878eafad636b91fa491ac77331017e">initWindow</a>(<span class="keywordtype">float</span> i_viewWidth = DEFAULT_VIEW_WIDTH, <span class="keywordtype">float</span> i_viewHeight = DEFAULT_VIEW_HEIGHT,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#aaf6c4b5324e9a11b451cd55c3d4178db">initWindow</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i_viewWidth = DEFAULT_VIEW_WIDTH, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i_viewHeight = DEFAULT_VIEW_HEIGHT,</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <span class="keywordtype">float</span> i_frameRate = DEFAULT_FRAME_RATE);</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#ae5c367f87c0b5dc9740bc6d00e44e72c">run</a>();</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#a29635ac084979016e85dbebc92b2ad81">addCollisionPartner</a>(<a class="code hl_class" href="class_rigid_body.html">RigidBody</a> * i_collisionPartner);</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#aa411c38fc678b65c547d2081c9c59ec3">addPlayer</a>(<a class="code hl_class" href="class_player_controller.html">PlayerController</a> * i_playerController);</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#afc2a5620f950a14393e3f8a9e8d3c098">deleteCollisionPartner</a>(<span class="keywordtype">int</span> i_index);</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_simulation.html#afc2a5620f950a14393e3f8a9e8d3c098">deleteCollisionPartner</a>(<a class="code hl_class" href="class_rigid_body.html">RigidBody</a> * i_bodyToDelete);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">// Singleton implementation</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">static</span> std::unique_ptr&lt;Simulation&gt; s_instance;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">static</span> std::mutex mtx;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    Simulation();</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// Delete copy constructor and assignment operator</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    Simulation(<span class="keyword">const</span> Simulation &amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    Simulation &amp; operator=(<span class="keyword">const</span> Simulation &amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="comment">// Private methods</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> update();</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> evaluateCollisionEvent(<a class="code hl_class" href="class_collision_event.html">CollisionEvent</a> &amp; i_collisionEvent);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">void</span> handleEvents();</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> initCollisionMarkers();</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keywordtype">void</span> cleanupMember(std::vector&lt;T *&gt; &amp; member);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="comment">// Member variables</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    sf::Clock m_clock;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    std::vector&lt;RigidBody *&gt; m_collisionPartners;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    std::vector&lt;PlayerController *&gt; m_players;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// These shapes serve to visualize collision geometry</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    sf::RectangleShape m_collisionLocationMarker{sf::RectangleShape({10.0f, 10.0f})};</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    std::array&lt;sf::RectangleShape, 2&gt; m_collisionNormalMarkers{sf::RectangleShape(sf::Vector2f(50.0f, 1.0f)),</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            sf::RectangleShape(sf::Vector2f(1.0f, 50.0f))};</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    std::vector&lt;BoundaryElement *&gt; m_boundaryElements;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_class" href="class_collision_detector.html">CollisionDetector</a> &amp; m_cd = <a class="code hl_function" href="class_collision_detector.html#ab804e2427ad73a9bbf95e141c759ace4">CollisionDetector::getInstance</a>();</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    sf::View m_view;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    sf::RenderWindow m_window;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordtype">float</span> m_dT = 1 / DEFAULT_FRAME_RATE;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">float</span> DEFAULT_VIEW_WIDTH = 512.0f;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">float</span> DEFAULT_VIEW_HEIGHT = 512.0f; </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">float</span> DEFAULT_FRAME_RATE = 120.0f;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>};</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="class_simulation.html#a3b7db347528efc7731b461bffdd3639f">   35</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_simulation.html#a3b7db347528efc7731b461bffdd3639f">m_showCollisionMarkers</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="comment">// Singleton implementation</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">static</span> std::unique_ptr&lt;Simulation&gt; s_instance;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">static</span> std::mutex mtx;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    Simulation();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// Delete copy constructor and assignment operator</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    Simulation(<span class="keyword">const</span> Simulation &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    Simulation &amp; operator=(<span class="keyword">const</span> Simulation &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="comment">// Private methods</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> update();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> updateAndDrawBodies();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> evaluateCollisionEvent(<a class="code hl_class" href="class_collision_event.html">CollisionEvent</a> &amp; i_collisionEvent);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">void</span> handleEvents();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">void</span> initCollisionMarkers();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keywordtype">void</span> cleanupMember(std::vector&lt;T *&gt; &amp; member);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// Member variables</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    sf::Clock m_clock;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    std::vector&lt;RigidBody *&gt; m_bodiesToSimulate;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    std::vector&lt;PlayerController *&gt; m_players; </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">// These shapes serve to visualize collision geometry</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    sf::RectangleShape m_collisionLocationMarker{sf::RectangleShape({10.0f, 10.0f})};</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    std::array&lt;sf::RectangleShape, 2&gt; m_collisionNormalMarkers{sf::RectangleShape(sf::Vector2f(50.0f, 1.0f)),</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            sf::RectangleShape(sf::Vector2f(1.0f, 50.0f))};</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    std::vector&lt;BoundaryElement *&gt; m_boundaryElements;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    CollisionDetector &amp; m_cd = <a class="code hl_function" href="class_collision_detector.html#ab804e2427ad73a9bbf95e141c759ace4">CollisionDetector::getInstance</a>();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    sf::View m_view;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    sf::RenderWindow m_window;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">float</span> m_dT = 1 / DEFAULT_FRAME_RATE;                 </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> DEFAULT_VIEW_WIDTH = 512;  </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> DEFAULT_VIEW_HEIGHT = 512; </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">float</span> DEFAULT_FRAME_RATE = 120.0f;  </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>};</div>
 </div>
 <div class="ttc" id="a_boundary_element_8hpp_html"><div class="ttname"><a href="_boundary_element_8hpp.html">BoundaryElement.hpp</a></div></div>
 <div class="ttc" id="a_collision_detector_8hpp_html"><div class="ttname"><a href="_collision_detector_8hpp.html">CollisionDetector.hpp</a></div></div>
 <div class="ttc" id="a_player_controller_8hpp_html"><div class="ttname"><a href="_player_controller_8hpp.html">PlayerController.hpp</a></div></div>
 <div class="ttc" id="a_vertex_based_body_8hpp_html"><div class="ttname"><a href="_vertex_based_body_8hpp.html">VertexBasedBody.hpp</a></div></div>
 <div class="ttc" id="aclass_boundary_element_html"><div class="ttname"><a href="class_boundary_element.html">BoundaryElement</a></div><div class="ttdoc">A barrier intended for placing at the outer Boundaries of the simulation area.</div><div class="ttdef"><b>Definition</b> BoundaryElement.hpp:13</div></div>
-<div class="ttc" id="aclass_collision_detector_html"><div class="ttname"><a href="class_collision_detector.html">CollisionDetector</a></div><div class="ttdoc">Singleton class that holds methods to detect Collisions between RigidBody objects and to determine th...</div><div class="ttdef"><b>Definition</b> CollisionDetector.hpp:46</div></div>
-<div class="ttc" id="aclass_collision_detector_html_ab804e2427ad73a9bbf95e141c759ace4"><div class="ttname"><a href="class_collision_detector.html#ab804e2427ad73a9bbf95e141c759ace4">CollisionDetector::getInstance</a></div><div class="ttdeci">static CollisionDetector &amp; getInstance()</div><div class="ttdef"><b>Definition</b> CollisionDetector.cpp:159</div></div>
+<div class="ttc" id="aclass_collision_detector_html_ab804e2427ad73a9bbf95e141c759ace4"><div class="ttname"><a href="class_collision_detector.html#ab804e2427ad73a9bbf95e141c759ace4">CollisionDetector::getInstance</a></div><div class="ttdeci">static CollisionDetector &amp; getInstance()</div><div class="ttdoc">Retrieves the singleton instance of the class.</div><div class="ttdef"><b>Definition</b> CollisionDetector.cpp:184</div></div>
 <div class="ttc" id="aclass_collision_event_html"><div class="ttname"><a href="class_collision_event.html">CollisionEvent</a></div><div class="ttdoc">Holds all needed data for modeling a collision and provides methods for resolving it.</div><div class="ttdef"><b>Definition</b> CollisionEvent.hpp:26</div></div>
 <div class="ttc" id="aclass_player_controller_html"><div class="ttname"><a href="class_player_controller.html">PlayerController</a></div><div class="ttdoc">Enables the bodies in the simulation to be controlled by the user.</div><div class="ttdef"><b>Definition</b> PlayerController.hpp:18</div></div>
 <div class="ttc" id="aclass_rigid_body_html"><div class="ttname"><a href="class_rigid_body.html">RigidBody</a></div><div class="ttdoc">Abstract class which describes the physical behaviour of the simulated bodies. This does not include ...</div><div class="ttdef"><b>Definition</b> RigidBody.hpp:10</div></div>
-<div class="ttc" id="aclass_simulation_html_a29635ac084979016e85dbebc92b2ad81"><div class="ttname"><a href="class_simulation.html#a29635ac084979016e85dbebc92b2ad81">Simulation::addCollisionPartner</a></div><div class="ttdeci">void addCollisionPartner(RigidBody *i_collisionPartner)</div><div class="ttdoc">Add a new body to the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:78</div></div>
+<div class="ttc" id="aclass_simulation_html_a29635ac084979016e85dbebc92b2ad81"><div class="ttname"><a href="class_simulation.html#a29635ac084979016e85dbebc92b2ad81">Simulation::addCollisionPartner</a></div><div class="ttdeci">void addCollisionPartner(RigidBody *i_collisionPartner)</div><div class="ttdoc">Add a new body to the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:77</div></div>
+<div class="ttc" id="aclass_simulation_html_a3b7db347528efc7731b461bffdd3639f"><div class="ttname"><a href="class_simulation.html#a3b7db347528efc7731b461bffdd3639f">Simulation::m_showCollisionMarkers</a></div><div class="ttdeci">bool m_showCollisionMarkers</div><div class="ttdoc">Choose if you want to show collision geometry indicators.</div><div class="ttdef"><b>Definition</b> Simulation.hpp:35</div></div>
 <div class="ttc" id="aclass_simulation_html_a7b05c9662b46483be6de082c3a068cf9"><div class="ttname"><a href="class_simulation.html#a7b05c9662b46483be6de082c3a068cf9">Simulation::getInstance</a></div><div class="ttdeci">static Simulation &amp; getInstance()</div><div class="ttdoc">Retrieves the singleton instance of the class.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:15</div></div>
 <div class="ttc" id="aclass_simulation_html_a80fad3f57dfaf195a36f7bc49bc88279"><div class="ttname"><a href="class_simulation.html#a80fad3f57dfaf195a36f7bc49bc88279">Simulation::~Simulation</a></div><div class="ttdeci">~Simulation()</div><div class="ttdef"><b>Definition</b> Simulation.cpp:27</div></div>
-<div class="ttc" id="aclass_simulation_html_a84878eafad636b91fa491ac77331017e"><div class="ttname"><a href="class_simulation.html#a84878eafad636b91fa491ac77331017e">Simulation::initWindow</a></div><div class="ttdeci">void initWindow(float i_viewWidth=DEFAULT_VIEW_WIDTH, float i_viewHeight=DEFAULT_VIEW_HEIGHT, float i_frameRate=DEFAULT_FRAME_RATE)</div><div class="ttdoc">Opens the simulation window and defines basic settings.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:136</div></div>
-<div class="ttc" id="aclass_simulation_html_aa411c38fc678b65c547d2081c9c59ec3"><div class="ttname"><a href="class_simulation.html#aa411c38fc678b65c547d2081c9c59ec3">Simulation::addPlayer</a></div><div class="ttdeci">void addPlayer(PlayerController *i_playerController)</div><div class="ttdoc">Add a new player to the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:90</div></div>
-<div class="ttc" id="aclass_simulation_html_addf48743416b716a91b04a88b22a0e27"><div class="ttname"><a href="class_simulation.html#addf48743416b716a91b04a88b22a0e27">Simulation::addBoundaryElement</a></div><div class="ttdeci">void addBoundaryElement(BoundaryElement *i_boundaryElement)</div><div class="ttdoc">Add a new boundary element to the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:179</div></div>
+<div class="ttc" id="aclass_simulation_html_aa411c38fc678b65c547d2081c9c59ec3"><div class="ttname"><a href="class_simulation.html#aa411c38fc678b65c547d2081c9c59ec3">Simulation::addPlayer</a></div><div class="ttdeci">void addPlayer(PlayerController *i_playerController)</div><div class="ttdoc">Add a new player to the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:89</div></div>
+<div class="ttc" id="aclass_simulation_html_aaf6c4b5324e9a11b451cd55c3d4178db"><div class="ttname"><a href="class_simulation.html#aaf6c4b5324e9a11b451cd55c3d4178db">Simulation::initWindow</a></div><div class="ttdeci">void initWindow(unsigned int i_viewWidth=DEFAULT_VIEW_WIDTH, unsigned int i_viewHeight=DEFAULT_VIEW_HEIGHT, float i_frameRate=DEFAULT_FRAME_RATE)</div><div class="ttdoc">Opens the simulation window and defines basic settings.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:135</div></div>
+<div class="ttc" id="aclass_simulation_html_addf48743416b716a91b04a88b22a0e27"><div class="ttname"><a href="class_simulation.html#addf48743416b716a91b04a88b22a0e27">Simulation::addBoundaryElement</a></div><div class="ttdeci">void addBoundaryElement(BoundaryElement *i_boundaryElement)</div><div class="ttdoc">Add a new boundary element to the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:181</div></div>
 <div class="ttc" id="aclass_simulation_html_ae5c367f87c0b5dc9740bc6d00e44e72c"><div class="ttname"><a href="class_simulation.html#ae5c367f87c0b5dc9740bc6d00e44e72c">Simulation::run</a></div><div class="ttdeci">void run()</div><div class="ttdoc">Opens the window and starts running the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:57</div></div>
-<div class="ttc" id="aclass_simulation_html_afc2a5620f950a14393e3f8a9e8d3c098"><div class="ttname"><a href="class_simulation.html#afc2a5620f950a14393e3f8a9e8d3c098">Simulation::deleteCollisionPartner</a></div><div class="ttdeci">void deleteCollisionPartner(int i_index)</div><div class="ttdoc">Removes a body from the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:99</div></div>
+<div class="ttc" id="aclass_simulation_html_afc2a5620f950a14393e3f8a9e8d3c098"><div class="ttname"><a href="class_simulation.html#afc2a5620f950a14393e3f8a9e8d3c098">Simulation::deleteCollisionPartner</a></div><div class="ttdeci">void deleteCollisionPartner(int i_index)</div><div class="ttdoc">Removes a body from the simulation.</div><div class="ttdef"><b>Definition</b> Simulation.cpp:98</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_a34aaf1ab7bddf32d37e4cbf6701fdca.html">CollisionEngine</a></li><li class="navelem"><a class="el" href="_simulation_8hpp.html">Simulation.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_00bc2bd19e74db5020cb5c265e97b697.html">Collision2D</a></li><li class="navelem"><a class="el" href="_simulation_8hpp.html">Simulation.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

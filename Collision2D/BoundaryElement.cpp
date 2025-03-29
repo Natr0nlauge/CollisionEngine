@@ -34,7 +34,7 @@ pointSeparationData_type BoundaryElement::calculateMinPointSeparation(sf::Vector
     return separationData;
 }
 
-int BoundaryElement::getNormalCount() {
+size_t BoundaryElement::getNormalCount() {
     // There is only one normal vector
     return 1;
 }

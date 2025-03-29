@@ -15,26 +15,51 @@ PlayerController::~PlayerController() {
     delete m_playerBody;
 }
 
-void PlayerController::setVerticalMovementWindow(float i_lowerYLimit, float i_upperYLimit, float i_lowerXLimit, float i_upperXLimit) {
+/**
+ * @brief Sets the maximum and minimum x- and y- coordinates allowed for the player. (Default is unlimited movement.)
+ * @param i_lowerYLimit Upper movement limit in pixels from origin. (Note y-axis is facing downwards)
+ * @param i_upperYLimit Lower movement limit in pixels from origin. (Note y-axis is facing downwards)
+ * @param i_lowerXLimit Left movement limit in pixels from origin.
+ * @param i_upperXLimit Right movement limit in pixels from origin.
+ */
+void PlayerController::setMovementWindow(float i_lowerYLimit, float i_upperYLimit, float i_lowerXLimit, float i_upperXLimit) {
     m_verticalMovementWindow[0] = i_lowerYLimit;
     m_verticalMovementWindow[1] = i_upperYLimit;
     m_horizontalMovementWindow[0] = i_lowerXLimit;
     m_horizontalMovementWindow[1] = i_lowerXLimit;
 }
 
+/**
+ * @brief Set maximum allowed speed for the player body. (Default is unlimited)
+ * @param i_maxSpeed Max speed in pixels per second.
+ */
 void PlayerController::setMaximumSpeed(float i_maxSpeed) {
     m_maximumSpeed = i_maxSpeed;
 }
 
+/**
+ * @brief Set acceleration for the player body.
+ * @param i_accel Acceleration in pixels/s^2
+ */
 void PlayerController::setAcceleration(float i_accel) {
     m_acceleration = i_accel;
 }
 
+/**
+ * @brief Specify the keys for vertical control (Default is W for up, S for down).
+ * @param i_up Key for up movement.
+ * @param i_down Key for down movement.
+ */
 void PlayerController::setVerticalControls(sf::Keyboard::Key i_up, sf::Keyboard::Key i_down) {
     controls[0] = i_up;
     controls[1] = i_down;
 }
 
+/**
+ * @brief Specify the keys for horizontal control (Default is A for left, D for right).
+ * @param i_left Key for left movement.
+ * @param i_right Key for right movement.
+ */
 void PlayerController::setHorizontalControls(sf::Keyboard::Key i_left, sf::Keyboard::Key i_right) {
     controls[2] = i_left;
     controls[3] = i_right;

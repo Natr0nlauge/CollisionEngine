@@ -26,7 +26,7 @@ Simulation::Simulation() {}
 
 Simulation::~Simulation() {
     // Clean up all the members to avoid memory leaks
-    cleanupMember(m_collisionPartners);
+    cleanupMember(m_bodiesToSimulate);
     cleanupMember(m_players);
 
     // Properly close the render window
@@ -55,7 +55,6 @@ template <typename T> inline void Simulation::cleanupMember(std::vector<T *> & m
  * the clock is used to handle the timing of the Simulation frames. The handleEvents() and update() methods are called every frame.
  */
 void Simulation::run() {
-
     initCollisionMarkers();
     m_clock.restart();
 
@@ -76,7 +75,7 @@ void Simulation::run() {
  * @param i_collisionPartner A pointer to the object that needs to be added.
  */
 void Simulation::addCollisionPartner(RigidBody * i_collisionPartner) {
-    m_collisionPartners.push_back(i_collisionPartner);
+    m_bodiesToSimulate.push_back(i_collisionPartner);
     i_collisionPartner->setOutlineColor(sf::Color::Red);
     i_collisionPartner->setFillColor(sf::Color::Black);
     i_collisionPartner->setOutlineThickness(-2.0f);
@@ -98,11 +97,11 @@ void Simulation::addPlayer(PlayerController * i_playerController) {
  */
 void Simulation::deleteCollisionPartner(int i_index) {
     // Retrieve body pointer
-    RigidBody * colParToDelete = m_collisionPartners[i_index];
+    RigidBody * colParToDelete = m_bodiesToSimulate[i_index];
     // Delete body
     delete colParToDelete;
     // Remove pointer from vector
-    m_collisionPartners.erase(m_collisionPartners.begin() + i_index);
+    m_bodiesToSimulate.erase(m_bodiesToSimulate.begin() + i_index);
 }
 
 /**
@@ -111,13 +110,13 @@ void Simulation::deleteCollisionPartner(int i_index) {
  * @param i_bodyToDelete Pointer to the body that needs to be deleted.
  */
 void Simulation::deleteCollisionPartner(RigidBody * i_bodyToDelete) {
-    for (int i = 0; i < m_collisionPartners.size(); i++) {
+    for (int i = 0; i < m_bodiesToSimulate.size(); i++) {
         // First check if the body is even part of the simulation
-        if (m_collisionPartners[i] == i_bodyToDelete) {
+        if (m_bodiesToSimulate[i] == i_bodyToDelete) {
             // Delete body
-            delete m_collisionPartners[i];
+            delete m_bodiesToSimulate[i];
             // Remove pointer from vector
-            m_collisionPartners.erase(m_collisionPartners.begin() + i);
+            m_bodiesToSimulate.erase(m_bodiesToSimulate.begin() + i);
         }
     }
 }
@@ -133,7 +132,7 @@ void Simulation::deleteCollisionPartner(RigidBody * i_bodyToDelete) {
  *
  * @param i_frameRate The desired frame rate in Hz.
  */
-void Simulation::initWindow(float i_viewWidth, float i_viewHeight, float i_frameRate) {
+void Simulation::initWindow(unsigned int i_viewWidth, unsigned int i_viewHeight, float i_frameRate) {
     // Simulation needs to have at least one pixel
     if (i_viewWidth < 1) {
         i_viewWidth = DEFAULT_VIEW_WIDTH;
@@ -146,10 +145,11 @@ void Simulation::initWindow(float i_viewWidth, float i_viewHeight, float i_frame
         i_frameRate = DEFAULT_FRAME_RATE;
     }
     // Open window
-    m_window.create(sf::VideoMode(i_viewWidth, 512), "SFML 2D collision Simulation",
+    m_window.create(sf::VideoMode(i_viewWidth, i_viewHeight), "SFML 2D collision Simulation",
             sf::Style::Close | sf::Style::Titlebar | sf::Style::Resize);
     // Initialize view and set it to the center of the window
-    m_view = sf::View(sf::Vector2f(i_viewWidth / 2, i_viewHeight / 2), sf::Vector2f(i_viewWidth, i_viewHeight));
+    m_view = sf::View(sf::Vector2f((float) i_viewWidth / 2, (float) i_viewHeight / 2),
+            sf::Vector2f((float) i_viewWidth, (float) i_viewHeight));
     // Set time increment
     m_dT = 1 / i_frameRate;
 }
@@ -163,11 +163,13 @@ void Simulation::initCollisionMarkers() {
     m_collisionLocationMarker.setOutlineColor(sf::Color::Red);
     m_collisionLocationMarker.setFillColor(sf::Color::Black);
     m_collisionLocationMarker.setOutlineThickness(-2.0f);
+    m_collisionLocationMarker.setPosition({-1000.0f, -1000.0f});
 
     for (sf::RectangleShape & marker : m_collisionNormalMarkers) {
         marker.setOutlineColor(sf::Color::Red);
         marker.setFillColor(sf::Color::Black);
         marker.setOutlineThickness(1.0f);
+        marker.setPosition({-1000.0f,-1000.0f});
     }
 }
 
@@ -201,10 +203,10 @@ void Simulation::update() {
 
     // Create a new vector to hold combined contents
     std::vector<RigidBody *> allBodies;
-    allBodies.reserve(m_collisionPartners.size() + m_players.size()); // Reserve memory to improve performance
+    allBodies.reserve(m_bodiesToSimulate.size() + m_players.size()); // Reserve memory to improve performance
 
     // Copy the relevant content into allBodies
-    allBodies.insert(allBodies.end(), m_collisionPartners.begin(), m_collisionPartners.end());
+    allBodies.insert(allBodies.end(), m_bodiesToSimulate.begin(), m_bodiesToSimulate.end());
     allBodies.insert(allBodies.end(), playerBodies.begin(), playerBodies.end());
     // Iterate through all bodies
     for (int i = 0; i < allBodies.size(); i++) {
@@ -229,7 +231,7 @@ void Simulation::update() {
  * @brief Calls the update method for all simulated RigidBodies and draws them into the new frame.
  */
 void Simulation::updateAndDrawBodies() {
-    for (RigidBody * body : m_collisionPartners) {
+    for (RigidBody * body : m_bodiesToSimulate) {
         body->updateBody(m_dT);
         m_window.draw(*body);
     }
@@ -265,12 +267,14 @@ void Simulation::updateAndDrawBodies() {
  */
 void Simulation::evaluateCollisionEvent(CollisionEvent & i_collisionEvent) {
     if (i_collisionEvent.getMinSeparation() <= 0) {
-        collisionGeometry_type collisionGeometry = i_collisionEvent.getCollisionGeometry();
-        m_collisionLocationMarker.setPosition(collisionGeometry.location);
-        m_collisionNormalMarkers[0].setPosition(collisionGeometry.location);
-        m_collisionNormalMarkers[1].setPosition(collisionGeometry.location);
-        m_collisionNormalMarkers[0].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
-        m_collisionNormalMarkers[1].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
+        collisionGeometry collisionGeometry = i_collisionEvent.getCollisionGeometry();
+        if (m_showCollisionMarkers) {
+            m_collisionLocationMarker.setPosition(collisionGeometry.location);
+            m_collisionNormalMarkers[0].setPosition(collisionGeometry.location);
+            m_collisionNormalMarkers[1].setPosition(collisionGeometry.location);
+            m_collisionNormalMarkers[0].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
+            m_collisionNormalMarkers[1].setRotation(sfu::getVectorDirection(collisionGeometry.normals[0]));
+        }
         i_collisionEvent.resolve(); 
     }
 }
@@ -288,7 +292,7 @@ void Simulation::handleEvents() {
             Simulation::~Simulation(); // destroy Simulation; close window
             break;
         case sf::Event::Resized: // change window size and adapt view
-            m_view.setSize(m_window.getSize().x, m_window.getSize().y);                 // adapt view size
+            m_view.setSize((float) m_window.getSize().x, (float) m_window.getSize().y); // adapt view size
             m_view.setCenter(m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f); // adapt view center
             break;
         }

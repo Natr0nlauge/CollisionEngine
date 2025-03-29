@@ -140,7 +140,7 @@ Inheritance diagram for RigidBody:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2c25abbc0718647b47d5b573937374c6" id="r_a2c25abbc0718647b47d5b573937374c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c25abbc0718647b47d5b573937374c6">RigidBody</a> (float i_mass)</td></tr>
 <tr class="separator:a2c25abbc0718647b47d5b573937374c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eade6e08e5a78c56822d2f42322c915" id="r_a4eade6e08e5a78c56822d2f42322c915"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4eade6e08e5a78c56822d2f42322c915">~RigidBody</a> ()</td></tr>
+<tr class="memitem:a4eade6e08e5a78c56822d2f42322c915" id="r_a4eade6e08e5a78c56822d2f42322c915"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4eade6e08e5a78c56822d2f42322c915">~RigidBody</a> ()</td></tr>
 <tr class="separator:a4eade6e08e5a78c56822d2f42322c915"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace41f1b806bceb0690b0df686d2665e0" id="r_ace41f1b806bceb0690b0df686d2665e0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace41f1b806bceb0690b0df686d2665e0">getInverseMass</a> () const</td></tr>
 <tr class="separator:ace41f1b806bceb0690b0df686d2665e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,10 +150,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa5b5734aa8df281ea757f3210593cc11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bd6579563ca592099160912811a9ea7" id="r_a9bd6579563ca592099160912811a9ea7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bd6579563ca592099160912811a9ea7">getAngularVelocity</a> () const</td></tr>
 <tr class="separator:a9bd6579563ca592099160912811a9ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82a887b8dc50e275013e40f7557af9cc" id="r_a82a887b8dc50e275013e40f7557af9cc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82a887b8dc50e275013e40f7557af9cc">getRestitutionCoefficient</a> ()</td></tr>
-<tr class="separator:a82a887b8dc50e275013e40f7557af9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad42449c8a7af7758d7a24dacbff23f60" id="r_ad42449c8a7af7758d7a24dacbff23f60"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad42449c8a7af7758d7a24dacbff23f60">getFrictionCoefficient</a> ()</td></tr>
-<tr class="separator:ad42449c8a7af7758d7a24dacbff23f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a921eca623c5ff04e9e7b7b7e3d158f" id="r_a4a921eca623c5ff04e9e7b7b7e3d158f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a921eca623c5ff04e9e7b7b7e3d158f">getRestitutionCoefficient</a> () const</td></tr>
+<tr class="separator:a4a921eca623c5ff04e9e7b7b7e3d158f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacd6672a99ce63f28140be90c1947cd4" id="r_aacd6672a99ce63f28140be90c1947cd4"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacd6672a99ce63f28140be90c1947cd4">getFrictionCoefficient</a> () const</td></tr>
+<tr class="separator:aacd6672a99ce63f28140be90c1947cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cb968c55fbb25ec8a417aa6d3977ddb" id="r_a2cb968c55fbb25ec8a417aa6d3977ddb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2cb968c55fbb25ec8a417aa6d3977ddb">setVelocity</a> (sf::Vector2f i_newVel)</td></tr>
 <tr class="separator:a2cb968c55fbb25ec8a417aa6d3977ddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24c490c56fa089aa5579998002b0bd25" id="r_a24c490c56fa089aa5579998002b0bd25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24c490c56fa089aa5579998002b0bd25">setAngularVelocity</a> (float i_newAngVel)</td></tr>
@@ -241,6 +241,9 @@ Protected Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">RigidBody::~RigidBody </td>
@@ -249,6 +252,11 @@ Protected Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -411,8 +419,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad42449c8a7af7758d7a24dacbff23f60" name="ad42449c8a7af7758d7a24dacbff23f60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad42449c8a7af7758d7a24dacbff23f60">&#9670;&#160;</a></span>getFrictionCoefficient()</h2>
+<a id="aacd6672a99ce63f28140be90c1947cd4" name="aacd6672a99ce63f28140be90c1947cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacd6672a99ce63f28140be90c1947cd4">&#9670;&#160;</a></span>getFrictionCoefficient()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -421,7 +429,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">float RigidBody::getFrictionCoefficient </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -521,8 +529,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a82a887b8dc50e275013e40f7557af9cc" name="a82a887b8dc50e275013e40f7557af9cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82a887b8dc50e275013e40f7557af9cc">&#9670;&#160;</a></span>getRestitutionCoefficient()</h2>
+<a id="a4a921eca623c5ff04e9e7b7b7e3d158f" name="a4a921eca623c5ff04e9e7b7b7e3d158f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a921eca623c5ff04e9e7b7b7e3d158f">&#9670;&#160;</a></span>getRestitutionCoefficient()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -531,7 +539,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">float RigidBody::getRestitutionCoefficient </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -691,7 +699,7 @@ Protected Attributes</h2></td></tr>
 <p>Transform a point from body coordinates to global coordinates. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">i_localPoint</td><td>The point to transform in global coordinates. </td></tr>
+    <tr><td class="paramname">i_localVector</td><td>The vector to transform in global coordinates. </td></tr>
   </table>
   </dd>
 </dl>

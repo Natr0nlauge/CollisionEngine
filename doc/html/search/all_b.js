@@ -1,9 +1,14 @@
 var searchData=
 [
-  ['resolve_0',['resolve',['../class_collision_event.html#a08e4f7df78f006aebabe369a3d9d2163',1,'CollisionEvent']]],
-  ['rigidbody_1',['RigidBody',['../class_rigid_body.html',1,'RigidBody'],['../class_rigid_body.html#a2c25abbc0718647b47d5b573937374c6',1,'RigidBody::RigidBody()']]],
-  ['rigidbody_2ecpp_2',['RigidBody.cpp',['../_rigid_body_8cpp.html',1,'']]],
-  ['rigidbody_2ehpp_3',['RigidBody.hpp',['../_rigid_body_8hpp.html',1,'']]],
-  ['rotatevector_4',['rotateVector',['../namespacesfu.html#a317916576e109f52b18eaa2d6cffca77',1,'sfu']]],
-  ['run_5',['run',['../class_simulation.html#ae5c367f87c0b5dc9740bc6d00e44e72c',1,'Simulation']]]
+  ['pi_0',['PI',['../namespacesfu.html#af1f15f0d00336650852626e494b3d879',1,'sfu']]],
+  ['playercontroller_1',['PlayerController',['../class_player_controller.html',1,'PlayerController'],['../class_player_controller.html#a2ad1eded2ea261601e5b9396d6f23f41',1,'PlayerController::PlayerController()']]],
+  ['playercontroller_2ecpp_2',['PlayerController.cpp',['../_player_controller_8cpp.html',1,'']]],
+  ['playercontroller_2ehpp_3',['PlayerController.hpp',['../_player_controller_8hpp.html',1,'']]],
+  ['pointindex_4',['pointIndex',['../structcircle_separation.html#a4c060d50577155fb63e44185cf8a1969',1,'circleSeparation']]],
+  ['pointseparationdata_5ftype_5',['pointSeparationData_type',['../structpoint_separation_data__type.html',1,'']]],
+  ['polygon_6',['Polygon',['../class_polygon.html',1,'Polygon'],['../class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40',1,'Polygon::Polygon()']]],
+  ['polygon_2ecpp_7',['Polygon.cpp',['../_polygon_8cpp.html',1,'']]],
+  ['polygon_2ehpp_8',['Polygon.hpp',['../_polygon_8hpp.html',1,'']]],
+  ['printvectorcoords_9',['printVectorCoords',['../namespacesfu.html#a3b22a2103bd1a8da00ace751fa33154c',1,'sfu']]],
+  ['pseudocrossproduct_10',['pseudoCrossProduct',['../namespacesfu.html#acbdfb5e04f018ab18a5d5eedccd5b884',1,'sfu::pseudoCrossProduct(sf::Vector2f i_vec1, sf::Vector2f i_vec2)'],['../namespacesfu.html#a0e5fd86838525a748ef714578f982ff3',1,'sfu::pseudoCrossProduct(float i_length1, sf::Vector2f i_vec2)']]]
 ];

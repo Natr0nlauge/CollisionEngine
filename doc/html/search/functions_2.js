@@ -7,5 +7,5 @@ var searchData=
   ['calculateminpointseparation_4',['calculateMinPointSeparation',['../class_boundary_element.html#a707011f150e1ca044e450ed68b88aa06',1,'BoundaryElement::calculateMinPointSeparation()'],['../class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0',1,'Polygon::calculateMinPointSeparation()'],['../class_vertex_based_body.html#a3ef78b1284b8ac19fea8084f5b5ebbd6',1,'VertexBasedBody::calculateMinPointSeparation(sf::Vector2f i_point)=0']]],
   ['calculatesignedarea_5',['calculateSignedArea',['../class_vertex_based_body.html#ae525c69228a1f60fb892ac328d606778',1,'VertexBasedBody']]],
   ['circle_6',['Circle',['../class_circle.html#ab4a54afa91bcfbeead71030e625540ab',1,'Circle']]],
-  ['collisionevent_7',['CollisionEvent',['../class_collision_event.html#ace14e67fbca58ea046f8aa7679018ebc',1,'CollisionEvent']]]
+  ['collisionevent_7',['CollisionEvent',['../class_collision_event.html#a1ddeeb00f6740224a4b2bc35236909bc',1,'CollisionEvent']]]
 ];

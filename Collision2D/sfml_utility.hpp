@@ -7,7 +7,7 @@
  * @brief Some utility functions to interact with sf::Vector2f.
  */
 namespace sfu {
-const float PI = 3.14159265358979323846;
+const float PI = 3.1415926535f;
 
 sfu::Matrix2f getRotationMatrix(float angle);
 

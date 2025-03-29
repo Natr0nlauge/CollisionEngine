@@ -5,7 +5,7 @@
 const int BODIES_PER_COLLISION = 2;
 
 // Constructor
-CollisionEvent::CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const collisionGeometry_type & i_cg)
+CollisionEvent::CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const collisionGeometry & i_cg)
     : m_collisionPartners{i_rb1, i_rb2}, m_collisionGeometry(i_cg) {}
 
 CollisionEvent::~CollisionEvent() {}
@@ -51,7 +51,7 @@ void CollisionEvent::resolve() {
     }
 }
 
-collisionGeometry_type CollisionEvent::getCollisionGeometry() const {
+collisionGeometry CollisionEvent::getCollisionGeometry() const {
     return m_collisionGeometry;
 }
 
@@ -70,7 +70,7 @@ sf::Vector2f CollisionEvent::computeRelativePosition(sf::Vector2f i_collLoc, sf:
 }
 
 /**
- * @brief Calculates the speed at which the bodies are colliding in the collision point (considering translational and rotational body
+ * @brief Calculates the speed at which the bodies are colliding in the contact point (considering translational and rotational body
  * movement)
  * @param i_relativePositions Array containing the collision location in relation to the center of mass of the respective body (in global
  * coordinates)
@@ -91,7 +91,7 @@ float CollisionEvent::calculateContactSpeed(std::array<sf::Vector2f, 2> i_relati
 }
 
 /**
- * @brief Calculates how much the local velocity will change if a unit impulse applies. Depends on mass and moment of inertia.
+ * @brief Calculates how much the local velocity will change if a unit impulse applies. Depends on mass and moment of inertia of BOTH bodies.
  * @param i_relativePositions Array holding the relative collision location for each body in global coordinates.
  * @return The velocity change per unit impulse.
  */

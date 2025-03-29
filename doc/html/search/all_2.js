@@ -9,13 +9,14 @@ var searchData=
   ['circle_6',['Circle',['../class_circle.html',1,'Circle'],['../class_circle.html#ab4a54afa91bcfbeead71030e625540ab',1,'Circle::Circle()']]],
   ['circle_2ecpp_7',['Circle.cpp',['../_circle_8cpp.html',1,'']]],
   ['circle_2ehpp_8',['Circle.hpp',['../_circle_8hpp.html',1,'']]],
-  ['circleseparation_5ftype_9',['circleSeparation_type',['../structcircle_separation__type.html',1,'']]],
-  ['collisiondetector_10',['CollisionDetector',['../class_collision_detector.html',1,'']]],
-  ['collisiondetector_2ecpp_11',['CollisionDetector.cpp',['../_collision_detector_8cpp.html',1,'']]],
-  ['collisiondetector_2ehpp_12',['CollisionDetector.hpp',['../_collision_detector_8hpp.html',1,'']]],
-  ['collisionevent_13',['CollisionEvent',['../class_collision_event.html',1,'CollisionEvent'],['../class_collision_event.html#ace14e67fbca58ea046f8aa7679018ebc',1,'CollisionEvent::CollisionEvent()']]],
-  ['collisionevent_2ecpp_14',['CollisionEvent.cpp',['../_collision_event_8cpp.html',1,'']]],
-  ['collisionevent_2ehpp_15',['CollisionEvent.hpp',['../_collision_event_8hpp.html',1,'']]],
-  ['collisiongeometry_5ftype_16',['collisionGeometry_type',['../structcollision_geometry__type.html',1,'']]],
-  ['cornerseparation_17',['cornerSeparation',['../structcircle_separation__type.html#a7aaa82329f1429d3666875990ef58c87',1,'circleSeparation_type']]]
+  ['circleseparation_9',['circleSeparation',['../structcircle_separation.html',1,'']]],
+  ['collision2d_2ecpp_10',['Collision2D.cpp',['../_collision2_d_8cpp.html',1,'']]],
+  ['collisiondetector_11',['CollisionDetector',['../class_collision_detector.html',1,'']]],
+  ['collisiondetector_2ecpp_12',['CollisionDetector.cpp',['../_collision_detector_8cpp.html',1,'']]],
+  ['collisiondetector_2ehpp_13',['CollisionDetector.hpp',['../_collision_detector_8hpp.html',1,'']]],
+  ['collisionevent_14',['CollisionEvent',['../class_collision_event.html',1,'CollisionEvent'],['../class_collision_event.html#a1ddeeb00f6740224a4b2bc35236909bc',1,'CollisionEvent::CollisionEvent()']]],
+  ['collisionevent_2ecpp_15',['CollisionEvent.cpp',['../_collision_event_8cpp.html',1,'']]],
+  ['collisionevent_2ehpp_16',['CollisionEvent.hpp',['../_collision_event_8hpp.html',1,'']]],
+  ['collisiongeometry_17',['collisionGeometry',['../structcollision_geometry.html',1,'']]],
+  ['cornerseparation_18',['cornerSeparation',['../structcircle_separation.html#a8bf267a7570a304d45ba10a8da7e5d8f',1,'circleSeparation']]]
 ];

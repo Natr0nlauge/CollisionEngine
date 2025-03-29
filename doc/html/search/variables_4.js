@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['location_0',['location',['../structcollision_geometry__type.html#ae240041e30359731c54a65b9bc6282ab',1,'collisionGeometry_type']]]
+  ['location_0',['location',['../structcollision_geometry.html#abbbdea068ffcc082623db14dacd1bc00',1,'collisionGeometry']]]
 ];

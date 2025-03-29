@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['resolve_0',['resolve',['../class_collision_event.html#a08e4f7df78f006aebabe369a3d9d2163',1,'CollisionEvent']]],
-  ['rigidbody_1',['RigidBody',['../class_rigid_body.html#a2c25abbc0718647b47d5b573937374c6',1,'RigidBody']]],
-  ['rotatevector_2',['rotateVector',['../namespacesfu.html#a317916576e109f52b18eaa2d6cffca77',1,'sfu']]],
-  ['run_3',['run',['../class_simulation.html#ae5c367f87c0b5dc9740bc6d00e44e72c',1,'Simulation']]]
+  ['playercontroller_0',['PlayerController',['../class_player_controller.html#a2ad1eded2ea261601e5b9396d6f23f41',1,'PlayerController']]],
+  ['polygon_1',['Polygon',['../class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40',1,'Polygon']]],
+  ['printvectorcoords_2',['printVectorCoords',['../namespacesfu.html#a3b22a2103bd1a8da00ace751fa33154c',1,'sfu']]],
+  ['pseudocrossproduct_3',['pseudoCrossProduct',['../namespacesfu.html#acbdfb5e04f018ab18a5d5eedccd5b884',1,'sfu::pseudoCrossProduct(sf::Vector2f i_vec1, sf::Vector2f i_vec2)'],['../namespacesfu.html#a0e5fd86838525a748ef714578f982ff3',1,'sfu::pseudoCrossProduct(float i_length1, sf::Vector2f i_vec2)']]]
 ];

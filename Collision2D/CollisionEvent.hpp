@@ -10,13 +10,13 @@
  *
  * @note It is only considered a collision, if minSeparation<=0.
  */
-struct collisionGeometry_type {
+struct collisionGeometry {
     /// The separation of two bodies according to SAT algorithm (this is not necessarily the actual minimum distance!)
     float minSeparation = std::numeric_limits<float>::max();
     /// Collision location in global coordinates. If there is no collision, this is {0,0}
     sf::Vector2f location = sf::Vector2f();
-    /// Contains the normalized collision normal vectors. Note that normals[0] is just normals[1] multiplied by -1.
-    sf::Vector2f normals[2] = {sf::Vector2f(), sf::Vector2f()}; // In global coordinates
+    /// Contains the normalized collision normal vectors in global coordinates. Note that normals[0] is just normals[1] multiplied by -1.
+    sf::Vector2f normals[2] = {sf::Vector2f(), sf::Vector2f()};
 };
 
 /**
@@ -26,14 +26,14 @@ struct collisionGeometry_type {
 class CollisionEvent {
 
   public:
-    CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const collisionGeometry_type & i_cg);
+    CollisionEvent(RigidBody * i_rb1, RigidBody * i_rb2, const collisionGeometry & i_cg);
 
     // Destructor
     ~CollisionEvent();
 
     // Public methods
     void resolve();
-    collisionGeometry_type getCollisionGeometry() const;
+    collisionGeometry getCollisionGeometry() const;
     float getMinSeparation() const;
 
   private:
@@ -45,5 +45,5 @@ class CollisionEvent {
 
     // Private members
     std::array<RigidBody *, 2> m_collisionPartners = {nullptr, nullptr};
-    collisionGeometry_type m_collisionGeometry;
+    collisionGeometry m_collisionGeometry;
 };

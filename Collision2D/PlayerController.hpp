@@ -25,7 +25,7 @@ class PlayerController {
     ~PlayerController();
 
     // Setters
-    void setVerticalMovementWindow(float i_lowerYLimit, float i_upperYLimit, float i_lowerXLimit, float i_upperXLimit);
+    void setMovementWindow(float i_lowerYLimit, float i_upperYLimit, float i_lowerXLimit, float i_upperXLimit);
     void setMaximumSpeed(float i_maxSpeed);
     void setAcceleration(float i_accel);
     void setVerticalControls(sf::Keyboard::Key i_up, sf::Keyboard::Key i_down);

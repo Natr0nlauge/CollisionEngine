@@ -139,15 +139,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1789e2debde3edcbf5e2de5f5d13873a" id="r_a1789e2debde3edcbf5e2de5f5d13873a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1789e2debde3edcbf5e2de5f5d13873a">VertexBasedBody</a> (float i_inverseMass, std::vector&lt; sf::Vector2f &gt; i_vertices)</td></tr>
 <tr class="memdesc:a1789e2debde3edcbf5e2de5f5d13873a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="separator:a1789e2debde3edcbf5e2de5f5d13873a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a8ba5033aee122435110ca7195e8892" id="r_a6a8ba5033aee122435110ca7195e8892"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a8ba5033aee122435110ca7195e8892">~VertexBasedBody</a> ()</td></tr>
+<tr class="memitem:a6a8ba5033aee122435110ca7195e8892" id="r_a6a8ba5033aee122435110ca7195e8892"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a8ba5033aee122435110ca7195e8892">~VertexBasedBody</a> ()</td></tr>
 <tr class="separator:a6a8ba5033aee122435110ca7195e8892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af30aecdb779f06de9087c3ea8f98b299" id="r_af30aecdb779f06de9087c3ea8f98b299"><td class="memItemLeft" align="right" valign="top">std::vector&lt; sf::Vector2f &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af30aecdb779f06de9087c3ea8f98b299">getPoints</a> ()</td></tr>
 <tr class="separator:af30aecdb779f06de9087c3ea8f98b299"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67e6a3e0a5dfef142917bee1ee097774" id="r_a67e6a3e0a5dfef142917bee1ee097774"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67e6a3e0a5dfef142917bee1ee097774">getNormal</a> (int i_index)</td></tr>
-<tr class="memdesc:a67e6a3e0a5dfef142917bee1ee097774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a normal vector corresponding to an edge.  <br /></td></tr>
-<tr class="separator:a67e6a3e0a5dfef142917bee1ee097774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4e0ea78cd8eb1a780cc7fcd3181008e" id="r_ae4e0ea78cd8eb1a780cc7fcd3181008e"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4e0ea78cd8eb1a780cc7fcd3181008e">getNormalCount</a> ()=0</td></tr>
-<tr class="separator:ae4e0ea78cd8eb1a780cc7fcd3181008e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f9926dc1462131547214280f0ecb5f0" id="r_a6f9926dc1462131547214280f0ecb5f0"><td class="memItemLeft" align="right" valign="top">virtual sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f9926dc1462131547214280f0ecb5f0">getNormal</a> (int i_index)=0</td></tr>
+<tr class="separator:a6f9926dc1462131547214280f0ecb5f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cc5b00b609fa273894c57963397ba94" id="r_a0cc5b00b609fa273894c57963397ba94"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cc5b00b609fa273894c57963397ba94">getNormalCount</a> ()=0</td></tr>
+<tr class="separator:a0cc5b00b609fa273894c57963397ba94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a223a55ea4eba0f5ebd8572d1cee4274c" id="r_a223a55ea4eba0f5ebd8572d1cee4274c"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a223a55ea4eba0f5ebd8572d1cee4274c">getGlobalPoint</a> (int i_index)</td></tr>
 <tr class="separator:a223a55ea4eba0f5ebd8572d1cee4274c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ead6e9b0aacd55b2fb7858c7c3ea4d9" id="r_a1ead6e9b0aacd55b2fb7858c7c3ea4d9"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ead6e9b0aacd55b2fb7858c7c3ea4d9">getGlobalNormal</a> (int i_index)</td></tr>
@@ -158,7 +157,7 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_class_rigid_body"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_rigid_body')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_rigid_body.html">RigidBody</a></td></tr>
 <tr class="memitem:a2c25abbc0718647b47d5b573937374c6 inherit pub_methods_class_rigid_body" id="r_a2c25abbc0718647b47d5b573937374c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a2c25abbc0718647b47d5b573937374c6">RigidBody</a> (float i_mass)</td></tr>
 <tr class="separator:a2c25abbc0718647b47d5b573937374c6 inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eade6e08e5a78c56822d2f42322c915 inherit pub_methods_class_rigid_body" id="r_a4eade6e08e5a78c56822d2f42322c915"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a4eade6e08e5a78c56822d2f42322c915">~RigidBody</a> ()</td></tr>
+<tr class="memitem:a4eade6e08e5a78c56822d2f42322c915 inherit pub_methods_class_rigid_body" id="r_a4eade6e08e5a78c56822d2f42322c915"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a4eade6e08e5a78c56822d2f42322c915">~RigidBody</a> ()</td></tr>
 <tr class="separator:a4eade6e08e5a78c56822d2f42322c915 inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace41f1b806bceb0690b0df686d2665e0 inherit pub_methods_class_rigid_body" id="r_ace41f1b806bceb0690b0df686d2665e0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#ace41f1b806bceb0690b0df686d2665e0">getInverseMass</a> () const</td></tr>
 <tr class="separator:ace41f1b806bceb0690b0df686d2665e0 inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,10 +167,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa5b5734aa8df281ea757f3210593cc11 inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bd6579563ca592099160912811a9ea7 inherit pub_methods_class_rigid_body" id="r_a9bd6579563ca592099160912811a9ea7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a9bd6579563ca592099160912811a9ea7">getAngularVelocity</a> () const</td></tr>
 <tr class="separator:a9bd6579563ca592099160912811a9ea7 inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82a887b8dc50e275013e40f7557af9cc inherit pub_methods_class_rigid_body" id="r_a82a887b8dc50e275013e40f7557af9cc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a82a887b8dc50e275013e40f7557af9cc">getRestitutionCoefficient</a> ()</td></tr>
-<tr class="separator:a82a887b8dc50e275013e40f7557af9cc inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad42449c8a7af7758d7a24dacbff23f60 inherit pub_methods_class_rigid_body" id="r_ad42449c8a7af7758d7a24dacbff23f60"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#ad42449c8a7af7758d7a24dacbff23f60">getFrictionCoefficient</a> ()</td></tr>
-<tr class="separator:ad42449c8a7af7758d7a24dacbff23f60 inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a921eca623c5ff04e9e7b7b7e3d158f inherit pub_methods_class_rigid_body" id="r_a4a921eca623c5ff04e9e7b7b7e3d158f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a4a921eca623c5ff04e9e7b7b7e3d158f">getRestitutionCoefficient</a> () const</td></tr>
+<tr class="separator:a4a921eca623c5ff04e9e7b7b7e3d158f inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacd6672a99ce63f28140be90c1947cd4 inherit pub_methods_class_rigid_body" id="r_aacd6672a99ce63f28140be90c1947cd4"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#aacd6672a99ce63f28140be90c1947cd4">getFrictionCoefficient</a> () const</td></tr>
+<tr class="separator:aacd6672a99ce63f28140be90c1947cd4 inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cb968c55fbb25ec8a417aa6d3977ddb inherit pub_methods_class_rigid_body" id="r_a2cb968c55fbb25ec8a417aa6d3977ddb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a2cb968c55fbb25ec8a417aa6d3977ddb">setVelocity</a> (sf::Vector2f i_newVel)</td></tr>
 <tr class="separator:a2cb968c55fbb25ec8a417aa6d3977ddb inherit pub_methods_class_rigid_body"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24c490c56fa089aa5579998002b0bd25 inherit pub_methods_class_rigid_body" id="r_a24c490c56fa089aa5579998002b0bd25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rigid_body.html#a24c490c56fa089aa5579998002b0bd25">setAngularVelocity</a> (float i_newAngVel)</td></tr>
@@ -281,6 +280,9 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">VertexBasedBody::~VertexBasedBody </td>
@@ -289,6 +291,11 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -377,7 +384,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate the inverse moment of inertia of the body based on the specified vertices. </p>
-<dl class="section return"><dt>Returns</dt><dd>The inverse moment of inertia in 1/(mass unit * pixel^2) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The inverse moment of inertia measured in 1/(mass unit * pixel^2). </dd></dl>
 
 <p>Implements <a class="el" href="class_rigid_body.html#ae231d51dbc6d416bb1a46f58637b07cd">RigidBody</a>.</p>
 
@@ -481,34 +488,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a67e6a3e0a5dfef142917bee1ee097774" name="a67e6a3e0a5dfef142917bee1ee097774"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67e6a3e0a5dfef142917bee1ee097774">&#9670;&#160;</a></span>getNormal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">sf::Vector2f VertexBasedBody::getNormal </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i_index</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return a normal vector corresponding to an edge. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">i_index</td><td>The index of the edge. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The normal vector in body coordinates. </dd></dl>
-
-</div>
-</div>
-<a id="ae4e0ea78cd8eb1a780cc7fcd3181008e" name="ae4e0ea78cd8eb1a780cc7fcd3181008e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4e0ea78cd8eb1a780cc7fcd3181008e">&#9670;&#160;</a></span>getNormalCount()</h2>
+<a id="a6f9926dc1462131547214280f0ecb5f0" name="a6f9926dc1462131547214280f0ecb5f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f9926dc1462131547214280f0ecb5f0">&#9670;&#160;</a></span>getNormal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -517,7 +498,34 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int VertexBasedBody::getNormalCount </td>
+          <td class="memname">virtual sf::Vector2f VertexBasedBody::getNormal </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i_index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_polygon.html#ae3de221fead0e8802434f180907aefaa">Polygon</a>.</p>
+
+</div>
+</div>
+<a id="a0cc5b00b609fa273894c57963397ba94" name="a0cc5b00b609fa273894c57963397ba94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cc5b00b609fa273894c57963397ba94">&#9670;&#160;</a></span>getNormalCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t VertexBasedBody::getNormalCount </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -530,7 +538,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_boundary_element.html#a537ee36dbacabf6ee185ec4d445182b5">BoundaryElement</a>, and <a class="el" href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">Polygon</a>.</p>
+<p>Implemented in <a class="el" href="class_boundary_element.html#ab340bf06ddb3a522ae05fde847bfd83f">BoundaryElement</a>, and <a class="el" href="class_polygon.html#a55a7a36fba5daf43addd7351336f3681">Polygon</a>.</p>
 
 </div>
 </div>

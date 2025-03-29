@@ -27,7 +27,7 @@ class BoundaryElement : public VertexBasedBody {
     // Public methods
     sf::Vertex * getVertexArray();
     pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override;
-    int getNormalCount() override;
+    size_t getNormalCount() override;
 
   private:
     sf::Vector2f getNormal(int i_index) override;

@@ -113,6 +113,7 @@ $(function(){initNavTree('class_simulation.html',''); initResizable(true); });
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_simulation-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Simulation Class Reference</div></div>
 </div><!--header-->
@@ -130,9 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:addf48743416b716a91b04a88b22a0e27" id="r_addf48743416b716a91b04a88b22a0e27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#addf48743416b716a91b04a88b22a0e27">addBoundaryElement</a> (<a class="el" href="class_boundary_element.html">BoundaryElement</a> *i_boundaryElement)</td></tr>
 <tr class="memdesc:addf48743416b716a91b04a88b22a0e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new boundary element to the simulation.  <br /></td></tr>
 <tr class="separator:addf48743416b716a91b04a88b22a0e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84878eafad636b91fa491ac77331017e" id="r_a84878eafad636b91fa491ac77331017e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84878eafad636b91fa491ac77331017e">initWindow</a> (float i_viewWidth=DEFAULT_VIEW_WIDTH, float i_viewHeight=DEFAULT_VIEW_HEIGHT, float i_frameRate=DEFAULT_FRAME_RATE)</td></tr>
-<tr class="memdesc:a84878eafad636b91fa491ac77331017e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the simulation window and defines basic settings.  <br /></td></tr>
-<tr class="separator:a84878eafad636b91fa491ac77331017e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf6c4b5324e9a11b451cd55c3d4178db" id="r_aaf6c4b5324e9a11b451cd55c3d4178db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf6c4b5324e9a11b451cd55c3d4178db">initWindow</a> (unsigned int i_viewWidth=DEFAULT_VIEW_WIDTH, unsigned int i_viewHeight=DEFAULT_VIEW_HEIGHT, float i_frameRate=DEFAULT_FRAME_RATE)</td></tr>
+<tr class="memdesc:aaf6c4b5324e9a11b451cd55c3d4178db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the simulation window and defines basic settings.  <br /></td></tr>
+<tr class="separator:aaf6c4b5324e9a11b451cd55c3d4178db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5c367f87c0b5dc9740bc6d00e44e72c" id="r_ae5c367f87c0b5dc9740bc6d00e44e72c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5c367f87c0b5dc9740bc6d00e44e72c">run</a> ()</td></tr>
 <tr class="memdesc:ae5c367f87c0b5dc9740bc6d00e44e72c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the window and starts running the simulation.  <br /></td></tr>
 <tr class="separator:ae5c367f87c0b5dc9740bc6d00e44e72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,6 +155,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7b05c9662b46483be6de082c3a068cf9" id="r_a7b05c9662b46483be6de082c3a068cf9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_simulation.html">Simulation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b05c9662b46483be6de082c3a068cf9">getInstance</a> ()</td></tr>
 <tr class="memdesc:a7b05c9662b46483be6de082c3a068cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the singleton instance of the class.  <br /></td></tr>
 <tr class="separator:a7b05c9662b46483be6de082c3a068cf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a3b7db347528efc7731b461bffdd3639f" id="r_a3b7db347528efc7731b461bffdd3639f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b7db347528efc7731b461bffdd3639f">m_showCollisionMarkers</a> = true</td></tr>
+<tr class="memdesc:a3b7db347528efc7731b461bffdd3639f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Choose if you want to show collision geometry indicators.  <br /></td></tr>
+<tr class="separator:a3b7db347528efc7731b461bffdd3639f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A singleton class that manages the physics simulation, rendering, and event handling. </p>
@@ -330,8 +337,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a84878eafad636b91fa491ac77331017e" name="a84878eafad636b91fa491ac77331017e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84878eafad636b91fa491ac77331017e">&#9670;&#160;</a></span>initWindow()</h2>
+<a id="aaf6c4b5324e9a11b451cd55c3d4178db" name="aaf6c4b5324e9a11b451cd55c3d4178db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf6c4b5324e9a11b451cd55c3d4178db">&#9670;&#160;</a></span>initWindow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,12 +346,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void Simulation::initWindow </td>
           <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_viewWidth</em></span><span class="paramdefsep"> = </span><span class="paramdefval">DEFAULT_VIEW_WIDTH</span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>i_viewWidth</em></span><span class="paramdefsep"> = </span><span class="paramdefval">DEFAULT_VIEW_WIDTH</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_viewHeight</em></span><span class="paramdefsep"> = </span><span class="paramdefval">DEFAULT_VIEW_HEIGHT</span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>i_viewHeight</em></span><span class="paramdefsep"> = </span><span class="paramdefval">DEFAULT_VIEW_HEIGHT</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -384,6 +391,23 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Opens the window and starts running the simulation. </p>
 <p>This method is called to launch the simulation. It starts the clock and opens the window for displaying everything. While the Window is open, the clock is used to handle the timing of the <a class="el" href="class_simulation.html" title="A singleton class that manages the physics simulation, rendering, and event handling.">Simulation</a> frames. The handleEvents() and update() methods are called every frame. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a3b7db347528efc7731b461bffdd3639f" name="a3b7db347528efc7731b461bffdd3639f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b7db347528efc7731b461bffdd3639f">&#9670;&#160;</a></span>m_showCollisionMarkers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Simulation::m_showCollisionMarkers = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Choose if you want to show collision geometry indicators. </p>
 
 </div>
 </div>

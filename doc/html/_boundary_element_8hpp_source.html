@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/CollisionEngine/BoundaryElement.hpp Source File</title>
+<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/Collision2D/BoundaryElement.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -127,16 +127,17 @@ $(function(){initNavTree('_boundary_element_8hpp_source.html',''); initResizable
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="comment">// Public methods</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    sf::Vertex * <a class="code hl_function" href="class_boundary_element.html#addd0948707538219a972a5ba1c67310d">getVertexArray</a>();</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_struct" href="structpoint_separation_data__type.html">pointSeparationData_type</a> <a class="code hl_function" href="class_boundary_element.html#a707011f150e1ca044e450ed68b88aa06">calculateMinPointSeparation</a>(sf::Vector2f i_point) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_boundary_element.html#a537ee36dbacabf6ee185ec4d445182b5">getNormalCount</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="class_boundary_element.html#ab340bf06ddb3a522ae05fde847bfd83f">getNormalCount</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    sf::Vertex m_vertexArray[2];</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordtype">float</span> m_length;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>};</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    sf::Vector2f getNormal(<span class="keywordtype">int</span> i_index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    sf::Vertex m_vertexArray[2];</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">float</span> m_length;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>};</div>
 </div>
 <div class="ttc" id="a_polygon_8hpp_html"><div class="ttname"><a href="_polygon_8hpp.html">Polygon.hpp</a></div></div>
-<div class="ttc" id="aclass_boundary_element_html_a537ee36dbacabf6ee185ec4d445182b5"><div class="ttname"><a href="class_boundary_element.html#a537ee36dbacabf6ee185ec4d445182b5">BoundaryElement::getNormalCount</a></div><div class="ttdeci">int getNormalCount() override</div><div class="ttdef"><b>Definition</b> BoundaryElement.cpp:36</div></div>
-<div class="ttc" id="aclass_boundary_element_html_a707011f150e1ca044e450ed68b88aa06"><div class="ttname"><a href="class_boundary_element.html#a707011f150e1ca044e450ed68b88aa06">BoundaryElement::calculateMinPointSeparation</a></div><div class="ttdeci">pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override</div><div class="ttdoc">Calculates the separation of any point to the BoundaryElement.</div><div class="ttdef"><b>Definition</b> BoundaryElement.cpp:21</div></div>
+<div class="ttc" id="aclass_boundary_element_html_a707011f150e1ca044e450ed68b88aa06"><div class="ttname"><a href="class_boundary_element.html#a707011f150e1ca044e450ed68b88aa06">BoundaryElement::calculateMinPointSeparation</a></div><div class="ttdeci">pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override</div><div class="ttdoc">Calculates the separation of any point to the center of the BoundaryElement. This is used to check if...</div><div class="ttdef"><b>Definition</b> BoundaryElement.cpp:22</div></div>
+<div class="ttc" id="aclass_boundary_element_html_ab340bf06ddb3a522ae05fde847bfd83f"><div class="ttname"><a href="class_boundary_element.html#ab340bf06ddb3a522ae05fde847bfd83f">BoundaryElement::getNormalCount</a></div><div class="ttdeci">size_t getNormalCount() override</div><div class="ttdef"><b>Definition</b> BoundaryElement.cpp:37</div></div>
 <div class="ttc" id="aclass_boundary_element_html_ab76b7f07bbb3eb3b3791a109180f9fc9"><div class="ttname"><a href="class_boundary_element.html#ab76b7f07bbb3eb3b3791a109180f9fc9">BoundaryElement::BoundaryElement</a></div><div class="ttdeci">BoundaryElement(float i_length)</div><div class="ttdoc">Create a boundary element. Adjust position and rotation after creation.</div><div class="ttdef"><b>Definition</b> BoundaryElement.cpp:5</div></div>
 <div class="ttc" id="aclass_boundary_element_html_ab939422a62d61ee73089c5ea1089707e"><div class="ttname"><a href="class_boundary_element.html#ab939422a62d61ee73089c5ea1089707e">BoundaryElement::~BoundaryElement</a></div><div class="ttdeci">~BoundaryElement()</div><div class="ttdef"><b>Definition</b> BoundaryElement.cpp:8</div></div>
 <div class="ttc" id="aclass_boundary_element_html_addd0948707538219a972a5ba1c67310d"><div class="ttname"><a href="class_boundary_element.html#addd0948707538219a972a5ba1c67310d">BoundaryElement::getVertexArray</a></div><div class="ttdeci">sf::Vertex * getVertexArray()</div><div class="ttdef"><b>Definition</b> BoundaryElement.cpp:10</div></div>
@@ -147,7 +148,7 @@ $(function(){initNavTree('_boundary_element_8hpp_source.html',''); initResizable
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_a34aaf1ab7bddf32d37e4cbf6701fdca.html">CollisionEngine</a></li><li class="navelem"><a class="el" href="_boundary_element_8hpp.html">BoundaryElement.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_00bc2bd19e74db5020cb5c265e97b697.html">Collision2D</a></li><li class="navelem"><a class="el" href="_boundary_element_8hpp.html">BoundaryElement.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

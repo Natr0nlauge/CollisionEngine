@@ -1,6 +1,6 @@
 var _collision_detector_8hpp =
 [
-    [ "VertexBasedBodySeparation_type", "struct_vertex_based_body_separation__type.html", "struct_vertex_based_body_separation__type" ],
-    [ "circleSeparation_type", "structcircle_separation__type.html", "structcircle_separation__type" ],
+    [ "VertexBasedBodySeparation", "struct_vertex_based_body_separation.html", "struct_vertex_based_body_separation" ],
+    [ "circleSeparation", "structcircle_separation.html", "structcircle_separation" ],
     [ "CollisionDetector", "class_collision_detector.html", "class_collision_detector" ]
 ];

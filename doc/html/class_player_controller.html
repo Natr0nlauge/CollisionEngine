@@ -129,15 +129,20 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2ad1eded2ea261601e5b9396d6f23f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27b597bc2dbe06e2464dea6cdb3fac96" id="r_a27b597bc2dbe06e2464dea6cdb3fac96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27b597bc2dbe06e2464dea6cdb3fac96">~PlayerController</a> ()</td></tr>
 <tr class="separator:a27b597bc2dbe06e2464dea6cdb3fac96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeae905ed6ac64938fae469fd199a5df0" id="r_aeae905ed6ac64938fae469fd199a5df0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeae905ed6ac64938fae469fd199a5df0">setVerticalMovementWindow</a> (float i_lowerYLimit, float i_upperYLimit, float i_lowerXLimit, float i_upperXLimit)</td></tr>
-<tr class="separator:aeae905ed6ac64938fae469fd199a5df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af025cc2993352db8905161dc44dc04c4" id="r_af025cc2993352db8905161dc44dc04c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af025cc2993352db8905161dc44dc04c4">setMovementWindow</a> (float i_lowerYLimit, float i_upperYLimit, float i_lowerXLimit, float i_upperXLimit)</td></tr>
+<tr class="memdesc:af025cc2993352db8905161dc44dc04c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the maximum and minimum x- and y- coordinates allowed for the player. (Default is unlimited movement.)  <br /></td></tr>
+<tr class="separator:af025cc2993352db8905161dc44dc04c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed558083f64f3be768a8402ecbb81d33" id="r_aed558083f64f3be768a8402ecbb81d33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed558083f64f3be768a8402ecbb81d33">setMaximumSpeed</a> (float i_maxSpeed)</td></tr>
+<tr class="memdesc:aed558083f64f3be768a8402ecbb81d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximum allowed speed for the player body. (Default is unlimited)  <br /></td></tr>
 <tr class="separator:aed558083f64f3be768a8402ecbb81d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2e379948c15c3d1d8c3ce4a2b57fba3" id="r_ac2e379948c15c3d1d8c3ce4a2b57fba3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2e379948c15c3d1d8c3ce4a2b57fba3">setAcceleration</a> (float i_accel)</td></tr>
+<tr class="memdesc:ac2e379948c15c3d1d8c3ce4a2b57fba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set acceleration for the player body.  <br /></td></tr>
 <tr class="separator:ac2e379948c15c3d1d8c3ce4a2b57fba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4330cc7532b36e5c89d04d2835fd85f" id="r_ab4330cc7532b36e5c89d04d2835fd85f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4330cc7532b36e5c89d04d2835fd85f">setVerticalControls</a> (sf::Keyboard::Key i_up, sf::Keyboard::Key i_down)</td></tr>
+<tr class="memdesc:ab4330cc7532b36e5c89d04d2835fd85f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify the keys for vertical control (Default is W for up, S for down).  <br /></td></tr>
 <tr class="separator:ab4330cc7532b36e5c89d04d2835fd85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46067209ec5eccbf4e13e44badabe995" id="r_a46067209ec5eccbf4e13e44badabe995"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46067209ec5eccbf4e13e44badabe995">setHorizontalControls</a> (sf::Keyboard::Key i_left, sf::Keyboard::Key i_right)</td></tr>
+<tr class="memdesc:a46067209ec5eccbf4e13e44badabe995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify the keys for horizontal control (Default is A for left, D for right).  <br /></td></tr>
 <tr class="separator:a46067209ec5eccbf4e13e44badabe995"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a096567989e195d6440e0270e9ea5a42e" id="r_a096567989e195d6440e0270e9ea5a42e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_rigid_body.html">RigidBody</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a096567989e195d6440e0270e9ea5a42e">getPlayerBody</a> ()</td></tr>
 <tr class="separator:a096567989e195d6440e0270e9ea5a42e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,6 +229,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set acceleration for the player body. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_accel</td><td>Acceleration in pixels/s^2 </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a46067209ec5eccbf4e13e44badabe995" name="a46067209ec5eccbf4e13e44badabe995"></a>
@@ -245,6 +258,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Specify the keys for horizontal control (Default is A for left, D for right). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_left</td><td>Key for left movement. </td></tr>
+    <tr><td class="paramname">i_right</td><td>Key for right movement. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="aed558083f64f3be768a8402ecbb81d33" name="aed558083f64f3be768a8402ecbb81d33"></a>
@@ -261,6 +283,56 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Set maximum allowed speed for the player body. (Default is unlimited) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_maxSpeed</td><td>Max speed in pixels per second. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af025cc2993352db8905161dc44dc04c4" name="af025cc2993352db8905161dc44dc04c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af025cc2993352db8905161dc44dc04c4">&#9670;&#160;</a></span>setMovementWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayerController::setMovementWindow </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_lowerYLimit</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_upperYLimit</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_lowerXLimit</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_upperXLimit</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the maximum and minimum x- and y- coordinates allowed for the player. (Default is unlimited movement.) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_lowerYLimit</td><td>Upper movement limit in pixels from origin. (Note y-axis is facing downwards) </td></tr>
+    <tr><td class="paramname">i_upperYLimit</td><td>Lower movement limit in pixels from origin. (Note y-axis is facing downwards) </td></tr>
+    <tr><td class="paramname">i_lowerXLimit</td><td>Left movement limit in pixels from origin. </td></tr>
+    <tr><td class="paramname">i_upperXLimit</td><td>Right movement limit in pixels from origin. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -283,36 +355,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="aeae905ed6ac64938fae469fd199a5df0" name="aeae905ed6ac64938fae469fd199a5df0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeae905ed6ac64938fae469fd199a5df0">&#9670;&#160;</a></span>setVerticalMovementWindow()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PlayerController::setVerticalMovementWindow </td>
-          <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_lowerYLimit</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_upperYLimit</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_lowerXLimit</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>i_upperXLimit</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Specify the keys for vertical control (Default is W for up, S for down). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_up</td><td>Key for up movement. </td></tr>
+    <tr><td class="paramname">i_down</td><td>Key for down movement. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

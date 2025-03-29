@@ -118,7 +118,7 @@ $(function(){initNavTree('namespacesfu.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p>Some utility function to interact with sf::Vector2f.  
+<p>Some utility functions to interact with sf::Vector2f.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -165,14 +165,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a69e3696244ac707249dddde836031143" id="r_a69e3696244ac707249dddde836031143"><td class="memItemLeft" align="right" valign="top">sf::Vector2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69e3696244ac707249dddde836031143">transformPoint</a> (sf::Vector2f i_vector, sf::Vector2f i_origin, float i_angle)</td></tr>
 <tr class="memdesc:a69e3696244ac707249dddde836031143"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a point to a different coordinate system.  <br /></td></tr>
 <tr class="separator:a69e3696244ac707249dddde836031143"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b22a2103bd1a8da00ace751fa33154c" id="r_a3b22a2103bd1a8da00ace751fa33154c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b22a2103bd1a8da00ace751fa33154c">printVectorCoords</a> (sf::Vector2f i_vector)</td></tr>
+<tr class="memdesc:a3b22a2103bd1a8da00ace751fa33154c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the x- and y-Coordinate of a 2D vector into the console. Intended mainly for debugging.  <br /></td></tr>
+<tr class="separator:a3b22a2103bd1a8da00ace751fa33154c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:af1f15f0d00336650852626e494b3d879" id="r_af1f15f0d00336650852626e494b3d879"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1f15f0d00336650852626e494b3d879">PI</a> = 3.14159265358979323846</td></tr>
+<tr class="memitem:af1f15f0d00336650852626e494b3d879" id="r_af1f15f0d00336650852626e494b3d879"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1f15f0d00336650852626e494b3d879">PI</a> = 3.1415926535f</td></tr>
 <tr class="separator:af1f15f0d00336650852626e494b3d879"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Some utility function to interact with sf::Vector2f. </p>
+<div class="textblock"><p>Some utility functions to interact with sf::Vector2f. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a185ef2717c71d6e1819b0a2eaf8882fa" name="a185ef2717c71d6e1819b0a2eaf8882fa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a185ef2717c71d6e1819b0a2eaf8882fa">&#9670;&#160;</a></span>addVectors()</h2>
@@ -306,6 +309,31 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The normalized vector. </dd></dl>
+
+</div>
+</div>
+<a id="a3b22a2103bd1a8da00ace751fa33154c" name="a3b22a2103bd1a8da00ace751fa33154c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b22a2103bd1a8da00ace751fa33154c">&#9670;&#160;</a></span>printVectorCoords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sfu::printVectorCoords </td>
+          <td>(</td>
+          <td class="paramtype">sf::Vector2f</td>          <td class="paramname"><span class="paramname"><em>i_vector</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints the x- and y-Coordinate of a 2D vector into the console. Intended mainly for debugging. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_vector</td><td>The vector to print. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -540,7 +568,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const float sfu::PI = 3.14159265358979323846</td>
+          <td class="memname">const float sfu::PI = 3.1415926535f</td>
         </tr>
       </table>
 </div><div class="memdoc">

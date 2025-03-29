@@ -1,9 +1,9 @@
 var hierarchy =
 [
-    [ "circleSeparation_type", "structcircle_separation__type.html", null ],
+    [ "circleSeparation", "structcircle_separation.html", null ],
     [ "CollisionDetector", "class_collision_detector.html", null ],
     [ "CollisionEvent", "class_collision_event.html", null ],
-    [ "collisionGeometry_type", "structcollision_geometry__type.html", null ],
+    [ "collisionGeometry", "structcollision_geometry.html", null ],
     [ "sfu::Matrix2f", "classsfu_1_1_matrix2f.html", null ],
     [ "PlayerController", "class_player_controller.html", null ],
     [ "pointSeparationData_type", "structpoint_separation_data__type.html", null ],
@@ -17,5 +17,5 @@ var hierarchy =
       ] ]
     ] ],
     [ "Simulation", "class_simulation.html", null ],
-    [ "VertexBasedBodySeparation_type", "struct_vertex_based_body_separation__type.html", null ]
+    [ "VertexBasedBodySeparation", "struct_vertex_based_body_separation.html", null ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/CollisionEngine/Polygon.hpp Source File</title>
+<title>CollisionEngine: C:/Users/Sebastian/Documents/VS_Projekte/CollisionEngine/Collision2D/Polygon.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -129,15 +129,17 @@ $(function(){initNavTree('_polygon_8hpp_source.html',''); initResizable(true); }
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_function" href="class_polygon.html#ace39c67107966db12e13a183f496c3b0">~Polygon</a>();</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="comment">// Public methods</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_struct" href="structpoint_separation_data__type.html">pointSeparationData_type</a> <a class="code hl_function" href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">calculateMinPointSeparation</a>(sf::Vector2f i_point) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">getNormalCount</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    sf::Vector2f <a class="code hl_function" href="class_polygon.html#ae3de221fead0e8802434f180907aefaa">getNormal</a>(<span class="keywordtype">int</span> i_index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_struct" href="structpoint_separation_data__type.html">pointSeparationData_type</a> <a class="code hl_function" href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">calculateMinPointSeparation</a>(sf::Vector2f i_point) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="class_polygon.html#a55a7a36fba5daf43addd7351336f3681">getNormalCount</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>};</div>
 </div>
 <div class="ttc" id="a_vertex_based_body_8hpp_html"><div class="ttname"><a href="_vertex_based_body_8hpp.html">VertexBasedBody.hpp</a></div></div>
-<div class="ttc" id="aclass_polygon_html_a5c391494f6be710fdf4ff9a881879cf0"><div class="ttname"><a href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">Polygon::calculateMinPointSeparation</a></div><div class="ttdeci">pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override</div><div class="ttdoc">Calculates the separation of a single point from the polygon using a simplified SAT algorithm.</div><div class="ttdef"><b>Definition</b> Polygon.cpp:24</div></div>
-<div class="ttc" id="aclass_polygon_html_aa0d9d2747b378271aa22f91d7c28813a"><div class="ttname"><a href="class_polygon.html#aa0d9d2747b378271aa22f91d7c28813a">Polygon::getNormalCount</a></div><div class="ttdeci">int getNormalCount() override</div><div class="ttdef"><b>Definition</b> Polygon.cpp:45</div></div>
+<div class="ttc" id="aclass_polygon_html_a55a7a36fba5daf43addd7351336f3681"><div class="ttname"><a href="class_polygon.html#a55a7a36fba5daf43addd7351336f3681">Polygon::getNormalCount</a></div><div class="ttdeci">size_t getNormalCount() override</div><div class="ttdef"><b>Definition</b> Polygon.cpp:65</div></div>
+<div class="ttc" id="aclass_polygon_html_a5c391494f6be710fdf4ff9a881879cf0"><div class="ttname"><a href="class_polygon.html#a5c391494f6be710fdf4ff9a881879cf0">Polygon::calculateMinPointSeparation</a></div><div class="ttdeci">pointSeparationData_type calculateMinPointSeparation(sf::Vector2f i_point) override</div><div class="ttdoc">Calculates the separation of a single point from the polygon using a simplified SAT algorithm.</div><div class="ttdef"><b>Definition</b> Polygon.cpp:43</div></div>
 <div class="ttc" id="aclass_polygon_html_abb73ec1c71c1d824791ffd1cb2156e40"><div class="ttname"><a href="class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40">Polygon::Polygon</a></div><div class="ttdeci">Polygon(float i_inverseMass=0.1, std::vector&lt; sf::Vector2f &gt; i_vertices={sf::Vector2f(25.0f, -25.0f), sf::Vector2f(-25.0f, -25.0f), sf::Vector2f(-25.0f, 25.0f), sf::Vector2f(25.0f, 25.0f)})</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> Polygon.cpp:12</div></div>
 <div class="ttc" id="aclass_polygon_html_ace39c67107966db12e13a183f496c3b0"><div class="ttname"><a href="class_polygon.html#ace39c67107966db12e13a183f496c3b0">Polygon::~Polygon</a></div><div class="ttdeci">~Polygon()</div><div class="ttdef"><b>Definition</b> Polygon.cpp:16</div></div>
+<div class="ttc" id="aclass_polygon_html_ae3de221fead0e8802434f180907aefaa"><div class="ttname"><a href="class_polygon.html#ae3de221fead0e8802434f180907aefaa">Polygon::getNormal</a></div><div class="ttdeci">sf::Vector2f getNormal(int i_index) override</div><div class="ttdoc">Return a normal vector corresponding to an edge.</div><div class="ttdef"><b>Definition</b> Polygon.cpp:23</div></div>
 <div class="ttc" id="aclass_vertex_based_body_html_a1789e2debde3edcbf5e2de5f5d13873a"><div class="ttname"><a href="class_vertex_based_body.html#a1789e2debde3edcbf5e2de5f5d13873a">VertexBasedBody::VertexBasedBody</a></div><div class="ttdeci">VertexBasedBody(float i_inverseMass, std::vector&lt; sf::Vector2f &gt; i_vertices)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition</b> VertexBasedBody.cpp:9</div></div>
 <div class="ttc" id="astructpoint_separation_data__type_html"><div class="ttname"><a href="structpoint_separation_data__type.html">pointSeparationData_type</a></div><div class="ttdoc">Stores data related to the separation between a VertexBasedBody and a single point.</div><div class="ttdef"><b>Definition</b> VertexBasedBody.hpp:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -145,7 +147,7 @@ $(function(){initNavTree('_polygon_8hpp_source.html',''); initResizable(true); }
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_a34aaf1ab7bddf32d37e4cbf6701fdca.html">CollisionEngine</a></li><li class="navelem"><a class="el" href="_polygon_8hpp.html">Polygon.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_00bc2bd19e74db5020cb5c265e97b697.html">Collision2D</a></li><li class="navelem"><a class="el" href="_polygon_8hpp.html">Polygon.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

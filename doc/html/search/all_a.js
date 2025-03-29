@@ -1,13 +1,7 @@
 var searchData=
 [
-  ['pi_0',['PI',['../namespacesfu.html#af1f15f0d00336650852626e494b3d879',1,'sfu']]],
-  ['playercontroller_1',['PlayerController',['../class_player_controller.html',1,'PlayerController'],['../class_player_controller.html#a2ad1eded2ea261601e5b9396d6f23f41',1,'PlayerController::PlayerController()']]],
-  ['playercontroller_2ecpp_2',['PlayerController.cpp',['../_player_controller_8cpp.html',1,'']]],
-  ['playercontroller_2ehpp_3',['PlayerController.hpp',['../_player_controller_8hpp.html',1,'']]],
-  ['pointindex_4',['pointIndex',['../structcircle_separation__type.html#a027770b95a9fd0bed7bedaf590b25d0d',1,'circleSeparation_type']]],
-  ['pointseparationdata_5ftype_5',['pointSeparationData_type',['../structpoint_separation_data__type.html',1,'']]],
-  ['polygon_6',['Polygon',['../class_polygon.html',1,'Polygon'],['../class_polygon.html#abb73ec1c71c1d824791ffd1cb2156e40',1,'Polygon::Polygon()']]],
-  ['polygon_2ecpp_7',['Polygon.cpp',['../_polygon_8cpp.html',1,'']]],
-  ['polygon_2ehpp_8',['Polygon.hpp',['../_polygon_8hpp.html',1,'']]],
-  ['pseudocrossproduct_9',['pseudoCrossProduct',['../namespacesfu.html#acbdfb5e04f018ab18a5d5eedccd5b884',1,'sfu::pseudoCrossProduct(sf::Vector2f i_vec1, sf::Vector2f i_vec2)'],['../namespacesfu.html#a0e5fd86838525a748ef714578f982ff3',1,'sfu::pseudoCrossProduct(float i_length1, sf::Vector2f i_vec2)']]]
+  ['normal_0',['normal',['../struct_vertex_based_body_separation.html#a4a40f6d833ac519cb60377f2c4a7439d',1,'VertexBasedBodySeparation::normal'],['../structpoint_separation_data__type.html#a1960c9349a9bacb805e673da7fe6c7f9',1,'pointSeparationData_type::normal']]],
+  ['normalindex_1',['normalIndex',['../structcircle_separation.html#a31392dd4752ed944d0750f38b262d92c',1,'circleSeparation']]],
+  ['normalizevector_2',['normalizeVector',['../namespacesfu.html#a9e9eda2f2537a0542070f1915087c3ba',1,'sfu']]],
+  ['normals_3',['normals',['../structcollision_geometry.html#ade62ff033b69d6670b27bfe952f6150c',1,'collisionGeometry']]]
 ];

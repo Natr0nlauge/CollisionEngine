@@ -33,6 +33,7 @@ Uses the library [SFML](https://www.sfml-dev.org/) for managing the Simulation w
 3. **Build and Run**
    - Select **Debug** or **Release** mode.
    - Click **Build** → **Build Solution**.
+   - Click Solution → Configure Startup Properties → Choose "Example"
    - Run the project!
 
 ---

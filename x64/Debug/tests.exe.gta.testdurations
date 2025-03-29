@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GtaTestDurations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Executable>C:\Users\Sebastian\Documents\VS_Projekte\CollisionEngine\x64\Debug\tests.exe</Executable>
+  <TestDurations>
+    <TestDuration Test="TestCaseName.TestName" Duration="1" />
+    <TestDuration Test="SfuTest.VectorLength" Duration="1" />
+    <TestDuration Test="SfuTest.VectorDirection" Duration="1" />
+    <TestDuration Test="SfuTest.ScaleVector" Duration="1" />
+    <TestDuration Test="SfuTest.NormalizeVector" Duration="1" />
+    <TestDuration Test="SfuTest.AddVectors" Duration="1" />
+    <TestDuration Test="SfuTest.SubtractVectors" Duration="1" />
+    <TestDuration Test="SfuTest.ScalarProduct" Duration="1" />
+    <TestDuration Test="SfuTest.PseudoCrossProduct" Duration="1" />
+    <TestDuration Test="SfuTest.PseudoCrossProductWithLength" Duration="1" />
+    <TestDuration Test="SfuTest.RotateVector" Duration="1" />
+    <TestDuration Test="SfuTest.TransformPoint" Duration="1" />
+    <TestDuration Test="SfuTest.RotationMatrix" Duration="1" />
+    <TestDuration Test="SfuTest.PrintVectorCoords" Duration="1" />
+    <TestDuration Test="CollisionDetectorTest.instanceTest" Duration="1" />
+    <TestDuration Test="CollisionDetectorTest.VertexBodyVsVertexBody" Duration="1" />
+    <TestDuration Test="CollisionDetectorTest.EdgeOnEdgeCollision" Duration="1" />
+    <TestDuration Test="CollisionDetectorTest.CornerOnEdgeCollision" Duration="1" />
+    <TestDuration Test="CollisionDetectorTest.SmallAngleCollision" Duration="1" />
+  </TestDurations>
+</GtaTestDurations>

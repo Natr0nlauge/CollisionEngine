@@ -403,6 +403,5 @@ FodyWeavers.xsd
 *.ps1
 
 # Additional files/directories
-x64/Debug
 .vs/
 packages/
